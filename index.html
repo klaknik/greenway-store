@@ -348,7 +348,12 @@
       const p = allProducts.find(x => x.id == id);
       if (!p) return;
 
-      document.getElementById('detailImg').src = p.img;
+      const dImg = document.getElementById('detailImg');
+      dImg.onerror = function() {
+        this.onerror = null;
+        this.src = 'https://dummyimage.com/600x400/e8f5e9/00875a.png&text=🌿+Greenway+Global';
+      };
+      dImg.src = p.img;
       document.getElementById('detailTitle').innerText = p.title;
       document.getElementById('detailCategory').innerText = p.subcategory_name || p.category_name || 'Товар';
       document.getElementById('detailMeta').innerText = p.volume ? `Фасовка / объем: ${p.volume}` : '';
