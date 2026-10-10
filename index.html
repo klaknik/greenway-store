@@ -14,25 +14,56 @@
       --text-muted: #6B7280;
       --border: #E5E7EB;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); padding-bottom: 100px; }
-    
-    header { background: #fff; padding: 14px 16px; position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 90px; }
+
+    header { background: #fff; padding: 14px 16px; position: sticky; top: 0; z-index: 20; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
     header h1 { font-size: 18px; font-weight: 700; color: var(--primary); }
     .badge { background: #E8F5E9; color: var(--primary); font-size: 11px; padding: 4px 8px; border-radius: 12px; font-weight: 600; }
 
+    /* Табы категорий */
+    .tabs-wrap { background: #fff; position: sticky; top: 53px; z-index: 15; border-bottom: 1px solid var(--border); }
+    .tabs { display: flex; gap: 8px; padding: 10px 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; background: var(--bg); color: var(--text-muted); cursor: pointer; white-space: nowrap; border: 1px solid transparent; user-select: none; }
+    .tab.active { background: var(--primary); color: #fff; font-weight: 600; }
+
     /* Сетка товаров */
     .catalog { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 16px; }
-    .card { background: var(--card-bg); border-radius: 14px; padding: 10px; border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between; }
-    .card img { width: 100%; height: 120px; object-fit: cover; border-radius: 10px; margin-bottom: 8px; background: #eee; }
+    .card { background: var(--card-bg); border-radius: 14px; padding: 10px; border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; }
+    .card img { width: 100%; height: 125px; object-fit: cover; border-radius: 10px; margin-bottom: 8px; background: #eee; }
     .card-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; line-height: 1.3; }
-    .card-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; flex-grow: 1; }
+    .card-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; flex-grow: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .card-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; }
     .card-price { font-size: 14px; font-weight: 700; color: var(--primary-dark); }
-    
-    .btn-buy { background: var(--primary); color: #fff; text-decoration: none; border-radius: 8px; padding: 8px 12px; font-size: 12px; font-weight: 600; text-align: center; display: inline-block; }
-    
-    .floating-cart { position: fixed; bottom: 16px; left: 16px; right: 16px; background: var(--primary); color: #fff; text-decoration: none; border-radius: 14px; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0, 135, 90, 0.35); font-weight: 600; font-size: 15px; }
+
+    /* Кнопки покупки и счетчик */
+    .btn-add { background: var(--primary); color: #fff; border: none; border-radius: 8px; padding: 6px 10px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .qty-controls { display: none; align-items: center; gap: 6px; }
+    .btn-qty { background: var(--bg); border: 1px solid var(--border); width: 26px; height: 26px; border-radius: 6px; font-weight: bold; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .qty-num { font-size: 13px; font-weight: 600; min-width: 14px; text-align: center; }
+
+    /* Плавающая корзина внизу */
+    .cart-bar { position: fixed; bottom: 16px; left: 16px; right: 16px; background: var(--primary); color: #fff; border-radius: 14px; padding: 14px 18px; display: none; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0, 135, 90, 0.35); z-index: 50; cursor: pointer; }
+    .cart-bar span { font-weight: 600; font-size: 14px; }
+
+    /* Модальные окна (шторки снизу) */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; display: none; }
+    .sheet { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-radius: 20px 20px 0 0; padding: 20px 16px; max-height: 85vh; overflow-y: auto; z-index: 101; display: none; }
+    .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .sheet-close { border: none; background: none; font-size: 22px; cursor: pointer; color: var(--text-muted); }
+
+    /* Окно детального описания товара */
+    .detail-img { width: 100%; height: 200px; object-fit: cover; border-radius: 14px; margin-bottom: 14px; }
+    .detail-title { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+    .detail-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; }
+    .detail-text { font-size: 14px; line-height: 1.5; color: var(--text); margin-bottom: 20px; }
+    .detail-action { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 14px; }
+    .detail-price { font-size: 18px; font-weight: 700; color: var(--primary-dark); }
+
+    /* Элементы внутри корзины */
+    .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+    .empty-cart-msg { text-align: center; color: var(--text-muted); padding: 30px 0; font-size: 14px; }
   </style>
 </head>
 <body>
@@ -42,79 +73,270 @@
     <div class="badge">Эко-маркет</div>
   </header>
 
-  <div class="catalog">
-    <!-- Товар 1 -->
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1584634731339-252c581abfc5?w=300" alt="Посуда">
-      <div class="card-title">Файбер для мытья посуды</div>
-      <div class="card-desc">Мытье посуды без капли бытовой химии</div>
-      <div class="card-bottom">
-        <div class="card-price">330 ₽</div>
-        <a class="btn-buy" href="https://greenwayglobal.com/invite/client/GW-792841">Купить</a>
-      </div>
-    </div>
-
-    <!-- Товар 2 -->
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=300" alt="Стекло">
-      <div class="card-title">Файбер для стекла</div>
-      <div class="card-desc">Идеальная чистота зеркал без разводов</div>
-      <div class="card-bottom">
-        <div class="card-price">490 ₽</div>
-        <a class="btn-buy" href="https://greenwayglobal.com/invite/client/GW-792841">Купить</a>
-      </div>
-    </div>
-
-    <!-- Товар 3 -->
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1563453392212-326f5e854473?w=300" alt="Mystik">
-      <div class="card-title">Паста Mystik</div>
-      <div class="card-desc">Удаляет стойкий нагар и налет</div>
-      <div class="card-bottom">
-        <div class="card-price">380 ₽</div>
-        <a class="btn-buy" href="https://greenwayglobal.com/invite/client/GW-792841">Купить</a>
-      </div>
-    </div>
-
-    <!-- Товар 4 -->
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=300" alt="DrainEffect">
-      <div class="card-title">Напиток DrainEffect</div>
-      <div class="card-desc">Выводит лишнюю жидкость и отеки</div>
-      <div class="card-bottom">
-        <div class="card-price">1 150 ₽</div>
-        <a class="btn-buy" href="https://greenwayglobal.com/invite/client/GW-792841">Купить</a>
-      </div>
-    </div>
-
-    <!-- Товар 5 -->
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=300" alt="Fresh">
-      <div class="card-title">Чайный напиток Fresh</div>
-      <div class="card-desc">Мягкое очищение организма</div>
-      <div class="card-bottom">
-        <div class="card-price">420 ₽</div>
-        <a class="btn-buy" href="https://greenwayglobal.com/invite/client/GW-792841">Купить</a>
-      </div>
-    </div>
-
-    <!-- Товар 6 -->
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1608248597359-598d1a129d21?w=300" alt="Шампунь">
-      <div class="card-title">Твердый шампунь</div>
-      <div class="card-desc">Натуральный уход и блеск волос</div>
-      <div class="card-bottom">
-        <div class="card-price">490 ₽</div>
-        <a class="btn-buy" href="https://greenwayglobal.com/invite/client/GW-792841">Купить</a>
-      </div>
+  <div class="tabs-wrap">
+    <div class="tabs" id="categoryTabs">
+      <div class="tab active" onclick="switchCategory('all', this)">Все товары</div>
     </div>
   </div>
 
-  <!-- Кнопка перехода в общий каталог -->
-  <a class="floating-cart" href="https://greenwayglobal.com/invite/client/GW-792841">
-    <span>Перейти в полный каталог Greenway</span>
-    <span>›</span>
-  </a>
+  <div class="catalog" id="catalogList">Загрузка каталога...</div>
 
+  <!-- Плавающая кнопка корзины -->
+  <div class="cart-bar" id="cartBar" onclick="openCartSheet()">
+    <span id="cartCount">В корзине: 0 шт.</span>
+    <span id="cartTotal">0 ₽ ›</span>
+  </div>
+
+  <!-- Затемнение экрана -->
+  <div class="modal-overlay" id="overlay" onclick="closeAllSheets()"></div>
+
+  <!-- Шторка подробного описания товара -->
+  <div class="sheet" id="detailSheet">
+    <div class="sheet-header">
+      <span class="badge" id="detailCategory">Категория</span>
+      <button class="sheet-close" onclick="closeAllSheets()">✕</button>
+    </div>
+    <img id="detailImg" class="detail-img" src="" alt="">
+    <h2 class="detail-title" id="detailTitle"></h2>
+    <div class="detail-meta" id="detailMeta"></div>
+    <div class="detail-text" id="detailDesc"></div>
+    <div class="detail-action">
+      <div class="detail-price" id="detailPrice">0 ₽</div>
+      <div id="detailBtnContainer"></div>
+    </div>
+  </div>
+
+  <!-- Шторка корзины -->
+  <div class="sheet" id="cartSheet">
+    <div class="sheet-header">
+      <h2>Ваша корзина</h2>
+      <button class="sheet-close" onclick="closeAllSheets()">✕</button>
+    </div>
+    <div id="cartItemsContainer"></div>
+    <div style="display:flex; justify-content:space-between; margin-top:16px; font-weight:700; font-size:16px;">
+      <span>Итого к оплате:</span>
+      <span id="cartTotalSum">0 ₽</span>
+    </div>
+  </div>
+
+  <script>
+    let allProducts = [];
+    let cart = {}; // id -> count
+    let activeCat = 'all';
+
+    // 1. Загрузка товаров из products.json
+    async function initCatalog() {
+      try {
+        const res = await fetch('products.json?v=' + Date.now());
+        if (!res.ok) throw new Error('Не удалось прочитать products.json');
+        allProducts = await res.json();
+        
+        buildCategories();
+        renderCatalog();
+      } catch (err) {
+        document.getElementById('catalogList').innerHTML = 
+          '<div style="grid-column: span 2; text-align: center; color: #dc2626; padding: 20px;">' +
+          'Ошибка загрузки каталога. Убедитесь, что файл products.json сохранен на GitHub.</div>';
+      }
+    }
+
+    // 2. Генерация табов категорий
+    function buildCategories() {
+      const tabsBox = document.getElementById('categoryTabs');
+      const cats = {};
+      
+      allProducts.forEach(p => {
+        if (p.category && !cats[p.category]) {
+          cats[p.category] = p.category_name || p.category;
+        }
+      });
+
+      let html = '<div class="tab active" onclick="switchCategory(\'all\', this)">Все товары</div>';
+      for (const [key, name] of Object.entries(cats)) {
+        html += `<div class="tab" onclick="switchCategory('${key}', this)">${name}</div>`;
+      }
+      tabsBox.innerHTML = html;
+    }
+
+    function switchCategory(catKey, el) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      activeCat = catKey;
+      renderCatalog();
+    }
+
+    // 3. Отрисовка товаров
+    function renderCatalog() {
+      const container = document.getElementById('catalogList');
+      const filtered = activeCat === 'all' 
+        ? allProducts 
+        : allProducts.filter(p => p.category === activeCat);
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div style="grid-column: span 2; text-align: center; color: #6b7280; padding: 30px;">В этом разделе пока нет товаров.</div>';
+        return;
+      }
+
+      container.innerHTML = filtered.map(p => {
+        const count = cart[p.id] || 0;
+        return `
+          <div class="card" onclick="openDetail(${p.id})">
+            <img src="${p.img}" alt="${p.title}">
+            <div class="card-title">${p.title}</div>
+            <div class="card-desc">${p.short_desc || ''}</div>
+            <div class="card-bottom" onclick="event.stopPropagation()">
+              <div class="card-price">${p.price} ₽</div>
+              <button class="btn-add" id="addBtn-${p.id}" style="display: ${count > 0 ? 'none' : 'block'}" onclick="changeQty(${p.id}, 1)">+ В корзину</button>
+              <div class="qty-controls" id="qtyBox-${p.id}" style="display: ${count > 0 ? 'flex' : 'none'}">
+                <button class="btn-qty" onclick="changeQty(${p.id}, -1)">−</button>
+                <span class="qty-num" id="qtyNum-${p.id}">${count}</span>
+                <button class="btn-qty" onclick="changeQty(${p.id}, 1)">+</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // 4. Логика изменения количества в корзине
+    function changeQty(id, delta) {
+      cart[id] = (cart[id] || 0) + delta;
+      if (cart[id] <= 0) delete cart[id];
+      
+      updateProductCardUI(id);
+      updateCartBar();
+      if (document.getElementById('cartSheet').style.display === 'block') {
+        renderCartSheet();
+      }
+      if (document.getElementById('detailSheet').style.display === 'block') {
+        updateDetailButton(id);
+      }
+    }
+
+    function updateProductCardUI(id) {
+      const count = cart[id] || 0;
+      const addBtn = document.getElementById(`addBtn-${id}`);
+      const qtyBox = document.getElementById(`qtyBox-${id}`);
+      const qtyNum = document.getElementById(`qtyNum-${id}`);
+
+      if (addBtn && qtyBox) {
+        addBtn.style.display = count > 0 ? 'none' : 'block';
+        qtyBox.style.display = count > 0 ? 'flex' : 'none';
+        if (qtyNum) qtyNum.innerText = count;
+      }
+    }
+
+    function updateCartBar() {
+      let totalCount = 0;
+      let totalPrice = 0;
+
+      Object.keys(cart).forEach(id => {
+        const p = allProducts.find(x => x.id == id);
+        if (p) {
+          totalCount += cart[id];
+          totalPrice += cart[id] * p.price;
+        }
+      });
+
+      const bar = document.getElementById('cartBar');
+      if (totalCount > 0) {
+        bar.style.display = 'flex';
+        document.getElementById('cartCount').innerText = `В корзине: ${totalCount} шт.`;
+        document.getElementById('cartTotal').innerText = `${totalPrice} ₽ ›`;
+      } else {
+        bar.style.display = 'none';
+        closeAllSheets();
+      }
+    }
+
+    // 5. Окно детального описания
+    function openDetail(id) {
+      const p = allProducts.find(x => x.id == id);
+      if (!p) return;
+
+      document.getElementById('detailImg').src = p.img;
+      document.getElementById('detailTitle').innerText = p.title;
+      document.getElementById('detailCategory').innerText = p.category_name || 'Товар';
+      document.getElementById('detailMeta').innerText = p.volume ? `Фасовка / объем: ${p.volume}` : '';
+      document.getElementById('detailDesc').innerText = p.full_desc || p.short_desc || 'Описание отсутствует.';
+      document.getElementById('detailPrice').innerText = `${p.price} ₽`;
+
+      updateDetailButton(id);
+
+      document.getElementById('overlay').style.display = 'block';
+      document.getElementById('detailSheet').style.display = 'block';
+    }
+
+    function updateDetailButton(id) {
+      const count = cart[id] || 0;
+      const box = document.getElementById('detailBtnContainer');
+      if (count > 0) {
+        box.innerHTML = `
+          <div style="display:flex; align-items:center; gap:8px;">
+            <button class="btn-qty" onclick="changeQty(${id}, -1)">−</button>
+            <span style="font-weight:700; min-width:16px; text-align:center;">${count}</span>
+            <button class="btn-qty" onclick="changeQty(${id}, 1)">+</button>
+          </div>
+        `;
+      } else {
+        box.innerHTML = `<button class="btn-add" style="padding:10px 18px; font-size:14px;" onclick="changeQty(${id}, 1)">+ В корзину</button>`;
+      }
+    }
+
+    // 6. Окно корзины
+    function openCartSheet() {
+      renderCartSheet();
+      document.getElementById('overlay').style.display = 'block';
+      document.getElementById('cartSheet').style.display = 'block';
+    }
+
+    function renderCartSheet() {
+      const container = document.getElementById('cartItemsContainer');
+      let totalSum = 0;
+      const keys = Object.keys(cart);
+
+      if (keys.length === 0) {
+        container.innerHTML = '<div class="empty-cart-msg">Корзина пуста</div>';
+        document.getElementById('cartTotalSum').innerText = '0 ₽';
+        return;
+      }
+
+      container.innerHTML = keys.map(id => {
+        const p = allProducts.find(x => x.id == id);
+        if (!p) return '';
+        const count = cart[id];
+        const sum = count * p.price;
+        totalSum += sum;
+
+        return `
+          <div class="cart-item">
+            <div style="max-width: 60%;">
+              <b>${p.title}</b>
+              <div style="color:var(--text-muted); font-size:11px;">${p.price} ₽ / шт.</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div style="display:flex; align-items:center; gap:5px;">
+                <button class="btn-qty" onclick="changeQty(${p.id}, -1)">−</button>
+                <span class="qty-num">${count}</span>
+                <button class="btn-qty" onclick="changeQty(${p.id}, 1)">+</button>
+              </div>
+              <div style="font-weight:700; min-width:55px; text-align:right;">${sum} ₽</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('cartTotalSum').innerText = `${totalSum} ₽`;
+    }
+
+    function closeAllSheets() {
+      document.getElementById('overlay').style.display = 'none';
+      document.getElementById('detailSheet').style.display = 'none';
+      document.getElementById('cartSheet').style.display = 'none';
+    }
+
+    // Старт
+    initCatalog();
+  </script>
 </body>
 </html>
