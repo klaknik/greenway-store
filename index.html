@@ -22,15 +22,15 @@
     .badge { background: #E8F5E9; color: var(--primary); font-size: 11px; padding: 4px 8px; border-radius: 12px; font-weight: 600; }
 
     /* Категории */
-    .tabs { display: flex; gap: 8px; padding: 12px 16px; overflow-x: auto; scrollbar-width: none; background: #fff; }
+    .tabs { display: flex; gap: 8px; padding: 12px 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; background: #fff; }
     .tabs::-webkit-scrollbar { display: none; }
-    .tab { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; background: var(--bg); color: var(--text-muted); cursor: pointer; white-space: nowrap; border: 1px solid transparent; }
+    .tab { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; background: var(--bg); color: var(--text-muted); cursor: pointer; white-space: nowrap; border: 1px solid transparent; user-select: none; }
     .tab.active { background: var(--primary); color: #fff; }
 
     /* Сетка товаров */
-    .catalog { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 16px; }
+    .catalog { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 16px; min-height: 200px; }
     .card { background: var(--card-bg); border-radius: 14px; padding: 10px; border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between; position: relative; }
-    .card img { width: 100%; height: 130px; object-fit: cover; border-radius: 10px; margin-bottom: 8px; background: #eee; }
+    .card img { width: 100%; height: 120px; object-fit: cover; border-radius: 10px; margin-bottom: 8px; background: #eee; }
     .card-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; line-height: 1.3; }
     .card-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; flex-grow: 1; }
     .card-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 4px; }
@@ -47,13 +47,13 @@
 
     /* Модальное окно корзины */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 100; display: none; }
-    .modal-content { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-radius: 20px 20px 0 0; padding: 20px 16px; max-height: 80vh; overflow-y: auto; z-index: 101; transform: translateY(100%); transition: transform 0.25s ease-out; }
-    .modal-content.open { transform: translateY(0); }
+    .modal-content { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-radius: 20px 20px 0 0; padding: 20px 16px; max-height: 80vh; overflow-y: auto; z-index: 101; display: none; }
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
     .modal-header h2 { font-size: 17px; }
     .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
     .btn-checkout { width: 100%; background: var(--primary); color: #fff; border: none; border-radius: 12px; padding: 14px; font-size: 15px; font-weight: 600; margin-top: 18px; cursor: pointer; }
-    .btn-checkout:disabled { background: #A0AEC0; cursor: not-allowed; }
+    
+    #debug-box { display: none; background: #fee2e2; color: #991b1b; padding: 10px; margin: 10px; border-radius: 8px; font-size: 12px; word-break: break-all; }
   </style>
 </head>
 <body>
@@ -63,68 +63,255 @@
     <div class="badge">Эко-маркет</div>
   </header>
 
+  <div id="debug-box"></div>
+
   <!-- Категории -->
   <div class="tabs">
-    <div class="tab active" onclick="filterCategory('all', this)">Все товары</div>
-    <div class="tab" onclick="filterCategory('home', this)">Уход за домом</div>
-    <div class="tab" onclick="filterCategory('health', this)">Здоровье</div>
-    <div class="tab" onclick="filterCategory('beauty', this)">Красота</div>
+    <div class="tab active" data-cat="all">Все товары</div>
+    <div class="tab" data-cat="home">Уход за домом</div>
+    <div class="tab" data-cat="health">Здоровье</div>
+    <div class="tab" data-cat="beauty">Красота</div>
   </div>
 
   <!-- Список товаров -->
-  <div class="catalog" id="catalog"></div>
+  <div class="catalog" id="catalog">Загрузка товаров...</div>
 
   <!-- Плавающая кнопка корзины -->
-  <div class="cart-bar" id="cartBar" onclick="openCartModal()">
+  <div class="cart-bar" id="cartBar">
     <span id="cartCount">Корзина: 0 шт.</span>
     <span id="cartTotal">0 ₽ ›</span>
   </div>
 
   <!-- Модальное окно оформления -->
-  <div class="modal-overlay" id="overlay" onclick="closeCartModal()"></div>
+  <div class="modal-overlay" id="overlay"></div>
   <div class="modal-content" id="cartModal">
     <div class="modal-header">
       <h2>Ваш заказ</h2>
-      <button onclick="closeCartModal()" style="border:none;background:none;font-size:18px;cursor:pointer;">✕</button>
+      <button id="closeModalBtn" style="border:none;background:none;font-size:20px;cursor:pointer;padding:4px 8px;">✕</button>
     </div>
     <div id="cartList"></div>
     <div style="display:flex;justify-content:space-between;margin-top:16px;font-weight:700;font-size:16px;">
       <span>Итого:</span>
       <span id="modalTotal">0 ₽</span>
     </div>
-    <button class="btn-checkout" id="checkoutBtn" onclick="submitOrder()">Оформить заказ в 1 клик</button>
+    <button class="btn-checkout" id="checkoutBtn">Оформить заказ в 1 клик</button>
   </div>
 
   <script>
-    // Текущий адрес туннеля к вашему серверу FastAPI
-    const BACKEND_URL = "https://grab-bent-grew-luck.trycloudflare.com";
-    const FALLBACK_PAYMENT_URL = "https://greenwayglobal.com/invite/client/GW-792841";
+    window.onerror = function(msg, url, line) {
+      var box = document.getElementById('debug-box');
+      if (box) {
+        box.style.display = 'block';
+        box.innerText = 'Ошибка: ' + msg + ' (строка ' + line + ')';
+      }
+    };
 
-    // База товаров
-    const products = [
-      { id: 1, category: 'home', title: "Файбер для мытья посуды", desc: "Моет посуду без капли бытовой химии", price: 330, img: "https://images.unsplash.com/photo-1584634731339-252c581abfc5?w=300" },
+    var BACKEND_URL = "https://grab-bent-grew-luck.trycloudflare.com";
+    var FALLBACK_URL = "https://greenwayglobal.com/invite/client/GW-792841";
+
+    var products = [
+      { id: 1, category: 'home', title: "Файбер для мытья посуды", desc: "Моет посуду без бытовой химии", price: 330, img: "https://images.unsplash.com/photo-1584634731339-252c581abfc5?w=300" },
       { id: 2, category: 'home', title: "Файбер для стекла", desc: "Идеальная чистота зеркал без разводов", price: 490, img: "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=300" },
-      { id: 3, category: 'home', title: "Паста очищающая Mystik", desc: "Удаляет нагар, ржавчину и известковый налет", price: 380, img: "https://images.unsplash.com/photo-1563453392212-326f5e854473?w=300" },
-      { id: 4, category: 'health', title: "Напиток DrainEffect", desc: "Выводит лишнюю жидкость, снимает отеки", price: 1150, img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=300" },
-      { id: 5, category: 'health', title: "Чайный напиток Fresh", desc: "Мягкое очищение организма и пищеварения", price: 420, img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=300" },
-      { id: 6, category: 'beauty', title: "Твердый шампунь цитрус", desc: "Натуральный уход и блеск волос", price: 490, img: "https://images.unsplash.com/photo-1608248597359-598d1a129d21?w=300" }
+      { id: 3, category: 'home', title: "Паста Mystik", desc: "Удаляет стойкий нагар и налет", price: 380, img: "https://images.unsplash.com/photo-1563453392212-326f5e854473?w=300" },
+      { id: 4, category: 'health', title: "Напиток DrainEffect", desc: "Выводит лишнюю жидкость и отеки", price: 1150, img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=300" },
+      { id: 5, category: 'health', title: "Чайный напиток Fresh", desc: "Мягкое очищение организма", price: 420, img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=300" },
+      { id: 6, category: 'beauty', title: "Твердый шампунь", desc: "Натуральный уход и блеск волос", price: 490, img: "https://images.unsplash.com/photo-1608248597359-598d1a129d21?w=300" }
     ];
 
-    let cart = {}; // id -> count
+    var cart = {};
+    var currentCategory = 'all';
 
-    function renderCatalog(items) {
-      const container = document.getElementById('catalog');
+    function renderCatalog() {
+      var container = document.getElementById('catalog');
+      if (!container) return;
       container.innerHTML = '';
-      items.forEach(p => {
-        const count = cart[p.id] || 0;
-        const card = document.createElement('div');
+
+      var items = currentCategory === 'all' 
+        ? products 
+        : products.filter(function(p) { return p.category === currentCategory; });
+
+      items.forEach(function(p) {
+        var count = cart[p.id] || 0;
+        var card = document.createElement('div');
         card.className = 'card';
-        card.innerHTML = `
-          <img src="${p.img}" alt="${p.title}">
-          <div class="card-title">${p.title}</div>
-          <div class="card-desc">${p.desc}</div>
-          <div class="card-bottom">
-            <div class="card-price">${p.price} ₽</div>
-            <button class="btn-add" id="addBtn-${p.id}" style="display: ${count > 0 ? 'none' : 'block'}" onclick="changeQty(${p.id}, 1)">+ В корзину</button>
-            <div class="qty-controls" id="qtyBox-${p.id}" style="display: ${count > 0 ? 'flex' : 'none'}">
-              <button class="
+
+        var img = document.createElement('img');
+        img.src = p.img;
+        img.alt = p.title;
+
+        var title = document.createElement('div');
+        title.className = 'card-title';
+        title.innerText = p.title;
+
+        var desc = document.createElement('div');
+        desc.className = 'card-desc';
+        desc.innerText = p.desc;
+
+        var bottom = document.createElement('div');
+        bottom.className = 'card-bottom';
+
+        var price = document.createElement('div');
+        price.className = 'card-price';
+        price.innerText = p.price + ' ₽';
+
+        var btnAdd = document.createElement('button');
+        btnAdd.className = 'btn-add';
+        btnAdd.innerText = '+ В корзину';
+        btnAdd.style.display = count > 0 ? 'none' : 'block';
+        btnAdd.onclick = function() { changeQty(p.id, 1); };
+
+        var qtyBox = document.createElement('div');
+        qtyBox.className = 'qty-controls';
+        qtyBox.style.display = count > 0 ? 'flex' : 'none';
+
+        var btnMinus = document.createElement('button');
+        btnMinus.className = 'btn-qty';
+        btnMinus.innerText = '−';
+        btnMinus.onclick = function() { changeQty(p.id, -1); };
+
+        var qtyNum = document.createElement('span');
+        qtyNum.className = 'qty-num';
+        qtyNum.innerText = count;
+
+        var btnPlus = document.createElement('button');
+        btnPlus.className = 'btn-qty';
+        btnPlus.innerText = '+';
+        btnPlus.onclick = function() { changeQty(p.id, 1); };
+
+        qtyBox.appendChild(btnMinus);
+        qtyBox.appendChild(qtyNum);
+        qtyBox.appendChild(btnPlus);
+
+        bottom.appendChild(price);
+        bottom.appendChild(btnAdd);
+        bottom.appendChild(qtyBox);
+
+        card.appendChild(img);
+        card.appendChild(title);
+        card.appendChild(desc);
+        card.appendChild(bottom);
+
+        container.appendChild(card);
+      });
+    }
+
+    function changeQty(id, delta) {
+      cart[id] = (cart[id] || 0) + delta;
+      if (cart[id] <= 0) {
+        delete cart[id];
+      }
+      renderCatalog();
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      var totalCount = 0;
+      var totalPrice = 0;
+
+      Object.keys(cart).forEach(function(id) {
+        var p = products.find(function(x) { return x.id == id; });
+        if (p) {
+          totalCount += cart[id];
+          totalPrice += cart[id] * p.price;
+        }
+      });
+
+      var bar = document.getElementById('cartBar');
+      if (bar) {
+        if (totalCount > 0) {
+          bar.style.display = 'flex';
+          document.getElementById('cartCount').innerText = 'В корзине: ' + totalCount + ' шт.';
+          document.getElementById('cartTotal').innerText = totalPrice + ' ₽ ›';
+        } else {
+          bar.style.display = 'none';
+          closeCartModal();
+        }
+      }
+    }
+
+    function openCartModal() {
+      var list = document.getElementById('cartList');
+      list.innerHTML = '';
+      var sum = 0;
+
+      Object.keys(cart).forEach(function(id) {
+        var p = products.find(function(x) { return x.id == id; });
+        if (p) {
+          var count = cart[id];
+          sum += count * p.price;
+
+          var item = document.createElement('div');
+          item.className = 'cart-item';
+          item.innerHTML = '<div><b>' + p.title + '</b><br><small>' + count + ' × ' + p.price + ' ₽</small></div><div style="font-weight:700;">' + (count * p.price) + ' ₽</div>';
+          list.appendChild(item);
+        }
+      });
+
+      document.getElementById('modalTotal').innerText = sum + ' ₽';
+      document.getElementById('overlay').style.display = 'block';
+      document.getElementById('cartModal').style.display = 'block';
+    }
+
+    function closeCartModal() {
+      document.getElementById('overlay').style.display = 'none';
+      document.getElementById('cartModal').style.display = 'none';
+    }
+
+    function submitOrder() {
+      var orderItems = [];
+      Object.keys(cart).forEach(function(id) {
+        var p = products.find(function(x) { return x.id == id; });
+        if (p) {
+          orderItems.push({ id: p.id, title: p.title, price: p.price, count: cart[id] });
+        }
+      });
+
+      if (orderItems.length === 0) return;
+
+      var btn = document.getElementById('checkoutBtn');
+      btn.innerText = 'Оформление...';
+      btn.disabled = true;
+
+      // Отправляем на бэкенд, а при любом исходе перенаправляем на оплату
+      fetch(BACKEND_URL + "/api/order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: "max_client", items: orderItems })
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        window.location.href = data.redirect_url || FALLBACK_URL;
+      })
+      .catch(function() {
+        window.location.href = FALLBACK_URL;
+      });
+    }
+
+    // Привязка событий после загрузки документа
+    document.addEventListener('DOMContentLoaded', function() {
+      // Табы
+      var tabEls = document.querySelectorAll('.tab');
+      tabEls.forEach(function(t) {
+        t.addEventListener('click', function() {
+          tabEls.forEach(function(x) { x.classList.remove('active'); });
+          t.classList.add('active');
+          currentCategory = t.getAttribute('data-cat');
+          renderCatalog();
+        });
+      });
+
+      // Корзина
+      document.getElementById('cartBar').addEventListener('click', openCartModal);
+      document.getElementById('overlay').addEventListener('click', closeCartModal);
+      document.getElementById('closeModalBtn').addEventListener('click', closeCartModal);
+      document.getElementById('checkoutBtn').addEventListener('click', submitOrder);
+
+      // Отрисовка
+      renderCatalog();
+    });
+
+    // Резервный запуск отрисовки
+    renderCatalog();
+  </script>
+</body>
+</html>
