@@ -277,7 +277,7 @@
         const count = cart[p.id] || 0;
         return `
           <div class="card" onclick="openDetail(${p.id})">
-            <img src="${p.img}" alt="${p.title}" loading="lazy">
+            <img src="${p.img}" alt="${p.title}" loading="lazy" onerror="this.onerror=null; this.src='https://dummyimage.com/300x200/e8f5e9/00875a.png&text=🌿+Greenway';">
             <div class="card-title">${p.title}</div>
             <div class="card-desc">${p.short_desc || ''}</div>
             <div class="card-bottom" onclick="event.stopPropagation()">
