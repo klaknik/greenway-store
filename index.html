@@ -15,18 +15,30 @@
       --border: #E5E7EB;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background-color: var(--bg); color: var(--text); padding-bottom: 90px; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 95px; }
 
-    header { background: #fff; padding: 14px 16px; position: sticky; top: 0; z-index: 20; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    header { background: #fff; padding: 14px 16px; position: sticky; top: 0; z-index: 25; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
     header h1 { font-size: 18px; font-weight: 700; color: var(--primary); }
     .badge { background: #E8F5E9; color: var(--primary); font-size: 11px; padding: 4px 8px; border-radius: 12px; font-weight: 600; }
 
-    /* Табы категорий */
-    .tabs-wrap { background: #fff; position: sticky; top: 53px; z-index: 15; border-bottom: 1px solid var(--border); }
-    .tabs { display: flex; gap: 8px; padding: 10px 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .tabs::-webkit-scrollbar { display: none; }
-    .tab { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; background: var(--bg); color: var(--text-muted); cursor: pointer; white-space: nowrap; border: 1px solid transparent; user-select: none; }
-    .tab.active { background: var(--primary); color: #fff; font-weight: 600; }
+    /* Поиск */
+    .search-wrap { padding: 10px 16px 4px; background: #fff; }
+    .search-input { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 10px; font-size: 13px; outline: none; background: var(--bg); }
+    .search-input:focus { border-color: var(--primary); background: #fff; }
+
+    /* Табы главных категорий (Уровень 1) */
+    .nav-wrap { background: #fff; position: sticky; top: 53px; z-index: 20; border-bottom: 1px solid var(--border); }
+    .tabs-main { display: flex; gap: 8px; padding: 8px 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .tabs-main::-webkit-scrollbar { display: none; }
+    .tab-main { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; background: var(--bg); color: var(--text-muted); cursor: pointer; white-space: nowrap; border: 1px solid transparent; user-select: none; }
+    .tab-main.active { background: var(--primary); color: #fff; font-weight: 600; }
+
+    /* Подразделы (Уровень 2) */
+    .subtabs-wrap { background: #FAFAFA; border-bottom: 1px solid var(--border); display: none; }
+    .tabs-sub { display: flex; gap: 6px; padding: 8px 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .tabs-sub::-webkit-scrollbar { display: none; }
+    .tab-sub { padding: 4px 11px; border-radius: 14px; font-size: 12px; font-weight: 500; background: #fff; color: var(--text-muted); cursor: pointer; white-space: nowrap; border: 1px solid var(--border); user-select: none; }
+    .tab-sub.active { background: #E8F5E9; color: var(--primary-dark); border-color: var(--primary); font-weight: 600; }
 
     /* Сетка товаров */
     .catalog { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 16px; }
@@ -37,23 +49,23 @@
     .card-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; }
     .card-price { font-size: 14px; font-weight: 700; color: var(--primary-dark); }
 
-    /* Кнопки покупки и счетчик */
+    /* Кнопки корзины на карточке */
     .btn-add { background: var(--primary); color: #fff; border: none; border-radius: 8px; padding: 6px 10px; font-size: 12px; font-weight: 600; cursor: pointer; }
     .qty-controls { display: none; align-items: center; gap: 6px; }
     .btn-qty { background: var(--bg); border: 1px solid var(--border); width: 26px; height: 26px; border-radius: 6px; font-weight: bold; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .qty-num { font-size: 13px; font-weight: 600; min-width: 14px; text-align: center; }
 
-    /* Плавающая корзина внизу */
+    /* Плавающая корзина снизу */
     .cart-bar { position: fixed; bottom: 16px; left: 16px; right: 16px; background: var(--primary); color: #fff; border-radius: 14px; padding: 14px 18px; display: none; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0, 135, 90, 0.35); z-index: 50; cursor: pointer; }
     .cart-bar span { font-weight: 600; font-size: 14px; }
 
-    /* Модальные окна (шторки снизу) */
+    /* Модальные окна */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; display: none; }
     .sheet { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-radius: 20px 20px 0 0; padding: 20px 16px; max-height: 85vh; overflow-y: auto; z-index: 101; display: none; }
     .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
     .sheet-close { border: none; background: none; font-size: 22px; cursor: pointer; color: var(--text-muted); }
 
-    /* Окно детального описания товара */
+    /* Детальная карточка */
     .detail-img { width: 100%; height: 200px; object-fit: cover; border-radius: 14px; margin-bottom: 14px; }
     .detail-title { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
     .detail-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; }
@@ -61,7 +73,7 @@
     .detail-action { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 14px; }
     .detail-price { font-size: 18px; font-weight: 700; color: var(--primary-dark); }
 
-    /* Элементы внутри корзины */
+    /* Корзина */
     .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
     .empty-cart-msg { text-align: center; color: var(--text-muted); padding: 30px 0; font-size: 14px; }
   </style>
@@ -73,10 +85,18 @@
     <div class="badge">Эко-маркет</div>
   </header>
 
-  <div class="tabs-wrap">
-    <div class="tabs" id="categoryTabs">
-      <div class="tab active" onclick="switchCategory('all', this)">Все товары</div>
+  <div class="search-wrap">
+    <input type="text" id="searchInput" class="search-input" placeholder="🔍 Поиск по названию или описанию..." oninput="handleSearch()">
+  </div>
+
+  <div class="nav-wrap">
+    <div class="tabs-main" id="mainCategoryTabs">
+      <div class="tab-main active" onclick="selectMainCategory('all', this)">Все товары</div>
     </div>
+  </div>
+
+  <div class="subtabs-wrap" id="subCategoryWrap">
+    <div class="tabs-sub" id="subCategoryTabs"></div>
   </div>
 
   <div class="catalog" id="catalogList">Загрузка каталога...</div>
@@ -87,7 +107,6 @@
     <span id="cartTotal">0 ₽ ›</span>
   </div>
 
-  <!-- Затемнение экрана -->
   <div class="modal-overlay" id="overlay" onclick="closeAllSheets()"></div>
 
   <!-- Шторка подробного описания товара -->
@@ -114,7 +133,7 @@
     </div>
     <div id="cartItemsContainer"></div>
     <div style="display:flex; justify-content:space-between; margin-top:16px; font-weight:700; font-size:16px;">
-      <span>Итого к оплате:</span>
+      <span>Итого в корзине:</span>
       <span id="cartTotalSum">0 ₽</span>
     </div>
   </div>
@@ -122,58 +141,118 @@
   <script>
     let allProducts = [];
     let cart = {}; // id -> count
-    let activeCat = 'all';
+    let currentMainCat = 'all';
+    let currentSubCat = 'all';
+    let searchQuery = '';
 
-    // 1. Загрузка товаров из products.json
+    // 1. Инициализация каталога
     async function initCatalog() {
       try {
         const res = await fetch('products.json?v=' + Date.now());
-        if (!res.ok) throw new Error('Не удалось прочитать products.json');
+        if (!res.ok) throw new Error('Ошибка чтения products.json');
         allProducts = await res.json();
         
-        buildCategories();
+        buildMainCategories();
         renderCatalog();
       } catch (err) {
         document.getElementById('catalogList').innerHTML = 
           '<div style="grid-column: span 2; text-align: center; color: #dc2626; padding: 20px;">' +
-          'Ошибка загрузки каталога. Убедитесь, что файл products.json сохранен на GitHub.</div>';
+          'Не удалось загрузить products.json. Проверьте файл на GitHub.</div>';
       }
     }
 
-    // 2. Генерация табов категорий
-    function buildCategories() {
-      const tabsBox = document.getElementById('categoryTabs');
+    // 2. Построение основных категорий (Уровень 1)
+    function buildMainCategories() {
+      const box = document.getElementById('mainCategoryTabs');
       const cats = {};
-      
+
       allProducts.forEach(p => {
         if (p.category && !cats[p.category]) {
           cats[p.category] = p.category_name || p.category;
         }
       });
 
-      let html = '<div class="tab active" onclick="switchCategory(\'all\', this)">Все товары</div>';
+      let html = '<div class="tab-main active" onclick="selectMainCategory(\'all\', this)">Все товары</div>';
       for (const [key, name] of Object.entries(cats)) {
-        html += `<div class="tab" onclick="switchCategory('${key}', this)">${name}</div>`;
+        html += `<div class="tab-main" onclick="selectMainCategory('${key}', this)">${name}</div>`;
       }
-      tabsBox.innerHTML = html;
+      box.innerHTML = html;
     }
 
-    function switchCategory(catKey, el) {
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    // Выбор главного раздела
+    function selectMainCategory(catKey, el) {
+      document.querySelectorAll('.tab-main').forEach(t => t.classList.remove('active'));
       el.classList.add('active');
-      activeCat = catKey;
+
+      currentMainCat = catKey;
+      currentSubCat = 'all';
+
+      buildSubCategories(catKey);
       renderCatalog();
     }
 
-    // 3. Отрисовка товаров
+    // 3. Построение подразделов (Уровень 2)
+    function buildSubCategories(mainCat) {
+      const wrap = document.getElementById('subCategoryWrap');
+      const box = document.getElementById('subCategoryTabs');
+
+      if (mainCat === 'all') {
+        wrap.style.display = 'none';
+        return;
+      }
+
+      // Собираем подразделы только выбранного раздела
+      const subcats = {};
+      allProducts.filter(p => p.category === mainCat).forEach(p => {
+        if (p.subcategory && !subcats[p.subcategory]) {
+          subcats[p.subcategory] = p.subcategory_name || p.subcategory;
+        }
+      });
+
+      const subKeys = Object.keys(subcats);
+      if (subKeys.length <= 1) {
+        // Если подраздел один или их нет, не показываем полоску
+        wrap.style.display = 'none';
+        return;
+      }
+
+      let html = '<div class="tab-sub active" onclick="selectSubCategory(\'all\', this)">Все в разделе</div>';
+      for (const [key, name] of Object.entries(subcats)) {
+        html += `<div class="tab-sub" onclick="selectSubCategory('${key}', this)">${name}</div>`;
+      }
+      box.innerHTML = html;
+      wrap.style.display = 'block';
+    }
+
+    function selectSubCategory(subKey, el) {
+      document.querySelectorAll('.tab-sub').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      currentSubCat = subKey;
+      renderCatalog();
+    }
+
+    // 4. Поиск
+    function handleSearch() {
+      searchQuery = document.getElementById('searchInput').value.trim().toLowerCase();
+      renderCatalog();
+    }
+
+    // 5. Отрисовка товаров с фильтрацией
     function renderCatalog() {
       const container = document.getElementById('catalogList');
-      const filtered = activeCat === 'all' 
-        ? allProducts 
-        : allProducts.filter(p => p.category === activeCat);
+
+      let filtered = allProducts.filter(p => {
+        const matchMain = (currentMainCat === 'all' || p.category === currentMainCat);
+        const matchSub = (currentSubCat === 'all' || p.subcategory === currentSubCat);
+        const matchSearch = (!searchQuery || 
+          p.title.toLowerCase().includes(searchQuery) || 
+          (p.short_desc && p.short_desc.toLowerCase().includes(searchQuery))
+        );
+        return matchMain && matchSub && matchSearch;
+      });
 
       if (filtered.length === 0) {
-        container.innerHTML = '<div style="grid-column: span 2; text-align: center; color: #6b7280; padding: 30px;">В этом разделе пока нет товаров.</div>';
+        container.innerHTML = '<div style="grid-column: span 2; text-align: center; color: #6b7280; padding: 40px 10px;">В этой категории товаров не найдено.</div>';
         return;
       }
 
@@ -198,7 +277,7 @@
       }).join('');
     }
 
-    // 4. Логика изменения количества в корзине
+    // 6. Управление корзиной
     function changeQty(id, delta) {
       cart[id] = (cart[id] || 0) + delta;
       if (cart[id] <= 0) delete cart[id];
@@ -249,14 +328,14 @@
       }
     }
 
-    // 5. Окно детального описания
+    // 7. Детальная карточка
     function openDetail(id) {
       const p = allProducts.find(x => x.id == id);
       if (!p) return;
 
       document.getElementById('detailImg').src = p.img;
       document.getElementById('detailTitle').innerText = p.title;
-      document.getElementById('detailCategory').innerText = p.category_name || 'Товар';
+      document.getElementById('detailCategory').innerText = p.subcategory_name || p.category_name || 'Товар';
       document.getElementById('detailMeta').innerText = p.volume ? `Фасовка / объем: ${p.volume}` : '';
       document.getElementById('detailDesc').innerText = p.full_desc || p.short_desc || 'Описание отсутствует.';
       document.getElementById('detailPrice').innerText = `${p.price} ₽`;
@@ -283,7 +362,7 @@
       }
     }
 
-    // 6. Окно корзины
+    // 8. Шторка корзины
     function openCartSheet() {
       renderCartSheet();
       document.getElementById('overlay').style.display = 'block';
@@ -335,7 +414,7 @@
       document.getElementById('cartSheet').style.display = 'none';
     }
 
-    // Старт
+    // Запуск приложения
     initCatalog();
   </script>
 </body>
