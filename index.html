@@ -26,14 +26,14 @@
     .search-input { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 10px; font-size: 13px; outline: none; background: var(--bg); }
     .search-input:focus { border-color: var(--primary); background: #fff; }
 
-    /* Табы главных категорий (Уровень 1) */
+    /* Разделы 1-го уровня */
     .nav-wrap { background: #fff; position: sticky; top: 53px; z-index: 20; border-bottom: 1px solid var(--border); }
     .tabs-main { display: flex; gap: 8px; padding: 8px 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .tabs-main::-webkit-scrollbar { display: none; }
     .tab-main { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; background: var(--bg); color: var(--text-muted); cursor: pointer; white-space: nowrap; border: 1px solid transparent; user-select: none; }
     .tab-main.active { background: var(--primary); color: #fff; font-weight: 600; }
 
-    /* Подразделы (Уровень 2) */
+    /* Подразделы 2-го уровня */
     .subtabs-wrap { background: #FAFAFA; border-bottom: 1px solid var(--border); display: none; }
     .tabs-sub { display: flex; gap: 6px; padding: 8px 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .tabs-sub::-webkit-scrollbar { display: none; }
@@ -49,23 +49,23 @@
     .card-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; }
     .card-price { font-size: 14px; font-weight: 700; color: var(--primary-dark); }
 
-    /* Кнопки корзины на карточке */
+    /* Кнопки и счетчик корзины */
     .btn-add { background: var(--primary); color: #fff; border: none; border-radius: 8px; padding: 6px 10px; font-size: 12px; font-weight: 600; cursor: pointer; }
     .qty-controls { display: none; align-items: center; gap: 6px; }
     .btn-qty { background: var(--bg); border: 1px solid var(--border); width: 26px; height: 26px; border-radius: 6px; font-weight: bold; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .qty-num { font-size: 13px; font-weight: 600; min-width: 14px; text-align: center; }
 
-    /* Плавающая корзина снизу */
+    /* Корзина внизу */
     .cart-bar { position: fixed; bottom: 16px; left: 16px; right: 16px; background: var(--primary); color: #fff; border-radius: 14px; padding: 14px 18px; display: none; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0, 135, 90, 0.35); z-index: 50; cursor: pointer; }
     .cart-bar span { font-weight: 600; font-size: 14px; }
 
-    /* Модальные окна */
+    /* Шторки */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; display: none; }
     .sheet { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-radius: 20px 20px 0 0; padding: 20px 16px; max-height: 85vh; overflow-y: auto; z-index: 101; display: none; }
     .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
     .sheet-close { border: none; background: none; font-size: 22px; cursor: pointer; color: var(--text-muted); }
 
-    /* Детальная карточка */
+    /* Детали */
     .detail-img { width: 100%; height: 200px; object-fit: cover; border-radius: 14px; margin-bottom: 14px; }
     .detail-title { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
     .detail-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; }
@@ -73,7 +73,7 @@
     .detail-action { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 14px; }
     .detail-price { font-size: 18px; font-weight: 700; color: var(--primary-dark); }
 
-    /* Корзина */
+    /* Элементы корзины */
     .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
     .empty-cart-msg { text-align: center; color: var(--text-muted); padding: 30px 0; font-size: 14px; }
   </style>
@@ -101,7 +101,7 @@
 
   <div class="catalog" id="catalogList">Загрузка каталога...</div>
 
-  <!-- Плавающая кнопка корзины -->
+  <!-- Плавающая корзина -->
   <div class="cart-bar" id="cartBar" onclick="openCartSheet()">
     <span id="cartCount">В корзине: 0 шт.</span>
     <span id="cartTotal">0 ₽ ›</span>
@@ -109,7 +109,7 @@
 
   <div class="modal-overlay" id="overlay" onclick="closeAllSheets()"></div>
 
-  <!-- Шторка подробного описания товара -->
+  <!-- Описание товара -->
   <div class="sheet" id="detailSheet">
     <div class="sheet-header">
       <span class="badge" id="detailCategory">Категория</span>
@@ -125,7 +125,7 @@
     </div>
   </div>
 
-  <!-- Шторка корзины -->
+  <!-- Окно корзины -->
   <div class="sheet" id="cartSheet">
     <div class="sheet-header">
       <h2>Ваша корзина</h2>
@@ -139,29 +139,52 @@
   </div>
 
   <script>
+    // Резервная база (fallback), если WebView ПК блокирует внешний fetch к products.json
+    const FALLBACK_PRODUCTS = [
+      { id: 101, category: "home", category_name: "Дом и уборка", subcategory: "fibers", subcategory_name: "Файберы Green Fiber", title: "Файбер для мытья посуды Green Fiber HOME S1", short_desc: "Моет посуду без моющих средств", full_desc: "Двустороннее микроволокно: мягкая сторона удаляет жир, жесткая очищает въевшуюся пищу.", price: 330, volume: "1 шт", img: "https://images.unsplash.com/photo-1584634731339-252c581abfc5?w=500" },
+      { id: 102, category: "home", category_name: "Дом и уборка", subcategory: "fibers", subcategory_name: "Файберы Green Fiber", title: "Файбер для стекла Green Fiber HOME S2", short_desc: "Чистота окон и зеркал без разводов", full_desc: "Позволяет мыть стекла простой водой, не оставляя разводов и ворсинок.", price: 490, volume: "1 шт", img: "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=500" },
+      { id: 105, category: "home", category_name: "Дом и уборка", subcategory: "clean", subcategory_name: "Чистящие средства BioTrim", title: "Очищающая паста BioTrim Mystik", short_desc: "Удаляет нагар, ржавчину, налет", full_desc: "Экологичный биоразлагаемый состав на основе микроминералов.", price: 380, volume: "200 г", img: "https://images.unsplash.com/photo-1563453392212-326f5e854473?w=500" },
+      { id: 201, category: "health", category_name: "Здоровье", subcategory: "drain", subcategory_name: "Дренаж DrainEffect", title: "Дренажный напиток DrainEffect Green", short_desc: "Снятие отеков и вывод застойной жидкости", full_desc: "Растительный комплекс (лемонграсс, белый чай, алоэ) активизирует дренажную систему.", price: 1150, volume: "20 стиков", img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=500" },
+      { id: 203, category: "health", category_name: "Здоровье", subcategory: "supplements", subcategory_name: "БАДы Welllab", title: "Welllab Омега-3 ПНЖК", short_desc: "Концентрат жирных кислот EPA и DHA", full_desc: "Очищенный рыбий жир для эластичности сосудов и поддержки мозга.", price: 1190, volume: "60 капсул", img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=500" },
+      { id: 301, category: "beauty", category_name: "Красота и уход", subcategory: "hair", subcategory_name: "Волосы Sharme Hair", title: "Твердый шампунь Sharme Hair Citrus", short_desc: "Объем и контроль жирности волос", full_desc: "Натуральный концентрат без SLS с розмарином и грейпфрутом.", price: 490, volume: "50 г", img: "https://images.unsplash.com/photo-1608248597359-598d1a129d21?w=500" },
+      { id: 401, category: "nutrition", category_name: "Питание", subcategory: "balancer", subcategory_name: "Коктейли Balancer Daily", title: "Коктейль BALANCER Daily Ваниль", short_desc: "Сбалансированный прием пищи за 1 минуту", full_desc: "20 г белка, пребиотики, омега-3 и витамины. Сытость на 3-4 часа.", price: 1800, volume: "10 саше", img: "https://images.unsplash.com/photo-1577805947697-89e18249d767?w=500" },
+      { id: 501, category: "aroma", category_name: "Ароматерапия", subcategory: "oils", subcategory_name: "Эфирные масла Sharme", title: "Эфирное масло Sharme Essential Лаванда", short_desc: "Релаксация и здоровый сон", full_desc: "100% чистое эфирное масло лаванды для ароматерапии.", price: 440, volume: "5 мл", img: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=500" },
+      { id: 601, category: "auto", category_name: "Автотовары", subcategory: "autofiber", subcategory_name: "Green Fiber Auto", title: "Автополотенце Green Fiber AUTO A1", short_desc: "Быстрая сушка кузова без царапин", full_desc: "Удерживает до трех литров воды, не требуя повторного отжима.", price: 1050, volume: "1 шт", img: "https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=500" }
+    ];
+
     let allProducts = [];
-    let cart = {}; // id -> count
+    let cart = {};
     let currentMainCat = 'all';
     let currentSubCat = 'all';
     let searchQuery = '';
 
-    // 1. Инициализация каталога
     async function initCatalog() {
       try {
-        const res = await fetch('products.json?v=' + Date.now());
-        if (!res.ok) throw new Error('Ошибка чтения products.json');
-        allProducts = await res.json();
-        
-        buildMainCategories();
-        renderCatalog();
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2500); // таймаут 2.5 сек
+
+        const res = await fetch('products.json?v=' + Date.now(), { signal: controller.signal });
+        clearTimeout(timeoutId);
+
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data) && data.length > 0) {
+            allProducts = data;
+          } else {
+            allProducts = FALLBACK_PRODUCTS;
+          }
+        } else {
+          allProducts = FALLBACK_PRODUCTS;
+        }
       } catch (err) {
-        document.getElementById('catalogList').innerHTML = 
-          '<div style="grid-column: span 2; text-align: center; color: #dc2626; padding: 20px;">' +
-          'Не удалось загрузить products.json. Проверьте файл на GitHub.</div>';
+        console.warn('Используем резервный каталог:', err);
+        allProducts = FALLBACK_PRODUCTS;
       }
+
+      buildMainCategories();
+      renderCatalog();
     }
 
-    // 2. Построение основных категорий (Уровень 1)
     function buildMainCategories() {
       const box = document.getElementById('mainCategoryTabs');
       const cats = {};
@@ -179,7 +202,6 @@
       box.innerHTML = html;
     }
 
-    // Выбор главного раздела
     function selectMainCategory(catKey, el) {
       document.querySelectorAll('.tab-main').forEach(t => t.classList.remove('active'));
       el.classList.add('active');
@@ -191,7 +213,6 @@
       renderCatalog();
     }
 
-    // 3. Построение подразделов (Уровень 2)
     function buildSubCategories(mainCat) {
       const wrap = document.getElementById('subCategoryWrap');
       const box = document.getElementById('subCategoryTabs');
@@ -201,7 +222,6 @@
         return;
       }
 
-      // Собираем подразделы только выбранного раздела
       const subcats = {};
       allProducts.filter(p => p.category === mainCat).forEach(p => {
         if (p.subcategory && !subcats[p.subcategory]) {
@@ -211,7 +231,6 @@
 
       const subKeys = Object.keys(subcats);
       if (subKeys.length <= 1) {
-        // Если подраздел один или их нет, не показываем полоску
         wrap.style.display = 'none';
         return;
       }
@@ -231,13 +250,11 @@
       renderCatalog();
     }
 
-    // 4. Поиск
     function handleSearch() {
       searchQuery = document.getElementById('searchInput').value.trim().toLowerCase();
       renderCatalog();
     }
 
-    // 5. Отрисовка товаров с фильтрацией
     function renderCatalog() {
       const container = document.getElementById('catalogList');
 
@@ -252,7 +269,7 @@
       });
 
       if (filtered.length === 0) {
-        container.innerHTML = '<div style="grid-column: span 2; text-align: center; color: #6b7280; padding: 40px 10px;">В этой категории товаров не найдено.</div>';
+        container.innerHTML = '<div style="grid-column: span 2; text-align: center; color: #6b7280; padding: 40px 10px;">Товаров не найдено.</div>';
         return;
       }
 
@@ -260,7 +277,7 @@
         const count = cart[p.id] || 0;
         return `
           <div class="card" onclick="openDetail(${p.id})">
-            <img src="${p.img}" alt="${p.title}">
+            <img src="${p.img}" alt="${p.title}" loading="lazy">
             <div class="card-title">${p.title}</div>
             <div class="card-desc">${p.short_desc || ''}</div>
             <div class="card-bottom" onclick="event.stopPropagation()">
@@ -277,7 +294,6 @@
       }).join('');
     }
 
-    // 6. Управление корзиной
     function changeQty(id, delta) {
       cart[id] = (cart[id] || 0) + delta;
       if (cart[id] <= 0) delete cart[id];
@@ -328,7 +344,6 @@
       }
     }
 
-    // 7. Детальная карточка
     function openDetail(id) {
       const p = allProducts.find(x => x.id == id);
       if (!p) return;
@@ -362,7 +377,6 @@
       }
     }
 
-    // 8. Шторка корзины
     function openCartSheet() {
       renderCartSheet();
       document.getElementById('overlay').style.display = 'block';
@@ -414,7 +428,7 @@
       document.getElementById('cartSheet').style.display = 'none';
     }
 
-    // Запуск приложения
+    // Запуск
     initCatalog();
   </script>
 </body>
