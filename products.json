@@ -13,7 +13,6 @@
     "img": "images/fiber-dish.jpg"
   },
   {
-    {
     "id": 102,
     "category": "home",
     "category_name": "Дом и уборка",
@@ -26,7 +25,6 @@
     "volume": "1 шт",
     "img": "images/fiber-involver.jpg"
   },
-  },
   {
     "id": 103,
     "category": "home",
@@ -38,20 +36,7 @@
     "full_desc": "В сухом виде притягивает пыль словно магнит за счет электростатики, во влажном впитывает грязь.",
     "price": 590,
     "volume": "1 шт",
-    "img": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=500"
-  },
-  {
-    "id": 104,
-    "category": "home",
-    "category_name": "Дом и уборка",
-    "subcategory": "fibers",
-    "subcategory_name": "Файберы Green Fiber",
-    "title": "Диск Инволвер Green Fiber HOME S3",
-    "short_desc": "Удаление стойкого нагара и жира",
-    "full_desc": "Гибкая форма и спиральное волокно удаляют въевшуюся грязь с духовок, вытяжек и плитки.",
-    "price": 570,
-    "volume": "1 шт",
-    "img": "https://images.unsplash.com/photo-1563453392212-326f5e854473?w=500"
+    "img": "images/fiber-universal.jpg"
   },
   {
     "id": 105,
@@ -103,7 +88,7 @@
     "full_desc": "Компактный флакон для экстренной очистки одежды. Не оставляет разводов.",
     "price": 420,
     "volume": "50 мл",
-    "img": "https://images.unsplash.com/photo-1585421514738-01798e348b17?w=500"
+    "img": "images/biotrim-spray.jpg"
   },
   {
     "id": 109,
@@ -112,11 +97,11 @@
     "subcategory": "mops",
     "subcategory_name": "Системы уборки",
     "title": "Универсальная швабра Green Fiber MOP",
-    "short_desc": "Эргономичная швабра с двумя сменными насадками",
+    "short_desc": "Эргономичная швабра со сменными насадками",
     "full_desc": "Подвижная платформа на шарнире позволяет промывать плинтусы, стены и пространство под мебелью.",
     "price": 4900,
     "volume": "1 комплект",
-    "img": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=500"
+    "img": "images/mop-universal.jpg"
   },
   {
     "id": 201,
@@ -181,20 +166,7 @@
     "full_desc": "Биодоступная масляная форма холекальциферола для круглогодичной поддержки организма.",
     "price": 640,
     "volume": "60 капсул",
-    "img": "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=500"
-  },
-  {
-    "id": 206,
-    "category": "health",
-    "category_name": "Здоровье",
-    "subcategory": "supplements",
-    "subcategory_name": "БАДы Welllab",
-    "title": "Welllab C-Комплекс",
-    "short_desc": "Антиоксидантная защита и синтез коллагена",
-    "full_desc": "Витамин C с биофлавоноидами цитрусовых для мягкого воздействия на желудок.",
-    "price": 750,
-    "volume": "60 капсул",
-    "img": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=500"
+    "img": "images/welllab-d3.jpg"
   },
   {
     "id": 207,
@@ -210,32 +182,6 @@
     "img": "images/tea-fresh.jpg"
   },
   {
-    "id": 208,
-    "category": "health",
-    "category_name": "Здоровье",
-    "subcategory": "tea",
-    "subcategory_name": "Фиточаи TeaVitall",
-    "title": "Чай TeaVitall Express Cardex 2",
-    "short_desc": "Поддержка сердечно-сосудистой системы",
-    "full_desc": "Купаж с боярышником, аронией и пустырником для нормализации давления.",
-    "price": 420,
-    "volume": "30 пакетов",
-    "img": "https://images.unsplash.com/photo-1597481499750-3e6b22637e12?w=500"
-  },
-  {
-    "id": 209,
-    "category": "health",
-    "category_name": "Здоровье",
-    "subcategory": "tea",
-    "subcategory_name": "Фиточаи TeaVitall",
-    "title": "Чай TeaVitall Express Balance 5",
-    "short_desc": "Успокаивающий сбор против стресса",
-    "full_desc": "Мята, ромашка и чабрец снимают напряжение и способствуют спокойному засыпанию.",
-    "price": 420,
-    "volume": "30 пакетов",
-    "img": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=500"
-  },
-  {
     "id": 210,
     "category": "health",
     "category_name": "Здоровье",
@@ -246,7 +192,7 @@
     "full_desc": "Изомальт, квадрокомплекс и растительные экстракты против образования налета.",
     "price": 240,
     "volume": "12 шт",
-    "img": "https://images.unsplash.com/photo-1582058091505-f87a2e55a40f?w=500"
+    "img": "images/ecodrops-tooth.jpg"
   },
   {
     "id": 303,
@@ -272,7 +218,7 @@
     "full_desc": "Стойкий оттенок, ровное нанесение и комфортная кремовая текстура.",
     "price": 720,
     "volume": "1.4 г",
-    "img": "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=500"
+    "img": "images/foet-matte.jpg"
   },
   {
     "id": 305,
@@ -285,20 +231,7 @@
     "full_desc": "Тонкий фетровый аппликатор для идеальных линий любой толщины. Не растекается.",
     "price": 550,
     "volume": "1.2 мл",
-    "img": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=500"
-  },
-  {
-    "id": 306,
-    "category": "beauty",
-    "category_name": "Красота и уход",
-    "subcategory": "hemp",
-    "subcategory_name": "Косметика Hemp Beauty Lab",
-    "title": "Гель для умывания Hemp с маслом конопли",
-    "short_desc": "Деликатное очищение пор без стянутости",
-    "full_desc": "Конопляное масло холодного отжима успокаивает раздражения и питает эпидермис.",
-    "price": 420,
-    "volume": "150 мл",
-    "img": "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500"
+    "img": "images/foet-eyeliner.jpg"
   },
   {
     "id": 307,
@@ -311,7 +244,7 @@
     "full_desc": "Восстанавливает гидролипидный баланс после контакта с водой и моющими средствами.",
     "price": 370,
     "volume": "75 мл",
-    "img": "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500"
+    "img": "images/hemp-hand-cream.jpg"
   },
   {
     "id": 308,
@@ -324,7 +257,7 @@
     "full_desc": "Омыленные растительные масла сохраняют природную мягкость кожи.",
     "price": 290,
     "volume": "80 г",
-    "img": "https://images.unsplash.com/photo-1607006314187-54238e833b93?w=500"
+    "img": "images/sharme-soap-berry.jpg"
   },
   {
     "id": 401,
@@ -340,19 +273,6 @@
     "img": "images/balancer-vanilla.jpg"
   },
   {
-    "id": 402,
-    "category": "nutrition",
-    "category_name": "Питание",
-    "subcategory": "balancer",
-    "subcategory_name": "Коктейли Balancer Daily",
-    "title": "Коктейль BALANCER Daily Шоколад",
-    "short_desc": "Белковый десерт с насыщенным вкусом какао",
-    "full_desc": "Помогает контролировать аппетит без лишнего сахара и пустых калорий.",
-    "price": 1800,
-    "volume": "10 саше",
-    "img": "https://images.unsplash.com/photo-1541658016709-82535e94bc69?w=500"
-  },
-  {
     "id": 403,
     "category": "nutrition",
     "category_name": "Питание",
@@ -363,46 +283,7 @@
     "full_desc": "Оптимальное соотношение белков, жиров и медленных углеводов.",
     "price": 1800,
     "volume": "10 саше",
-    "img": "https://images.unsplash.com/photo-1577805947697-89e18249d767?w=500"
-  },
-  {
-    "id": 404,
-    "category": "nutrition",
-    "category_name": "Питание",
-    "subcategory": "balancer",
-    "subcategory_name": "Коктейли Balancer Daily",
-    "title": "Горячий крем-суп BALANCER Томатный",
-    "short_desc": "Согревающий сытный обед с пребиотиками",
-    "full_desc": "Быстрый здоровый перекус в офисе или дороге. Без искусственных консервантов.",
-    "price": 1500,
-    "volume": "7 саше",
-    "img": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=500"
-  },
-  {
-    "id": 405,
-    "category": "nutrition",
-    "category_name": "Питание",
-    "subcategory": "bars",
-    "subcategory_name": "Батончики Balancer",
-    "title": "Протеиновый батончик Balancer Кокос",
-    "short_desc": "Перекус без добавленного сахара",
-    "full_desc": "Сывороточный изолят и пищевые волокна для быстрого восполнения сил.",
-    "price": 160,
-    "volume": "50 г",
-    "img": "https://images.unsplash.com/photo-1622484216853-432a58b29f04?w=500"
-  },
-  {
-    "id": 406,
-    "category": "nutrition",
-    "category_name": "Питание",
-    "subcategory": "bars",
-    "subcategory_name": "Батончики Balancer",
-    "title": "Протеиновый батончик Balancer Соленая карамель",
-    "short_desc": "Вкусный источник белка после тренировки",
-    "full_desc": "Компактный питательный перекус в индивидуальной герметичной упаковке.",
-    "price": 160,
-    "volume": "50 г",
-    "img": "https://images.unsplash.com/photo-1622484216853-432a58b29f04?w=500"
+    "img": "images/balancer-strawberry.jpg"
   },
   {
     "id": 501,
@@ -428,7 +309,7 @@
     "full_desc": "Очищает воздух в помещении, снимает раздражение кожи и воспаления.",
     "price": 380,
     "volume": "5 мл",
-    "img": "https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?w=500"
+    "img": "images/sharme-tea-tree.jpg"
   },
   {
     "id": 503,
@@ -441,20 +322,7 @@
     "full_desc": "Яркий цитрусовый аромат, стимулирующий работоспособность.",
     "price": 330,
     "volume": "5 мл",
-    "img": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500"
-  },
-  {
-    "id": 504,
-    "category": "aroma",
-    "category_name": "Ароматерапия",
-    "subcategory": "diffusers",
-    "subcategory_name": "Диффузоры",
-    "title": "Ультразвуковой аромадиффузор Greenway",
-    "short_desc": "Холодная ароматизация и мягкое увлажнение",
-    "full_desc": "Распыляет масла без нагрева с сохранением их полезных свойств.",
-    "price": 3100,
-    "volume": "1 шт",
-    "img": "https://images.unsplash.com/photo-1602928321679-560bb453f190?w=500"
+    "img": "images/sharme-orange.jpg"
   },
   {
     "id": 601,
@@ -470,32 +338,6 @@
     "img": "images/fiber-auto.jpg"
   },
   {
-    "id": 602,
-    "category": "auto",
-    "category_name": "Автотовары",
-    "subcategory": "autofiber",
-    "subcategory_name": "Green Fiber Auto",
-    "title": "Варежка для авто Green Fiber AUTO A2",
-    "short_desc": "Деликатная мойка кузова и очистка салона",
-    "full_desc": "Снимает пыль, отпечатки пальцев и следы насекомых без автошампуня.",
-    "price": 890,
-    "volume": "1 шт",
-    "img": "https://images.unsplash.com/photo-1607860108855-64acf2078ed9?w=500"
-  },
-  {
-    "id": 603,
-    "category": "auto",
-    "category_name": "Автотовары",
-    "subcategory": "autofiber",
-    "subcategory_name": "Green Fiber Auto",
-    "title": "Файбер для стекол авто Green Fiber AUTO S16",
-    "short_desc": "Лобовое стекло без бликов и масляной пленки",
-    "full_desc": "Очищает запотевшие окна и удаляет дорожную копоть простой водой.",
-    "price": 490,
-    "volume": "1 шт",
-    "img": "https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=500"
-  },
-  {
     "id": 701,
     "category": "kids",
     "category_name": "Детская серия",
@@ -509,32 +351,6 @@
     "img": "images/kids-towel.jpg"
   },
   {
-    "id": 702,
-    "category": "kids",
-    "category_name": "Детская серия",
-    "subcategory": "kids_care",
-    "subcategory_name": "Уход за ребенком",
-    "title": "Слюнявчик детский Green Fiber Baby",
-    "short_desc": "Влагозащитный мягкий нагрудник",
-    "full_desc": "Защищает одежду ребенка во время кормления. Легко отстирывается.",
-    "price": 490,
-    "volume": "1 шт",
-    "img": "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=500"
-  },
-  {
-    "id": 703,
-    "category": "kids",
-    "category_name": "Детская серия",
-    "subcategory": "totty",
-    "subcategory_name": "Напитки Totty",
-    "title": "Детский напиток Totty Ягодный",
-    "short_desc": "Натуральный витаминный морс для иммунитета",
-    "full_desc": "Без искусственных красителей и подсластителей. Обогащен цинком и витамином C.",
-    "price": 620,
-    "volume": "14 стиков",
-    "img": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=500"
-  },
-  {
     "id": 801,
     "category": "perfume",
     "category_name": "Парфюмерия",
@@ -542,35 +358,9 @@
     "subcategory_name": "Парфюм Empireo",
     "title": "Духи Empireo Classic №12",
     "short_desc": "Цветочно-шипровый шлейфовый аромат",
-    "full_desc": "Содержание ароматических масел 20%. Стойкое звучание бергамота, пачули и жасмина.",
+    "full_desc": "Содержание ароматических масел 20%. Высокая стойкость звучания нот бергамота, пачули и жасмина.",
     "price": 2300,
     "volume": "50 мл",
     "img": "images/empireo-perfume.jpg"
-  },
-  {
-    "id": 802,
-    "category": "perfume",
-    "category_name": "Парфюмерия",
-    "subcategory": "empireo",
-    "subcategory_name": "Парфюм Empireo",
-    "title": "Духи Empireo Classic №24",
-    "short_desc": "Свежий древесно-цитрусовый мужской аромат",
-    "full_desc": "Элегантный шлейф морского бриза, грейпфрута и кедра для делового стиля.",
-    "price": 2300,
-    "volume": "50 мл",
-    "img": "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=500"
-  },
-  {
-    "id": 803,
-    "category": "perfume",
-    "category_name": "Парфюмерия",
-    "subcategory": "empireo",
-    "subcategory_name": "Парфюм Empireo",
-    "title": "Духи Empireo Exclusive №105",
-    "short_desc": "Селективный восточно-пряный унисекс аромат",
-    "full_desc": "Глубокая композиция табачного листа, ванили и сухофруктов с высокой стойкостью.",
-    "price": 2900,
-    "volume": "50 мл",
-    "img": "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=500"
   }
 ]
