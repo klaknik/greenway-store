@@ -13,17 +13,19 @@
     "img": "images/fiber-dish.jpg"
   },
   {
+    {
     "id": 102,
     "category": "home",
     "category_name": "Дом и уборка",
     "subcategory": "fibers",
     "subcategory_name": "Файберы Green Fiber",
-    "title": "Файбер для стекла Green Fiber HOME S2",
-    "short_desc": "Чистота окон и зеркал без разводов и ворсинок",
-    "full_desc": "Позволяет мыть стекла и глянец простой водой, не требуя протирания насухо бумажными полотенцами.",
-    "price": 490,
+    "title": "Диск Инволвер Green Fiber HOME S2",
+    "short_desc": "Удаление стойкого нагара, жира и въевшейся грязи",
+    "full_desc": "Гибкая круглая форма и жесткое волокно с плетением «Инволвер» очищают труднодоступные места, духовки, вытяжки, обувь и кафельные швы без капли химии.",
+    "price": 570,
     "volume": "1 шт",
-    "img": "images/fiber-glass.jpg"
+    "img": "images/fiber-involver.jpg"
+  },
   },
   {
     "id": 103,
