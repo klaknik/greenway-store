@@ -68,13 +68,12 @@
     .card-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; flex-grow: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .card-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; }
     .card-price { font-size: 14px; font-weight: 700; color: var(--primary-dark); }
-    .card-price-custom { font-size: 11px; font-weight: 700; color: var(--accent); }
 
-    /* Баннер во всю ширину «Не нашли нужный товар?» */
+    /* Широкий баннер во всю ширину (Духи Enjoy Care и Не нашли товар) */
     .card-fullwidth {
       grid-column: 1 / -1;
       background: linear-gradient(135deg, #FFFFFF 0%, #F4FBF7 100%);
-      border: 1.5px dashed #00875A;
+      border: 1.5px dashed var(--primary);
       border-radius: 14px;
       padding: 14px 16px;
       display: flex;
@@ -85,15 +84,20 @@
       cursor: pointer;
       margin-top: 4px;
     }
-    .card-fullwidth:active { background: #E8F5E9; }
+    .card-fullwidth-perfume {
+      background: linear-gradient(135deg, #FFFFFF 0%, #FFF9F0 100%);
+      border-color: var(--accent);
+    }
+    .card-fullwidth:active { opacity: 0.85; }
     .card-fullwidth-content { flex: 1; }
     .card-fullwidth-title { font-size: 14px; font-weight: 700; color: var(--primary-dark); display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+    .card-fullwidth-perfume .card-fullwidth-title { color: #B35C00; }
     .card-fullwidth-desc { font-size: 11.5px; color: var(--text-muted); line-height: 1.35; }
-    .card-fullwidth-btn { background: var(--primary); color: #fff; border: none; border-radius: 10px; padding: 8px 14px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+    .card-fullwidth-btn { background: var(--primary); color: #fff; border: none; border-radius: 10px; padding: 9px 16px; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+    .card-fullwidth-btn-perfume { background: var(--accent); }
 
     /* Кнопки */
     .btn-add { background: var(--primary); color: #fff; border: none; border-radius: 8px; padding: 6px 10px; font-size: 12px; font-weight: 600; cursor: pointer; }
-    .btn-add.btn-preorder { background: var(--accent); }
     .qty-controls { display: none; align-items: center; gap: 6px; }
     .btn-qty { background: var(--bg); border: 1px solid var(--border); width: 26px; height: 26px; border-radius: 6px; font-weight: bold; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .qty-num { font-size: 13px; font-weight: 600; min-width: 14px; text-align: center; }
@@ -179,7 +183,7 @@
     <div class="badge">Экомаркет</div>
   </header>
 
-  <!-- 1. ВКЛАДКА: КАТАЛОГ (Стартовая и главная страница) -->
+  <!-- 1. ВКЛАДКА: КАТАЛОГ (Стартовая страница) -->
   <div id="pageCatalog" class="tab-page active">
     <div class="search-wrap">
       <input type="text" id="searchInput" class="search-input" placeholder="🔍 Поиск...">
@@ -201,10 +205,10 @@
     <div class="page-container">
       <div class="info-card">
         <h3>🚚 Доставка по РФ</h3>
-        <p>• <b>Бесплатная доставка:</b> при заказе товаров от 3 000 ₽.</p>
+        <p>• <b>Бесплатная курьерская доставка:</b> при заказе товаров от 3 000 ₽ доставим заказ курьером бесплатно.</p>
         <p>• <b>При заказе до 3 000 ₽:</b> фиксированная стоимость доставки — 500 ₽.</p>
-        <p>• <b>Куда доставляем:</b> в любой город и населённый пункт РФ через СДЭК и Почту России.</p>
-        <p>• <b>Отправка:</b> в течение 1–2 рабочих дней после подтверждения.</p>
+        <p>• <b>Пункты выдачи и доставка:</b> СДЭК, пункты выдачи OZON, Wildberries (WB) или курьером прямо до двери.</p>
+        <p>• <b>Отправка:</b> в течение 1–2 рабочих дней после подтверждения заказа.</p>
       </div>
 
       <div class="info-card">
@@ -221,10 +225,10 @@
       <div class="cart-box">
         <h2 style="font-size:16px; font-weight:700; margin-bottom:12px;">Текущая корзина</h2>
 
-        <!-- Прогресс бесплатной доставки -->
+        <!-- Прогресс бесплатной курьерской доставки -->
         <div class="delivery-progress-box" id="deliveryProgressBox">
           <div class="delivery-progress-text" id="deliveryProgressText">
-            <span>До бесплатной доставки:</span>
+            <span>До бесплатной курьерской доставки:</span>
             <b id="deliveryNeedAmount">0 ₽</b>
           </div>
           <div class="delivery-progress-bar-bg">
@@ -255,7 +259,7 @@
         </div>
       </div>
 
-      <!-- Блок истории оформленных заказов -->
+      <!-- Блок истории заказов -->
       <div class="info-card">
         <h3>📦 История заказов</h3>
         <div id="orderHistoryContainer">
@@ -273,6 +277,36 @@
 
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-question">
+            <span>Какие категории товаров предлагает Greenway?</span>
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-answer">
+            В каталоге представлены: экологичная бытовая химия, биоразлагаемые чистящие средства, натуральная косметика и парфюмерия, биодобавки и витаминные комплексы, здоровое питание (коктейли, чаи, каши), а также аксессуары для дома и здоровья. Полный список вы найдёте в нашем каталоге продукции Greenway.
+          </div>
+        </div>
+
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-question">
+            <span>Почему продукты Greenway считаются экологичными?</span>
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-answer">
+            В производстве используются только натуральные и безопасные составы, упаковка пригодна для вторичной переработки, а многие товары многоразовые. Продукция сертифицирована по международным стандартам качества и не содержит агрессивной «химии».
+          </div>
+        </div>
+
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-question">
+            <span>Сколько продуктов в ассортименте Greenway?</span>
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-answer">
+            На данный момент насчитывается более 1000 товаров, объединённых в 32 собственные торговые марки. Ассортимент постоянно расширяется благодаря научным разработкам и обратной связи от партнёров.
+          </div>
+        </div>
+
+        <div class="faq-item" onclick="toggleFaq(this)">
+          <div class="faq-question">
             <span>Как ухаживать за файберами Greenway?</span>
             <span class="faq-arrow">▼</span>
           </div>
@@ -283,11 +317,11 @@
 
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-question">
-            <span>Как заказать духи Enjoy Care?</span>
+            <span>Как заказать духи?</span>
             <span class="faq-arrow">▼</span>
           </div>
           <div class="faq-answer">
-            Нажмите «Предзаказ» в карточке парфюма или напишите менеджеру напрямую — вышлем каталог всех номеров и сориентируем по наличию.
+            Нажмите кнопку «Предзаказ» в блоке духов или напишите менеджеру напрямую — вышлем каталог всех номеров и сориентируем по наличию.
           </div>
         </div>
 
@@ -297,7 +331,7 @@
             <span class="faq-arrow">▼</span>
           </div>
           <div class="faq-answer">
-            После отправки трек-номер для отслеживания в СДЭК или Почте РФ поступит в чат.
+            После отправки трек-номер для отслеживания (СДЭК, OZON, WB или курьер) поступит вам в чат.
           </div>
         </div>
       </div>
@@ -439,14 +473,13 @@
 
     <div class="form-row">
       <div class="form-group" style="flex: 2;">
-        <label class="form-label">Улица *</label>
-        <input type="text" id="orderStreet" class="form-input" placeholder="ул. Ленина">
-        <div class="form-error" id="streetError">Укажите улицу</div>
+        <label class="form-label">Улица или адрес ПВЗ (СДЭК / OZON / WB) *</label>
+        <input type="text" id="orderStreet" class="form-input" placeholder="ул. Ленина или адрес ПВЗ">
+        <div class="form-error" id="streetError">Укажите улицу или ПВЗ</div>
       </div>
       <div class="form-group" style="flex: 1;">
-        <label class="form-label">Дом / Корпус *</label>
+        <label class="form-label">Дом / Корпус</label>
         <input type="text" id="orderHouse" class="form-input" placeholder="12 к. 1">
-        <div class="form-error" id="houseError">Номер дома</div>
       </div>
       <div class="form-group" style="flex: 1;">
         <label class="form-label">Кв. / Офис</label>
@@ -456,7 +489,7 @@
 
     <div class="form-group">
       <label class="form-label">Комментарий к заказу</label>
-      <input type="text" id="orderComment" class="form-input" placeholder="Код домофона, пожелания к посылке...">
+      <input type="text" id="orderComment" class="form-input" placeholder="Предпочтительный ПВЗ, код домофона...">
     </div>
 
     <div style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:12px; padding:12px; margin:14px 0; font-size:13px;">
@@ -528,7 +561,7 @@
       { id: 607, category: "beauty", category_name: "Косметика и уход", subcategory: "makeup", subcategory_name: "Макияж Foet", title: "BB-крем Foet «Идеальная кожа»", short_desc: "Естественный тон без эффекта маски", full_desc: "Подстраивается под тон кожи, увлажняет и деликатно маскирует мелкие несовершенства.", price: 1250, volume: "30 мл", img: "images/foet-bb-cream.jpg" },
       { id: 608, category: "beauty", category_name: "Косметика и уход", subcategory: "makeup", subcategory_name: "Макияж Foet", title: "Питательный бальзам для губ Foet", short_desc: "Защита от обветривания и сухости с маслом ши", full_desc: "Восстанавливает гидробаланс нежной кожи губ, предотвращая шелушения и микротрещинки.", price: 420, volume: "1 шт", img: "images/foet-lip-balm.jpg" },
       { id: 610, category: "beauty", category_name: "Косметика и уход", subcategory: "aroma", subcategory_name: "Эфирные масла", title: "Эфирное масло Sharme Essential Лаванда", short_desc: "100% чистое эфирное масло французской лаванды", full_desc: "Натуральное масло для аромаламп, ванн и массажа. Снимает стресс и настраивает на здоровый сон.", price: 440, volume: "5 мл", img: "images/sharme-lavender.jpg" },
-      { id: 701, category: "perfume_preorder", category_name: "Парфюмерия под заказ", subcategory: "enjoy_care", subcategory_name: "Номерная парфюмерия Enjoy Care", title: "Духи Enjoy Care (Номерная парфюмерия под заказ)", short_desc: "Эквиваленты мировых ароматов (20% эссенций, Чехия)", full_desc: "Стойкие духи чешского производства. Более 40 женских, мужских и унисекс ароматов. Напишите менеджеру для подбора аромата и уточнения наличия.", price: 0, volume: "50 мл", is_preorder: true, img: "images/enjoy-care-perfume.jpg" },
+      { id: 701, category: "perfume_preorder", category_name: "Парфюмерия", subcategory: "enjoy_care", subcategory_name: "Номерная парфюмерия", title: "Духи Enjoy Care (Номерная парфюмерия под заказ)", short_desc: "Эквиваленты мировых ароматов (Чехия, 20% эссенций). Подбор аромата в личных сообщениях", full_desc: "Стойкие духи чешского производства. Более 40 женских, мужских и унисекс ароматов. Напишите менеджеру для подбора аромата и уточнения наличия.", price: 0, volume: "50 мл", is_perfume_banner: true },
       { id: 801, category: "custom_request", category_name: "Другие товары", subcategory: "custom", subcategory_name: "Под заказ", title: "Не нашли нужный товар?", short_desc: "Привезем любую позицию из полного каталога Greenway под заказ", full_desc: "Полный ассортимент продукции можно посмотреть на официальном сайте greenwayglobal.com/shop. Если нужного товара нет на витрине — свяжитесь с нами, поможем оформить под заказ!", price: 0, volume: "индивидуально", is_custom_request: true }
     ];
 
@@ -699,10 +732,43 @@
       container.innerHTML = '';
 
       filtered.forEach(function(item) {
-        var isPreorder = item.is_preorder;
-        var isCustom = item.is_custom_request;
+        /* 1. Широкий баннер духов Enjoy Care */
+        if (item.is_perfume_banner) {
+          var pBanner = document.createElement('div');
+          pBanner.className = 'card-fullwidth card-fullwidth-perfume';
+          pBanner.onclick = function() { openPreorderModal(); };
 
-        if (isCustom) {
+          var pContent = document.createElement('div');
+          pContent.className = 'card-fullwidth-content';
+
+          var pTitle = document.createElement('div');
+          pTitle.className = 'card-fullwidth-title';
+          pTitle.innerHTML = '<span>✨</span> <span>Духи Enjoy Care (Чехия)</span>';
+
+          var pDesc = document.createElement('div');
+          pDesc.className = 'card-fullwidth-desc';
+          pDesc.textContent = 'Эквиваленты мировых ароматов (20% эссенций). Индивидуальный подбор номеров под заказ';
+
+          pContent.appendChild(pTitle);
+          pContent.appendChild(pDesc);
+
+          var pBtn = document.createElement('button');
+          pBtn.className = 'card-fullwidth-btn card-fullwidth-btn-perfume';
+          pBtn.textContent = 'Предзаказ ›';
+          pBtn.onclick = function(e) {
+            e.stopPropagation();
+            openPreorderModal();
+          };
+
+          pBanner.appendChild(pContent);
+          pBanner.appendChild(pBtn);
+
+          container.appendChild(pBanner);
+          return;
+        }
+
+        /* 2. Широкий баннер «Не нашли нужный товар?» */
+        if (item.is_custom_request) {
           var banner = document.createElement('div');
           banner.className = 'card-fullwidth';
           banner.onclick = function() { openCustomOrderModal(); };
@@ -736,6 +802,7 @@
           return;
         }
 
+        /* 3. Стандартные карточки товаров */
         var count = cart[item.id] || 0;
         var card = document.createElement('div');
         card.className = 'card';
@@ -754,13 +821,6 @@
         };
         imgWrap.appendChild(img);
 
-        if (isPreorder) {
-          var chip = document.createElement('div');
-          chip.className = 'card-chip badge-preorder';
-          chip.textContent = 'Под заказ';
-          imgWrap.appendChild(chip);
-        }
-
         var titleEl = document.createElement('div');
         titleEl.className = 'card-title';
         titleEl.textContent = item.title;
@@ -774,57 +834,44 @@
         bottom.onclick = function(e) { e.stopPropagation(); };
 
         var price = document.createElement('div');
-        if (isPreorder) {
-          price.className = 'card-price-custom';
-          price.textContent = 'Цена по запросу';
-        } else {
-          price.className = 'card-price';
-          price.textContent = item.price + ' ₽';
-        }
+        price.className = 'card-price';
+        price.textContent = item.price + ' ₽';
 
         var actionBox = document.createElement('div');
 
-        if (isPreorder) {
-          var preorderBtn = document.createElement('button');
-          preorderBtn.className = 'btn-add btn-preorder';
-          preorderBtn.textContent = 'Предзаказ';
-          preorderBtn.onclick = function() { openPreorderModal(); };
-          actionBox.appendChild(preorderBtn);
-        } else {
-          var addBtn = document.createElement('button');
-          addBtn.className = 'btn-add';
-          addBtn.id = 'addBtn-' + item.id;
-          addBtn.style.display = count > 0 ? 'none' : 'block';
-          addBtn.textContent = '+ В корзину';
-          addBtn.onclick = function() { changeQty(item.id, 1); };
+        var addBtn = document.createElement('button');
+        addBtn.className = 'btn-add';
+        addBtn.id = 'addBtn-' + item.id;
+        addBtn.style.display = count > 0 ? 'none' : 'block';
+        addBtn.textContent = '+ В корзину';
+        addBtn.onclick = function() { changeQty(item.id, 1); };
 
-          var qtyBox = document.createElement('div');
-          qtyBox.className = 'qty-controls';
-          qtyBox.id = 'qtyBox-' + item.id;
-          qtyBox.style.display = count > 0 ? 'flex' : 'none';
+        var qtyBox = document.createElement('div');
+        qtyBox.className = 'qty-controls';
+        qtyBox.id = 'qtyBox-' + item.id;
+        qtyBox.style.display = count > 0 ? 'flex' : 'none';
 
-          var minusBtn = document.createElement('button');
-          minusBtn.className = 'btn-qty';
-          minusBtn.textContent = '−';
-          minusBtn.onclick = function() { changeQty(item.id, -1); };
+        var minusBtn = document.createElement('button');
+        minusBtn.className = 'btn-qty';
+        minusBtn.textContent = '−';
+        minusBtn.onclick = function() { changeQty(item.id, -1); };
 
-          var qtyNum = document.createElement('span');
-          qtyNum.className = 'qty-num';
-          qtyNum.id = 'qtyNum-' + item.id;
-          qtyNum.textContent = count;
+        var qtyNum = document.createElement('span');
+        qtyNum.className = 'qty-num';
+        qtyNum.id = 'qtyNum-' + item.id;
+        qtyNum.textContent = count;
 
-          var plusBtn = document.createElement('button');
-          plusBtn.className = 'btn-qty';
-          plusBtn.textContent = '+';
-          plusBtn.onclick = function() { changeQty(item.id, 1); };
+        var plusBtn = document.createElement('button');
+        plusBtn.className = 'btn-qty';
+        plusBtn.textContent = '+';
+        plusBtn.onclick = function() { changeQty(item.id, 1); };
 
-          qtyBox.appendChild(minusBtn);
-          qtyBox.appendChild(qtyNum);
-          qtyBox.appendChild(plusBtn);
+        qtyBox.appendChild(minusBtn);
+        qtyBox.appendChild(qtyNum);
+        qtyBox.appendChild(plusBtn);
 
-          actionBox.appendChild(addBtn);
-          actionBox.appendChild(qtyBox);
-        }
+        actionBox.appendChild(addBtn);
+        actionBox.appendChild(qtyBox);
 
         bottom.appendChild(price);
         bottom.appendChild(actionBox);
@@ -926,8 +973,8 @@
       
       var catBadge = document.getElementById('detailCategory');
       if (catBadge) {
-        catBadge.textContent = p.is_preorder ? 'Парфюмерия под заказ' : (p.subcategory_name || p.category_name || 'Товар');
-        catBadge.className = p.is_preorder ? 'badge badge-preorder' : 'badge';
+        catBadge.textContent = p.subcategory_name || p.category_name || 'Товар';
+        catBadge.className = 'badge';
       }
 
       var metaEl = document.getElementById('detailMeta');
@@ -937,9 +984,7 @@
       if (descEl) descEl.textContent = p.full_desc || p.short_desc || 'Описание отсутствует.';
 
       var priceEl = document.getElementById('detailPrice');
-      if (priceEl) {
-        priceEl.textContent = p.is_preorder ? 'Цена по запросу' : p.price + ' ₽';
-      }
+      if (priceEl) priceEl.textContent = p.price + ' ₽';
 
       updateDetailButton(id);
 
@@ -955,16 +1000,6 @@
       if (!box || !p) return;
 
       box.innerHTML = '';
-
-      if (p.is_preorder) {
-        var pBtn = document.createElement('button');
-        pBtn.className = 'btn-add btn-preorder';
-        pBtn.style.cssText = 'padding:10px 18px; font-size:14px;';
-        pBtn.textContent = 'Предзаказ';
-        pBtn.onclick = function() { openPreorderModal(); };
-        box.appendChild(pBtn);
-        return;
-      }
 
       var count = cart[id] || 0;
       if (count > 0) {
@@ -1015,13 +1050,13 @@
       if (subtotal >= FREE_DELIVERY_THRESHOLD) {
         bar.style.width = '100%';
         bar.style.backgroundColor = '#00875A';
-        text.innerHTML = '<span class="delivery-success-text">🎉 Доставка по РФ бесплатная!</span>';
+        text.innerHTML = '<span class="delivery-success-text">🎉 Бесплатная курьерская доставка по РФ!</span>';
       } else {
         var diff = FREE_DELIVERY_THRESHOLD - subtotal;
         var percent = Math.min(100, Math.round((subtotal / FREE_DELIVERY_THRESHOLD) * 100));
         bar.style.width = percent + '%';
         bar.style.backgroundColor = '#E58E26';
-        text.innerHTML = '<span>До бесплатной доставки:</span><b>еще ' + diff + ' ₽</b>';
+        text.innerHTML = '<span>До бесплатного курьера:</span><b>еще ' + diff + ' ₽</b>';
       }
     }
 
@@ -1061,13 +1096,6 @@
         var title = document.createElement('b');
         title.textContent = p.title;
         info.appendChild(title);
-
-        if (p.is_preorder) {
-          var pre = document.createElement('span');
-          pre.style.cssText = 'color:#E65100; font-weight:600; font-size:10px;';
-          pre.textContent = ' [ПОД ЗАКАЗ]';
-          info.appendChild(pre);
-        }
 
         var priceNote = document.createElement('div');
         priceNote.style.cssText = 'color:var(--text-muted); font-size:11px;';
@@ -1114,7 +1142,7 @@
 
       var deliveryLabel = document.getElementById('cartDeliveryCost');
       if (delivery === 0) {
-        deliveryLabel.textContent = 'Бесплатно 🎉';
+        deliveryLabel.textContent = 'Бесплатно (Курьер) 🎉';
         deliveryLabel.style.color = 'var(--primary)';
       } else {
         deliveryLabel.textContent = '500 ₽';
@@ -1161,7 +1189,7 @@
       document.getElementById('summaryGoods').textContent = subtotal + ' ₽';
       var delEl = document.getElementById('summaryDelivery');
       if (delivery === 0) {
-        delEl.textContent = 'Бесплатно';
+        delEl.textContent = 'Бесплатно (Курьер)';
         delEl.style.color = 'var(--primary)';
       } else {
         delEl.textContent = '500 ₽';
@@ -1199,7 +1227,6 @@
       check('zipError', !zip || zip.length !== 6);
       check('cityError', !city);
       check('streetError', !street);
-      check('houseError', !house);
 
       if (hasError) return;
 
@@ -1219,7 +1246,7 @@
         }
       });
 
-      var fullAddressString = "Индекс: " + zip + ", " + region + (district ? ", " + district : "") + ", " + city + ", ул. " + street + ", д. " + house + (apt ? ", кв./оф. " + apt : "");
+      var fullAddressString = "Индекс: " + zip + ", " + region + (district ? ", " + district : "") + ", " + city + ", ул. " + street + (house ? ", д. " + house : "") + (apt ? ", кв./оф. " + apt : "");
 
       var orderNum = Math.floor(100000 + Math.random() * 900000);
       var newOrder = {
