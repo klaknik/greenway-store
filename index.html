@@ -16,19 +16,22 @@
       --border: #E5E7EB;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background-color: var(--bg); color: var(--text); padding-bottom: 95px; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 75px; }
 
     header { background: #fff; padding: 14px 16px; position: sticky; top: 0; z-index: 25; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
     header h1 { font-size: 18px; font-weight: 700; color: var(--primary); }
     .badge { background: #E8F5E9; color: var(--primary); font-size: 11px; padding: 4px 8px; border-radius: 12px; font-weight: 600; }
     .badge-preorder { background: #FFF3E0; color: #E65100; border: 1px solid #FFE0B2; }
 
-    /* Поиск */
+    /* Страницы вкладок */
+    .tab-page { display: none; }
+    .tab-page.active { display: block; }
+
+    /* Поиск и категории в каталоге */
     .search-wrap { padding: 10px 16px 4px; background: #fff; }
     .search-input { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 10px; font-size: 13px; outline: none; background: var(--bg); }
     .search-input:focus { border-color: var(--primary); background: #fff; }
 
-    /* Навигация */
     .nav-wrap { background: #fff; position: sticky; top: 53px; z-index: 20; border-bottom: 1px solid var(--border); }
     .tabs-main { display: flex; gap: 8px; padding: 8px 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .tabs-main::-webkit-scrollbar { display: none; }
@@ -43,7 +46,7 @@
     .tab-sub { padding: 4px 11px; border-radius: 14px; font-size: 12px; font-weight: 500; background: #fff; color: var(--text-muted); cursor: pointer; white-space: nowrap; border: 1px solid var(--border); user-select: none; }
     .tab-sub.active { background: #E8F5E9; color: var(--primary-dark); border-color: var(--primary); font-weight: 600; }
 
-    /* Каталог */
+    /* Сетка каталога */
     .catalog { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 16px; }
     .card { background: var(--card-bg); border-radius: 14px; padding: 10px; border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; position: relative; }
     .card-img-wrap { position: relative; width: 100%; height: 125px; margin-bottom: 8px; }
@@ -53,6 +56,7 @@
     .card-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; flex-grow: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .card-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; }
     .card-price { font-size: 14px; font-weight: 700; color: var(--primary-dark); }
+    .card-price-custom { font-size: 11px; font-weight: 700; color: var(--accent); }
 
     /* Кнопки */
     .btn-add { background: var(--primary); color: #fff; border: none; border-radius: 8px; padding: 6px 10px; font-size: 12px; font-weight: 600; cursor: pointer; }
@@ -61,16 +65,43 @@
     .btn-qty { background: var(--bg); border: 1px solid var(--border); width: 26px; height: 26px; border-radius: 6px; font-weight: bold; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .qty-num { font-size: 13px; font-weight: 600; min-width: 14px; text-align: center; }
 
-    /* Плавающая корзина */
-    .cart-bar { position: fixed; bottom: 16px; left: 16px; right: 16px; background: var(--primary); color: #fff; border-radius: 14px; padding: 14px 18px; display: none; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0, 135, 90, 0.35); z-index: 50; cursor: pointer; }
-    .cart-bar span { font-weight: 600; font-size: 14px; }
+    /* Контейнеры страниц (Доставка, Заказы, FAQ) */
+    .page-container { padding: 16px; }
+    .info-card { background: #fff; border-radius: 14px; padding: 16px; border: 1px solid var(--border); margin-bottom: 12px; }
+    .info-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--primary-dark); display: flex; align-items: center; gap: 6px; }
+    .info-card p { font-size: 13px; line-height: 1.5; color: var(--text); margin-bottom: 6px; }
 
-    /* Прогресс-бар */
+    /* Прогресс-бар бесплатной доставки */
     .delivery-progress-box { background: #F8FAF9; border: 1px solid #E1EFEA; border-radius: 12px; padding: 12px; margin-bottom: 14px; display: none; }
     .delivery-progress-text { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between; }
     .delivery-progress-bar-bg { width: 100%; height: 7px; background: #E5E7EB; border-radius: 6px; overflow: hidden; }
     .delivery-progress-bar-fill { height: 100%; width: 0%; background: var(--primary); border-radius: 6px; transition: width 0.3s ease, background-color 0.3s ease; }
     .delivery-success-text { color: var(--primary-dark); font-weight: 700; font-size: 12px; display: flex; align-items: center; gap: 4px; }
+
+    /* Корзина внутри страницы «Мои заказы» */
+    .cart-box { background: #fff; border-radius: 14px; padding: 16px; border: 1px solid var(--border); margin-bottom: 16px; }
+    .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+    .empty-cart-msg { text-align: center; color: var(--text-muted); padding: 24px 0; font-size: 14px; }
+    .cart-summary-line { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
+    .cart-summary-total { display: flex; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border); font-weight: 700; font-size: 16px; color: var(--text); }
+
+    /* История заказов */
+    .order-history-item { background: #F9FAFB; border: 1px solid var(--border); border-radius: 10px; padding: 12px; margin-bottom: 10px; font-size: 12px; }
+    .order-history-header { display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 4px; color: var(--text); }
+    .order-history-status { color: var(--primary); font-weight: 600; }
+
+    /* Кнопки действий */
+    .btn-action { width: 100%; background: var(--primary); color: #fff; border: none; border-radius: 14px; padding: 14px; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 14px; display: flex; justify-content: center; align-items: center; gap: 8px; text-decoration: none; }
+    .btn-action:active { background: var(--primary-dark); }
+    .btn-action-accent { background: var(--accent); }
+    .btn-action-accent:active { background: #cf7d1f; }
+
+    /* Нижняя плитка из 4 вкладок (Таббар) */
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 60px; background: #fff; border-top: 1px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 40; }
+    .nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--text-muted); cursor: pointer; font-size: 10px; font-weight: 500; position: relative; user-select: none; }
+    .nav-btn.active { color: var(--primary); font-weight: 700; }
+    .nav-btn-icon { font-size: 19px; margin-bottom: 2px; }
+    .nav-badge { position: absolute; top: 6px; right: 26%; background: #d63031; color: #fff; font-size: 9px; font-weight: 700; border-radius: 10px; padding: 1px 5px; min-width: 15px; text-align: center; display: none; }
 
     /* Шторки */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; display: none; }
@@ -86,19 +117,7 @@
     .detail-action { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 14px; }
     .detail-price { font-size: 18px; font-weight: 700; color: var(--primary-dark); }
 
-    /* Корзина элементы */
-    .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
-    .empty-cart-msg { text-align: center; color: var(--text-muted); padding: 30px 0; font-size: 14px; }
-
-    /* Итоги */
-    .cart-summary-line { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
-    .cart-summary-total { display: flex; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border); font-weight: 700; font-size: 16px; color: var(--text); }
-
-    /* Кнопки действий */
-    .btn-action { width: 100%; background: var(--primary); color: #fff; border: none; border-radius: 14px; padding: 14px; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 16px; display: flex; justify-content: center; align-items: center; gap: 8px; }
-    .btn-action:active { background: var(--primary-dark); }
-
-    /* Поля формы */
+    /* Поля адреса */
     .form-group { margin-bottom: 11px; }
     .form-row { display: flex; gap: 10px; }
     .form-row .form-group { flex: 1; }
@@ -112,32 +131,145 @@
 
   <header>
     <h1>🌿 Greenway Global</h1>
-    <div class="badge">Эко-маркет</div>
+    <div class="badge">Экомаркет</div>
   </header>
 
-  <div class="search-wrap">
-    <input type="text" id="searchInput" class="search-input" placeholder="🔍 Поиск...">
+  <!-- 1. ВКЛАДКА: КАТАЛОГ (Стартовая и главная страница) -->
+  <div id="pageCatalog" class="tab-page active">
+    <div class="search-wrap">
+      <input type="text" id="searchInput" class="search-input" placeholder="🔍 Поиск...">
+    </div>
+
+    <div class="nav-wrap">
+      <div class="tabs-main" id="mainCategoryTabs"></div>
+    </div>
+
+    <div class="subtabs-wrap" id="subCategoryWrap">
+      <div class="tabs-sub" id="subCategoryTabs"></div>
+    </div>
+
+    <div class="catalog" id="catalogList"></div>
   </div>
 
-  <div class="nav-wrap">
-    <div class="tabs-main" id="mainCategoryTabs"></div>
+  <!-- 2. ВКЛАДКА: ДОСТАВКА И ОПЛАТА -->
+  <div id="pageDelivery" class="tab-page">
+    <div class="page-container">
+      <div class="info-card">
+        <h3>🚚 Доставка по РФ</h3>
+        <p>• <b>Бесплатная доставка:</b> при заказе товаров от 3 000 ₽.</p>
+        <p>• <b>При заказе до 3 000 ₽:</b> фиксированная стоимость доставки — 500 ₽.</p>
+        <p>• <b>Куда доставляем:</b> в любой город и населённый пункт РФ через СДЭК и Почту России.</p>
+        <p>• <b>Отправка:</b> в течение 1–2 рабочих дней после подтверждения.</p>
+      </div>
+
+      <div class="info-card">
+        <h3>💳 Оплата заказов</h3>
+        <p>• Удобная и безопасная оплата через <b>СБП (Систему быстрых платежей)</b>.</p>
+        <p>• Банковскими картами любых российских банков без комиссии.</p>
+        <p>• Официальный фискальный чек формируется автоматически.</p>
+      </div>
+
+      <div class="info-card">
+        <h3>🌿 100% Оригинальная продукция</h3>
+        <p>Прямые поставки из распределительного центра Greenway Global. Вся продукция сертифицирована и хранится с соблюдением стандартов.</p>
+      </div>
+    </div>
   </div>
 
-  <div class="subtabs-wrap" id="subCategoryWrap">
-    <div class="tabs-sub" id="subCategoryTabs"></div>
+  <!-- 3. ВКЛАДКА: МОИ ЗАКАЗЫ (Корзина + История) -->
+  <div id="pageOrders" class="tab-page">
+    <div class="page-container">
+      <div class="cart-box">
+        <h2 style="font-size:16px; font-weight:700; margin-bottom:12px;">Текущая корзина</h2>
+
+        <!-- Прогресс бесплатной доставки -->
+        <div class="delivery-progress-box" id="deliveryProgressBox">
+          <div class="delivery-progress-text" id="deliveryProgressText">
+            <span>До бесплатной доставки:</span>
+            <b id="deliveryNeedAmount">0 ₽</b>
+          </div>
+          <div class="delivery-progress-bar-bg">
+            <div class="delivery-progress-bar-fill" id="deliveryProgressBar"></div>
+          </div>
+        </div>
+
+        <div id="cartItemsContainer"></div>
+
+        <div id="cartSummaryBox" style="display:none; margin-top:14px;">
+          <div class="cart-summary-line">
+            <span>Товары:</span>
+            <span id="cartSubtotalSum">0 ₽</span>
+          </div>
+          <div class="cart-summary-line">
+            <span>Доставка по РФ:</span>
+            <span id="cartDeliveryCost" style="font-weight:600;">500 ₽</span>
+          </div>
+          <div class="cart-summary-total">
+            <span>Итого к оплате:</span>
+            <span id="cartTotalSum">0 ₽</span>
+          </div>
+
+          <button class="btn-action" id="checkoutBtn" onclick="openAddressSheet()">
+            <span>Продолжить</span>
+            <span>›</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Блок истории оформленных заказов -->
+      <div class="info-card">
+        <h3>📦 История заказов</h3>
+        <div id="orderHistoryContainer">
+          <p style="color:var(--text-muted); font-size:13px;">Ранее оформленных заказов пока нет.</p>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="catalog" id="catalogList"></div>
+  <!-- 4. ВКЛАДКА: ВОПРОСЫ (FAQ) -->
+  <div id="pageFaq" class="tab-page">
+    <div class="page-container">
+      <div class="info-card">
+        <h3>❓ Часто задаваемые вопросы</h3>
+        <p><b>Как ухаживать за файберами Greenway?</b><br>Стирайте мылом без отбеливателей (мыло BioTrim или детское). Не сушите на горячих батареях и не гладьте.</p>
+        <p style="margin-top:10px;"><b>Как заказать духи Enjoy Care?</b><br>Нажмите «Предзаказ» в карточке парфюма или напишите менеджеру напрямую — вышлем каталог всех номеров и сориентируем по наличию.</p>
+        <p style="margin-top:10px;"><b>Как отследить посылку?</b><br>После отправки трек-номер для отслеживания в СДЭК или Почте РФ поступит в чат.</p>
+      </div>
 
-  <!-- Плавающая корзина -->
-  <div class="cart-bar" id="cartBar">
-    <span id="cartCount">В корзине: 0 шт.</span>
-    <span id="cartTotal">0 ₽ ›</span>
+      <div class="info-card" style="text-align: center;">
+        <h3>💬 Нужна консультация?</h3>
+        <p>Помогу выбрать набор для дома, подобрать уход для лица или программу здоровья Welllab.</p>
+        <button class="btn-action" style="margin-top:12px;" onclick="openManagerChat()">
+          <span>💬 Написать менеджеру</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ПЛИТКА ИЗ 4 ВКЛАДОК ВНИЗУ (ТАББАР) -->
+  <div class="bottom-nav">
+    <div class="nav-btn active" id="navBtnCatalog" onclick="switchTab('catalog')">
+      <div class="nav-btn-icon">🛍</div>
+      <span>Каталог</span>
+    </div>
+    <div class="nav-btn" id="navBtnDelivery" onclick="switchTab('delivery')">
+      <div class="nav-btn-icon">🚚</div>
+      <span>Доставка</span>
+    </div>
+    <div class="nav-btn" id="navBtnOrders" onclick="switchTab('orders')">
+      <div class="nav-btn-icon">📦</div>
+      <span>Мои заказы</span>
+      <div class="nav-badge" id="navCartBadge">0</div>
+    </div>
+    <div class="nav-btn" id="navBtnFaq" onclick="switchTab('faq')">
+      <div class="nav-btn-icon">❓</div>
+      <span>Вопросы</span>
+    </div>
   </div>
 
   <div class="modal-overlay" id="overlay"></div>
 
-  <!-- Шторка товара -->
+  <!-- Шторка: Карточка товара детально -->
   <div class="sheet" id="detailSheet">
     <div class="sheet-header">
       <span class="badge" id="detailCategory">Категория</span>
@@ -153,48 +285,25 @@
     </div>
   </div>
 
-  <!-- Шторка 1: Корзина -->
-  <div class="sheet" id="cartSheet">
+  <!-- Шторка: Предзаказ парфюмерии Enjoy Care -->
+  <div class="sheet" id="preorderModalSheet">
     <div class="sheet-header">
-      <h2>Ваша корзина</h2>
-      <button class="sheet-close" id="closeCartBtn">✕</button>
+      <span class="badge badge-preorder">Enjoy Care (Под заказ)</span>
+      <button class="sheet-close" id="closePreorderBtn">✕</button>
     </div>
-
-    <!-- Прогресс бесплатной доставки -->
-    <div class="delivery-progress-box" id="deliveryProgressBox">
-      <div class="delivery-progress-text" id="deliveryProgressText">
-        <span>До бесплатной доставки:</span>
-        <b id="deliveryNeedAmount">0 ₽</b>
-      </div>
-      <div class="delivery-progress-bar-bg">
-        <div class="delivery-progress-bar-fill" id="deliveryProgressBar"></div>
-      </div>
+    <h2 class="detail-title">Заказ номерной парфюмерии</h2>
+    <p style="font-size: 14px; line-height: 1.5; color: var(--text); margin: 14px 0 16px;">
+      Ароматы Enjoy Care подбираются индивидуально по номерному каталогу. Напишите менеджеру для уточнения наличия и оформления заказа.
+    </p>
+    <div style="background: #FFF8E1; border: 1px solid #FFE082; border-radius: 12px; padding: 12px; font-size: 13px; margin-bottom: 16px; color: #7A5200;">
+      ✨ Более 40 мужских и женских ароматов. Производство Чехия, 20% эфирных эссенций.
     </div>
-
-    <div id="cartItemsContainer"></div>
-
-    <div style="margin-top: 16px;">
-      <div class="cart-summary-line">
-        <span>Товары в корзине:</span>
-        <span id="cartSubtotalSum">0 ₽</span>
-      </div>
-      <div class="cart-summary-line">
-        <span>Доставка по РФ:</span>
-        <span id="cartDeliveryCost" style="font-weight:600;">500 ₽</span>
-      </div>
-      <div class="cart-summary-total">
-        <span>Итого к оплате:</span>
-        <span id="cartTotalSum">0 ₽</span>
-      </div>
-    </div>
-
-    <button class="btn-action" id="checkoutBtn" onclick="openAddressSheet()">
-      <span>Продолжить</span>
-      <span>›</span>
+    <button class="btn-action btn-action-accent" onclick="openManagerChat()">
+      <span>💬 Написать менеджеру</span>
     </button>
   </div>
 
-  <!-- Шторка 2: Полный адрес доставки -->
+  <!-- Шторка: Ввод адреса доставки -->
   <div class="sheet" id="addressSheet">
     <div class="sheet-header">
       <h2>Данные для доставки</h2>
@@ -256,8 +365,8 @@
     </div>
 
     <div class="form-group">
-      <label class="form-label">Комментарий (номер аромата духов, код домофона)</label>
-      <input type="text" id="orderComment" class="form-input" placeholder="Например: Духи EC 105, код домофона 45К">
+      <label class="form-label">Комментарий к заказу</label>
+      <input type="text" id="orderComment" class="form-input" placeholder="Код домофона, пожелания к посылке...">
     </div>
 
     <div style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:12px; padding:12px; margin:14px 0; font-size:13px;">
@@ -282,7 +391,9 @@
   </div>
 
   <script>
+    // ПЕРЕМЕННЫЕ ДЛЯ ССЫЛОК (добавим точные ссылки позже):
     var PAYMENT_URL = "https://yookassa.ru"; 
+    var MANAGER_CONTACT_URL = ""; 
     var ORDER_API_URL = ""; 
 
     var FREE_DELIVERY_THRESHOLD = 3000;
@@ -328,14 +439,51 @@
       { id: 607, category: "beauty", category_name: "Косметика и уход", subcategory: "makeup", subcategory_name: "Макияж Foet", title: "BB-крем Foet «Идеальная кожа»", short_desc: "Естественный тон без эффекта маски", full_desc: "Подстраивается под тон кожи, увлажняет и деликатно маскирует мелкие несовершенства.", price: 1250, volume: "30 мл", img: "images/foet-bb-cream.jpg" },
       { id: 608, category: "beauty", category_name: "Косметика и уход", subcategory: "makeup", subcategory_name: "Макияж Foet", title: "Питательный бальзам для губ Foet", short_desc: "Защита от обветривания и сухости с маслом ши", full_desc: "Восстанавливает гидробаланс нежной кожи губ, предотвращая шелушения и микротрещинки.", price: 420, volume: "1 шт", img: "images/foet-lip-balm.jpg" },
       { id: 610, category: "beauty", category_name: "Косметика и уход", subcategory: "aroma", subcategory_name: "Эфирные масла", title: "Эфирное масло Sharme Essential Лаванда", short_desc: "100% чистое эфирное масло французской лаванды", full_desc: "Натуральное масло для аромаламп, ванн и массажа. Снимает стресс и настраивает на здоровый сон.", price: 440, volume: "5 мл", img: "images/sharme-lavender.jpg" },
-      { id: 701, category: "perfume_preorder", category_name: "Парфюмерия под заказ", subcategory: "enjoy_care", subcategory_name: "Номерная парфюмерия Enjoy Care", title: "Духи Enjoy Care (Номерная парфюмерия под заказ)", short_desc: "Эквиваленты мировых ароматов (20% эссенций, Чехия)", full_desc: "Стойкие духи чешского производства. Более 40 женских, мужских и унисекс ароматов. При заказе укажите номер или название парфюма в комментарии.", price: 2100, volume: "50 мл", is_preorder: true, img: "images/enjoy-care-perfume.jpg" }
+      { id: 701, category: "perfume_preorder", category_name: "Парфюмерия под заказ", subcategory: "enjoy_care", subcategory_name: "Номерная парфюмерия Enjoy Care", title: "Духи Enjoy Care (Номерная парфюмерия под заказ)", short_desc: "Эквиваленты мировых ароматов (20% эссенций, Чехия)", full_desc: "Стойкие духи чешского производства. Более 40 женских, мужских и унисекс ароматов. Напишите менеджеру для подбора аромата и уточнения наличия.", price: 0, volume: "50 мл", is_preorder: true, img: "images/enjoy-care-perfume.jpg" }
     ];
 
     var allProducts = PRODUCTS;
     var cart = {};
+    var orderHistory = [];
     var currentMainCat = 'all';
     var currentSubCat = 'all';
     var searchQuery = '';
+
+    // Загрузка сохраненной истории заказов из памяти устройства
+    try {
+      var saved = localStorage.getItem('gw_order_history');
+      if (saved) orderHistory = JSON.parse(saved);
+    } catch (e) {}
+
+    /* Переключение между 4 нижними вкладками */
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-page').forEach(function(p) { p.classList.remove('active'); });
+      document.querySelectorAll('.nav-btn').forEach(function(b) { b.classList.remove('active'); });
+
+      if (tabName === 'catalog') {
+        document.getElementById('pageCatalog').classList.add('active');
+        document.getElementById('navBtnCatalog').classList.add('active');
+      } else if (tabName === 'delivery') {
+        document.getElementById('pageDelivery').classList.add('active');
+        document.getElementById('navBtnDelivery').classList.add('active');
+      } else if (tabName === 'orders') {
+        document.getElementById('pageOrders').classList.add('active');
+        document.getElementById('navBtnOrders').classList.add('active');
+        renderCartSheet();
+        renderOrderHistory();
+      } else if (tabName === 'faq') {
+        document.getElementById('pageFaq').classList.add('active');
+        document.getElementById('navBtnFaq').classList.add('active');
+      }
+    }
+
+    function openManagerChat() {
+      if (MANAGER_CONTACT_URL && MANAGER_CONTACT_URL.indexOf('http') === 0) {
+        window.open(MANAGER_CONTACT_URL, '_blank');
+      } else {
+        alert('Ссылка на менеджера настраивается.');
+      }
+    }
 
     function buildMainCategories() {
       var box = document.getElementById('mainCategoryTabs');
@@ -491,43 +639,60 @@
         bottom.onclick = function(e) { e.stopPropagation(); };
 
         var price = document.createElement('div');
-        price.className = 'card-price';
-        price.textContent = item.price + ' ₽';
+        if (isPreorder) {
+          price.className = 'card-price-custom';
+          price.textContent = 'Цена по запросу';
+        } else {
+          price.className = 'card-price';
+          price.textContent = item.price + ' ₽';
+        }
 
-        var addBtn = document.createElement('button');
-        addBtn.className = isPreorder ? 'btn-add btn-preorder' : 'btn-add';
-        addBtn.id = 'addBtn-' + item.id;
-        addBtn.style.display = count > 0 ? 'none' : 'block';
-        addBtn.textContent = isPreorder ? 'Предзаказ' : '+ В корзину';
-        addBtn.onclick = function() { changeQty(item.id, 1); };
+        var actionBox = document.createElement('div');
 
-        var qtyBox = document.createElement('div');
-        qtyBox.className = 'qty-controls';
-        qtyBox.id = 'qtyBox-' + item.id;
-        qtyBox.style.display = count > 0 ? 'flex' : 'none';
+        if (isPreorder) {
+          var preorderBtn = document.createElement('button');
+          preorderBtn.className = 'btn-add btn-preorder';
+          preorderBtn.textContent = 'Предзаказ';
+          preorderBtn.onclick = function() { openPreorderModal(); };
+          actionBox.appendChild(preorderBtn);
+        } else {
+          var addBtn = document.createElement('button');
+          addBtn.className = 'btn-add';
+          addBtn.id = 'addBtn-' + item.id;
+          addBtn.style.display = count > 0 ? 'none' : 'block';
+          addBtn.textContent = '+ В корзину';
+          addBtn.onclick = function() { changeQty(item.id, 1); };
 
-        var minusBtn = document.createElement('button');
-        minusBtn.className = 'btn-qty';
-        minusBtn.textContent = '−';
-        minusBtn.onclick = function() { changeQty(item.id, -1); };
+          var qtyBox = document.createElement('div');
+          qtyBox.className = 'qty-controls';
+          qtyBox.id = 'qtyBox-' + item.id;
+          qtyBox.style.display = count > 0 ? 'flex' : 'none';
 
-        var qtyNum = document.createElement('span');
-        qtyNum.className = 'qty-num';
-        qtyNum.id = 'qtyNum-' + item.id;
-        qtyNum.textContent = count;
+          var minusBtn = document.createElement('button');
+          minusBtn.className = 'btn-qty';
+          minusBtn.textContent = '−';
+          minusBtn.onclick = function() { changeQty(item.id, -1); };
 
-        var plusBtn = document.createElement('button');
-        plusBtn.className = 'btn-qty';
-        plusBtn.textContent = '+';
-        plusBtn.onclick = function() { changeQty(item.id, 1); };
+          var qtyNum = document.createElement('span');
+          qtyNum.className = 'qty-num';
+          qtyNum.id = 'qtyNum-' + item.id;
+          qtyNum.textContent = count;
 
-        qtyBox.appendChild(minusBtn);
-        qtyBox.appendChild(qtyNum);
-        qtyBox.appendChild(plusBtn);
+          var plusBtn = document.createElement('button');
+          plusBtn.className = 'btn-qty';
+          plusBtn.textContent = '+';
+          plusBtn.onclick = function() { changeQty(item.id, 1); };
+
+          qtyBox.appendChild(minusBtn);
+          qtyBox.appendChild(qtyNum);
+          qtyBox.appendChild(plusBtn);
+
+          actionBox.appendChild(addBtn);
+          actionBox.appendChild(qtyBox);
+        }
 
         bottom.appendChild(price);
-        bottom.appendChild(addBtn);
-        bottom.appendChild(qtyBox);
+        bottom.appendChild(actionBox);
 
         card.appendChild(imgWrap);
         card.appendChild(title);
@@ -538,16 +703,20 @@
       });
     }
 
+    function openPreorderModal() {
+      closeAllSheets();
+      document.getElementById('overlay').style.display = 'block';
+      document.getElementById('preorderModalSheet').style.display = 'block';
+    }
+
     function changeQty(id, delta) {
       cart[id] = (cart[id] || 0) + delta;
       if (cart[id] <= 0) delete cart[id];
       
       updateProductCardUI(id);
-      updateCartBar();
-      var cartSheet = document.getElementById('cartSheet');
-      if (cartSheet && cartSheet.style.display === 'block') {
-        renderCartSheet();
-      }
+      updateCartBadge();
+      renderCartSheet();
+
       var detailSheet = document.getElementById('detailSheet');
       if (detailSheet && detailSheet.style.display === 'block') {
         updateDetailButton(id);
@@ -581,27 +750,20 @@
       return subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : BASE_DELIVERY_COST;
     }
 
-    function updateCartBar() {
+    function updateCartBadge() {
       var totalCount = 0;
       Object.keys(cart).forEach(function(id) {
         totalCount += cart[id];
       });
 
-      var subtotal = getCartSubtotal();
-      var delivery = getDeliveryCost(subtotal);
-      var grandTotal = subtotal + delivery;
-
-      var bar = document.getElementById('cartBar');
-      if (!bar) return;
-
-      if (totalCount > 0) {
-        bar.style.display = 'flex';
-        var countEl = document.getElementById('cartCount');
-        var totalEl = document.getElementById('cartTotal');
-        if (countEl) countEl.textContent = 'В корзине: ' + totalCount + ' шт.';
-        if (totalEl) totalEl.textContent = grandTotal + ' ₽ ›';
-      } else {
-        bar.style.display = 'none';
+      var badge = document.getElementById('navCartBadge');
+      if (badge) {
+        if (totalCount > 0) {
+          badge.textContent = totalCount;
+          badge.style.display = 'block';
+        } else {
+          badge.style.display = 'none';
+        }
       }
     }
 
@@ -634,7 +796,9 @@
       if (descEl) descEl.textContent = p.full_desc || p.short_desc || 'Описание отсутствует.';
 
       var priceEl = document.getElementById('detailPrice');
-      if (priceEl) priceEl.textContent = p.price + ' ₽';
+      if (priceEl) {
+        priceEl.textContent = p.is_preorder ? 'Цена по запросу' : p.price + ' ₽';
+      }
 
       updateDetailButton(id);
 
@@ -646,13 +810,22 @@
 
     function updateDetailButton(id) {
       var p = allProducts.find(function(x) { return x.id == id; });
-      var count = cart[id] || 0;
       var box = document.getElementById('detailBtnContainer');
-      if (!box) return;
+      if (!box || !p) return;
 
-      var isPreorder = p && p.is_preorder;
       box.innerHTML = '';
 
+      if (p.is_preorder) {
+        var pBtn = document.createElement('button');
+        pBtn.className = 'btn-add btn-preorder';
+        pBtn.style.cssText = 'padding:10px 18px; font-size:14px;';
+        pBtn.textContent = 'Предзаказ';
+        pBtn.onclick = function() { openPreorderModal(); };
+        box.appendChild(pBtn);
+        return;
+      }
+
+      var count = cart[id] || 0;
       if (count > 0) {
         var wrap = document.createElement('div');
         wrap.style.cssText = 'display:flex; align-items:center; gap:8px;';
@@ -677,20 +850,12 @@
         box.appendChild(wrap);
       } else {
         var btn = document.createElement('button');
-        btn.className = 'btn-add' + (isPreorder ? ' btn-preorder' : '');
+        btn.className = 'btn-add';
         btn.style.cssText = 'padding:10px 18px; font-size:14px;';
-        btn.textContent = isPreorder ? 'Оформить предзаказ' : '+ В корзину';
+        btn.textContent = '+ В корзину';
         btn.onclick = function() { changeQty(id, 1); };
         box.appendChild(btn);
       }
-    }
-
-    function openCartSheet() {
-      renderCartSheet();
-      var overlay = document.getElementById('overlay');
-      var cartSheet = document.getElementById('cartSheet');
-      if (overlay) overlay.style.display = 'block';
-      if (cartSheet) cartSheet.style.display = 'block';
     }
 
     function updateDeliveryProgress(subtotal) {
@@ -721,7 +886,7 @@
 
     function renderCartSheet() {
       var container = document.getElementById('cartItemsContainer');
-      var checkoutBtn = document.getElementById('checkoutBtn');
+      var summaryBox = document.getElementById('cartSummaryBox');
       if (!container) return;
 
       var subtotal = getCartSubtotal();
@@ -731,16 +896,13 @@
       var keys = Object.keys(cart);
 
       if (keys.length === 0) {
-        container.innerHTML = '<div class="empty-cart-msg">Корзина пуста</div>';
-        document.getElementById('cartSubtotalSum').textContent = '0 ₽';
-        document.getElementById('cartDeliveryCost').textContent = '0 ₽';
-        document.getElementById('cartTotalSum').textContent = '0 ₽';
-        if (checkoutBtn) checkoutBtn.style.display = 'none';
+        container.innerHTML = '<div class="empty-cart-msg">Ваша корзина пуста</div>';
+        if (summaryBox) summaryBox.style.display = 'none';
         updateDeliveryProgress(0);
         return;
       }
 
-      if (checkoutBtn) checkoutBtn.style.display = 'flex';
+      if (summaryBox) summaryBox.style.display = 'block';
       container.innerHTML = '';
 
       keys.forEach(function(id) {
@@ -758,13 +920,6 @@
         var title = document.createElement('b');
         title.textContent = p.title;
         info.appendChild(title);
-
-        if (p.is_preorder) {
-          var pre = document.createElement('span');
-          pre.style.cssText = 'color:#E65100; font-weight:600; font-size:10px;';
-          pre.textContent = ' [ПОД ЗАКАЗ]';
-          info.appendChild(pre);
-        }
 
         var priceNote = document.createElement('div');
         priceNote.style.cssText = 'color:var(--text-muted); font-size:11px;';
@@ -822,14 +977,38 @@
       updateDeliveryProgress(subtotal);
     }
 
+    function renderOrderHistory() {
+      var box = document.getElementById('orderHistoryContainer');
+      if (!box) return;
+
+      if (!orderHistory || orderHistory.length === 0) {
+        box.innerHTML = '<p style="color:var(--text-muted); font-size:13px;">Ранее оформленных заказов пока нет.</p>';
+        return;
+      }
+
+      box.innerHTML = '';
+      orderHistory.slice().reverse().forEach(function(o) {
+        var el = document.createElement('div');
+        el.className = 'order-history-item';
+        el.innerHTML = `
+          <div class="order-history-header">
+            <span>Заказ #${o.id}</span>
+            <span>${o.total_price} ₽</span>
+          </div>
+          <div style="color:var(--text-muted); margin-bottom:4px;">${o.date}</div>
+          <div class="order-history-status">Статус: ${o.status}</div>
+          <div style="margin-top:4px; font-size:11px; color:#555;">${o.items_preview}</div>
+        `;
+        box.appendChild(el);
+      });
+    }
+
     function openAddressSheet() {
       var subtotal = getCartSubtotal();
       if (subtotal <= 0) return;
 
       var delivery = getDeliveryCost(subtotal);
       var grandTotal = subtotal + delivery;
-
-      document.getElementById('cartSheet').style.display = 'none';
 
       document.getElementById('summaryGoods').textContent = subtotal + ' ₽';
       var delEl = document.getElementById('summaryDelivery');
@@ -842,6 +1021,7 @@
       }
       document.getElementById('summaryTotal').textContent = grandTotal + ' ₽';
 
+      document.getElementById('overlay').style.display = 'block';
       document.getElementById('addressSheet').style.display = 'block';
     }
 
@@ -887,17 +1067,30 @@
         if (p) {
           var count = cart[id];
           var cost = count * p.price;
-          var line = (index + 1) + ". " + p.title + " — " + count + " шт. x " + p.price + " ₽ = " + cost + " ₽";
-          if (p.is_preorder) line += " [ПОД ЗАКАЗ]";
-          orderLines.push(line);
+          orderLines.push((index + 1) + ". " + p.title + " — " + count + " шт. x " + p.price + " ₽ = " + cost + " ₽");
         }
       });
 
       var fullAddressString = "Индекс: " + zip + ", " + region + (district ? ", " + district : "") + ", " + city + ", ул. " + street + ", д. " + house + (apt ? ", кв./оф. " + apt : "");
 
+      var orderNum = Math.floor(100000 + Math.random() * 900000);
+      var newOrder = {
+        id: orderNum,
+        date: new Date().toLocaleDateString('ru-RU') + " " + new Date().toLocaleTimeString('ru-RU', {hour:'2-digit', minute:'2-digit'}),
+        status: "Ожидает оплаты",
+        items_preview: orderLines.slice(0, 2).join('; ') + (orderLines.length > 2 ? ' и др.' : ''),
+        total_price: grandTotal
+      };
+
+      // Сохраняем в историю заказов
+      orderHistory.push(newOrder);
+      try {
+        localStorage.setItem('gw_order_history', JSON.stringify(orderHistory));
+      } catch (e) {}
+
       var payload = {
         action: "new_order_submitted",
-        timestamp: new Date().toISOString(),
+        order_id: orderNum,
         customer: {
           name: name,
           phone: phone,
@@ -918,57 +1111,50 @@
         payment_status: "awaiting_payment"
       };
 
-      var btn = document.getElementById('paySubmitBtn');
-      if (btn) {
-        btn.disabled = true;
-        btn.textContent = "Переходим к оплате...";
-      }
+      // Очищаем текущую корзину
+      cart = {};
+      updateCartBadge();
+      closeAllSheets();
 
-      function proceedToPayment() {
-        if (PAYMENT_URL && PAYMENT_URL.indexOf('http') === 0) {
-          window.location.href = PAYMENT_URL;
-        } else {
-          alert('Заказ сформирован! Перенаправление на оплату.');
-        }
-      }
-
+      // Отправка на защищенный эндпоинт (если настроен)
       if (ORDER_API_URL && ORDER_API_URL.indexOf('http') === 0) {
         fetch(ORDER_API_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
-        })
-        .then(function() { proceedToPayment(); })
-        .catch(function(err) {
-          console.warn('API error:', err);
-          proceedToPayment();
-        });
+        }).catch(function(){});
+      }
+
+      // Переход на оплату
+      if (PAYMENT_URL && PAYMENT_URL.indexOf('http') === 0) {
+        window.location.href = PAYMENT_URL;
       } else {
-        proceedToPayment();
+        switchTab('orders');
+        alert('Заказ #' + orderNum + ' успешно создан и передан в обработку!');
       }
     }
 
     function closeAllSheets() {
       var overlay = document.getElementById('overlay');
       var detailSheet = document.getElementById('detailSheet');
-      var cartSheet = document.getElementById('cartSheet');
       var addressSheet = document.getElementById('addressSheet');
+      var preorderSheet = document.getElementById('preorderModalSheet');
 
       if (overlay) overlay.style.display = 'none';
       if (detailSheet) detailSheet.style.display = 'none';
-      if (cartSheet) cartSheet.style.display = 'none';
       if (addressSheet) addressSheet.style.display = 'none';
+      if (preorderSheet) preorderSheet.style.display = 'none';
     }
 
     document.getElementById('searchInput').oninput = handleSearch;
-    document.getElementById('cartBar').onclick = openCartSheet;
     document.getElementById('overlay').onclick = closeAllSheets;
     document.getElementById('closeDetailBtn').onclick = closeAllSheets;
-    document.getElementById('closeCartBtn').onclick = closeAllSheets;
     document.getElementById('closeAddressBtn').onclick = closeAllSheets;
+    document.getElementById('closePreorderBtn').onclick = closeAllSheets;
 
     buildMainCategories();
     renderCatalog();
+    updateCartBadge();
   </script>
 </body>
 </html>
