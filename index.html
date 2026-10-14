@@ -163,3 +163,560 @@
   </div>
 
   <script>
+    var PRODUCTS = [
+      { id: 101, category: "fibers", category_name: "Эко-файберы", subcategory: "kitchen", subcategory_name: "Кухня и посуда", title: "Файбер для мытья посуды Green Fiber HOME S1", short_desc: "Моет жирную посуду без капли бытовой химии", full_desc: "Двусторонняя салфетка: мягкая сторона собирает жир и налет в холодной воде, жесткая очищает присохшую пищу без царапин.", price: 330, volume: "1 шт", img: "images/fiber-dish-s1.jpg" },
+      { id: 102, category: "fibers", category_name: "Эко-файберы", subcategory: "universal", subcategory_name: "Универсальные", title: "Универсальный файбер Green Fiber HOME A1", short_desc: "Притягивает пыль как магнит, собирает грязь", full_desc: "Микроволокно с антистатическим эффектом. При сухой уборке полирует и удаляет пыль, при влажной — глубоко очищает любые поверхности.", price: 590, volume: "1 шт", img: "images/fiber-universal-a1.jpg" },
+      { id: 103, category: "fibers", category_name: "Эко-файберы", subcategory: "glass", subcategory_name: "Стекла и зеркала", title: "Файбер для мытья стекол и зеркал HOME P1", short_desc: "Идеальный блеск без разводов и ворсинок", full_desc: "Позволяет отмыть окна, зеркала и глянец простой водой без вытирания насухо и бытовой химии.", price: 490, volume: "1 шт", img: "images/fiber-glass-p1.jpg" },
+      { id: 104, category: "fibers", category_name: "Эко-файберы", subcategory: "involver", subcategory_name: "Линейка Инволвер", title: "Диск «Инволвер» Green Fiber HOME S2", short_desc: "Удаление стойкого нагара, жира и налета", full_desc: "Сверхпрочная спиралевидная нить удаляет стойкую въевшуюся грязь с духовок, сковородок, вытяжек и сантехники.", price: 570, volume: "1 шт", img: "images/fiber-involver-s2.jpg" },
+      { id: 105, category: "fibers", category_name: "Эко-файберы", subcategory: "involver", subcategory_name: "Линейка Инволвер", title: "Губка «Инволвер» Green Fiber HOME S3", short_desc: "Чистка мягкой мебели, обуви, замши и ковров", full_desc: "Эргономичная губка проникает в структуру текстиля и кожи, вытягивая глубокие пятна и застарелую грязь.", price: 790, volume: "1 шт", img: "images/fiber-sponge-s3.jpg" },
+      { id: 106, category: "fibers", category_name: "Эко-файберы", subcategory: "auto", subcategory_name: "Автотовары", title: "Автополотенце двухстороннее Green Fiber AUTO A1", short_desc: "Быстрая сушка кузова автомобиля без разводов", full_desc: "Впитывает несколько литров влаги за один проход. Мягкий ворс безопасен для лакокрасочного покрытия.", price: 1050, volume: "1 шт", img: "images/fiber-auto-a1.jpg" },
+      { id: 107, category: "fibers", category_name: "Эко-файберы", subcategory: "delicate", subcategory_name: "Деликатный уход", title: "Файбер для экранов и мониторов HOME P2", short_desc: "Бережная чистка смартфонов, планшетов и ТВ", full_desc: "Удаляет отпечатки пальцев и кожный жир без спиртовых растворов, не повреждая антибликовые покрытия.", price: 320, volume: "1 шт", img: "images/fiber-screens-p2.jpg" },
+      { id: 108, category: "fibers", category_name: "Эко-файберы", subcategory: "care", subcategory_name: "Красота и уход", title: "Косметическая салфетка Green Fiber CARE", short_desc: "Снятие стойкого макияжа и бережное очищение кожи", full_desc: "Работает только с теплой водой. Очищает поры и удаляет косметику без раздражения и молочка.", price: 330, volume: "1 шт", img: "images/fiber-care-napkin.jpg" },
+      { id: 109, category: "fibers", category_name: "Эко-файберы", subcategory: "involver", subcategory_name: "Линейка Инволвер", title: "Варежка «Инволвер» Green Fiber HOME S4", short_desc: "Генеральная уборка, решетки гриль и плитка", full_desc: "Удобно фиксируется на руке, защищая кожу и позволяя легко очищать сложные рельефные поверхности.", price: 1050, volume: "1 шт", img: "images/fiber-mitten-s4.jpg" },
+      { id: 110, category: "fibers", category_name: "Эко-файберы", subcategory: "delicate", subcategory_name: "Деликатный уход", title: "Файбер для деликатных поверхностей HOME С1", short_desc: "Для оптики, ювелирных изделий и антиквариата", full_desc: "Шелковистое полотно бережно полирует хромированные детали, очки и хрупкие предметы интерьера.", price: 420, volume: "1 шт", img: "images/fiber-delicate-c1.jpg" },
+      { id: 111, category: "fibers", category_name: "Эко-файберы", subcategory: "sets", subcategory_name: "Готовые наборы", title: "Набор текстиля для уборки HOME EXPERT SET", short_desc: "Комплексное решение для экологичной чистоты дома", full_desc: "Стартовый набор из ключевых файберов бренда для посуды, стекол, зеркал и полов в фирменной коробке.", price: 3950, volume: "комплект", img: "images/fiber-expert-set.jpg" },
+      { id: 201, category: "biotrim", category_name: "Чистка и стирка BioTrim", subcategory: "cleaners", subcategory_name: "Очищение", title: "Очищающая паста BioTrim Mystik", short_desc: "Справляется со ржавчиной, нагаром и накипью", full_desc: "Биоразлагаемый экологичный состав на основе микроминералов. Безопасна для органов дыхания и рук.", price: 380, volume: "200 г", img: "images/biotrim-mystik-paste.jpg" },
+      { id: 202, category: "biotrim", category_name: "Чистка и стирка BioTrim", subcategory: "cleaners", subcategory_name: "Очищение", title: "Очищающий порошок BioTrim Mystik", short_desc: "Кислородное экспресс-удаление налета и дезинфекция", full_desc: "Активируется кипятком. Отбеливает столовые приборы, кружки, термосы и выводит органические пятна.", price: 380, volume: "160 г", img: "images/biotrim-mystik-powder.jpg" },
+      { id: 203, category: "biotrim", category_name: "Чистка и стирка BioTrim", subcategory: "laundry", subcategory_name: "Эко-стирка", title: "Пластины для стирки белья BioTrim", short_desc: "Растительная замена фосфатным порошкам", full_desc: "100% растворяются в воде, выполаскиваются без остатка. Подходят для детского белья и аллергиков.", price: 790, volume: "38 шт", img: "images/biotrim-plates.jpg" },
+      { id: 204, category: "biotrim", category_name: "Чистка и стирка BioTrim", subcategory: "stains", subcategory_name: "Пятновыводители", title: "Природный пятновыводитель-спрей BioTrim ECO", short_desc: "Быстро расщепляет пятна вина, кофе, ягод и соусов", full_desc: "Удобный компактный формат для экстренной очистки одежды. Не повреждает структуру волокон ткани.", price: 420, volume: "50 мл", img: "images/biotrim-spray.jpg" },
+      { id: 205, category: "biotrim", category_name: "Чистка и стирка BioTrim", subcategory: "stains", subcategory_name: "Пятновыводители", title: "Мыло ручной работы BioTrim для удаления пятен", short_desc: "Точечная застирка воротничков и въевшихся пятен", full_desc: "Омыленные растительные масла быстро вытягивают загрязнения без хлора и агрессивных ПАВ.", price: 190, volume: "125 г", img: "images/biotrim-soap-stain.jpg" },
+      { id: 301, category: "mops", category_name: "Уборочные системы", subcategory: "systems", subcategory_name: "Швабры", title: "Универсальная швабра Green Fiber MOP", short_desc: "Шарнирная платформа и 2 сменные насадки", full_desc: "Позволяет отмывать плинтусы, стены, потолки и полы под мебелью без контакта рук с грязной водой.", price: 4900, volume: "1 комплект", img: "images/mop-universal.jpg" },
+      { id: 302, category: "mops", category_name: "Уборочные системы", subcategory: "systems", subcategory_name: "Швабры", title: "Швабра с отжимом Green Fiber Twist Mop", short_desc: "Чистые руки: встроенный механизм скручивания", full_desc: "Спиральное микроволокно впитывает большой объем влаги и пыли. Отжим происходит одним движением рукоятки.", price: 3800, volume: "1 комплект", img: "images/mop-twist.jpg" },
+      { id: 303, category: "mops", category_name: "Уборочные системы", subcategory: "systems", subcategory_name: "Швабры", title: "Аэро-швабра с распылителем Green Fiber AERO", short_desc: "Встроенный резервуар: уборка без ведер и тазов", full_desc: "Мелкодисперсное распыление защищает паркет и ламинат от избытка влаги и разбухания.", price: 4200, volume: "1 комплект", img: "images/mop-aero.jpg" },
+      { id: 401, category: "health", category_name: "Здоровье и БАДы", subcategory: "detox", subcategory_name: "Детокс и ЖКТ", title: "Welllab Liquid Chitosan", short_desc: "Природный жидкий энтеросорбент на основе хитозана", full_desc: "Связывает и выводит токсины, аллергены и соли металлов, поддерживая здоровую микрофлору ЖКТ.", price: 1250, volume: "100 мл", img: "images/welllab-chitosan.jpg" },
+      { id: 402, category: "health", category_name: "Здоровье и БАДы", subcategory: "vitamins", subcategory_name: "Витамины", title: "Welllab Omega-3 Plus", short_desc: "Концентрат ПНЖК высокой очистки (EPA и DHA)", full_desc: "Очищенный рыбий жир северных пород рыб для эластичности сосудов, работы мозга и здоровья кожи.", price: 1190, volume: "60 капсул", img: "images/welllab-omega.jpg" },
+      { id: 403, category: "health", category_name: "Здоровье и БАДы", subcategory: "vitamins", subcategory_name: "Витамины", title: "Welllab С-Complex", short_desc: "Биодоступная некислая форма витамина C", full_desc: "Стимулирует синтез коллагена, укрепляет стенки капилляров и повышает сопротивляемость вирусам.", price: 750, volume: "60 капсул", img: "images/welllab-c-complex.jpg" },
+      { id: 404, category: "health", category_name: "Здоровье и БАДы", subcategory: "antistress", subcategory_name: "Антистресс и сон", title: "Welllab 5-HTP", short_desc: "Предшественник серотонина: спокойствие и настроение", full_desc: "Натуральный окситриптофан снижает уровень тревожности, перепады настроения и улучшает сон.", price: 1100, volume: "60 капсул", img: "images/welllab-5-htp.jpg" },
+      { id: 405, category: "health", category_name: "Здоровье и БАДы", subcategory: "targeted", subcategory_name: "Целевые комплексы", title: "Welllab Urolux", short_desc: "Растительный комплекс для здоровья почек", full_desc: "Экстракты брусники, толокнянки и можжевельника препятствуют застойным процессам и воспалениям мочевыводящих путей.", price: 1050, volume: "60 капсул", img: "images/welllab-urolux.jpg" },
+      { id: 406, category: "health", category_name: "Здоровье и БАДы", subcategory: "targeted", subcategory_name: "Целевые комплексы", title: "Welllab Cardio", short_desc: "Поддержка сердечной мышцы и тонуса сосудов", full_desc: "Боярышник, коэнзим Q10, рутин и таурин нормализуют ритм и питают миокард.", price: 1150, volume: "60 капсул", img: "images/welllab-cardio.jpg" },
+      { id: 407, category: "health", category_name: "Здоровье и БАДы", subcategory: "antistress", subcategory_name: "Антистресс и сон", title: "Welllab Слип Тайм", short_desc: "Легкое засыпание и глубокий ночной отдых", full_desc: "Комплекс с мелатонином, пассифлорой и хмелем облегчает засыпание при смене часовых поясов и переутомлении.", price: 950, volume: "30 капсул", img: "images/welllab-sleep-time.jpg" },
+      { id: 501, category: "nutrition", category_name: "Питание и напитки", subcategory: "cocktails", subcategory_name: "Коктейли Balancer", title: "Протеиновый коктейль Balancer Daily Ваниль", short_desc: "Полноценный прием пищи за 1 минуту: 20 г белка", full_desc: "Баланс белков, антиоксидантов, витаминов и клетчатки. Насыщает на 3-4 часа при 210 ккал.", price: 1800, volume: "10 саше", img: "images/balancer-vanilla.jpg" },
+      { id: 503, category: "nutrition", category_name: "Питание и напитки", subcategory: "collagen", subcategory_name: "Коллаген", title: "Balancer Collagen с витамином C", short_desc: "Гидролизованный коллаген для связок, волос и кожи", full_desc: "Биодоступные пептиды коллагена ускоряют восстановление связок и улучшают тургор кожи.", price: 2100, volume: "14 саше", img: "images/balancer-collagen.jpg" },
+      { id: 504, category: "nutrition", category_name: "Питание и напитки", subcategory: "drain", subcategory_name: "Дренаж", title: "Дренирующий напиток DrainEffect / Drain Max", short_desc: "Вывод застойной жидкости и снятие отеков", full_desc: "Растительный комплекс стимулирует циркуляцию лимфы, уменьшая объемы тела без вымывания солей.", price: 1150, volume: "20 стиков", img: "images/balancer-drain.jpg" },
+      { id: 507, category: "nutrition", category_name: "Питание и напитки", subcategory: "tea", subcategory_name: "Чаи TeaVitall", title: "Функциональный чай TeaVitall Express Premier", short_desc: "Энергетический купаж с кипреем, имбирем и перцем", full_desc: "Купаж для мужской силы, поддержания тонуса и выносливости в течение активного дня.", price: 420, volume: "30 пакетов", img: "images/tea-premier.jpg" },
+      { id: 508, category: "nutrition", category_name: "Питание и напитки", subcategory: "tea", subcategory_name: "Чаи TeaVitall", title: "Очищающий чай TeaVitall Express Fresh 1", short_desc: "Детокс ЖКТ на травах Горного Алтая", full_desc: "Сенна, володушка и крушина деликатно активируют моторику кишечника без спазмов.", price: 420, volume: "30 пакетов", img: "images/tea-fresh.jpg" },
+      { id: 509, category: "nutrition", category_name: "Питание и напитки", subcategory: "tea", subcategory_name: "Чаи TeaVitall", title: "Чай TeaVitall Anyday Zanzibar", short_desc: "Пряный каркаде с цедрой апельсина и гвоздикой", full_desc: "Ароматный напиток с ярким вкусом специй и легкой фруктовой кислинкой.", price: 390, volume: "38 пакетов", img: "images/tea-zanzibar.jpg" },
+      { id: 601, category: "beauty", category_name: "Косметика и уход", subcategory: "hair", subcategory_name: "Волосы", title: "Твердый шампунь Sharme Hair Citrus", short_desc: "Объем и контроль жирности кожи головы", full_desc: "Экологичный твердый концентрат без сульфатов с экстрактом розмарина и цитрусовыми маслами.", price: 490, volume: "50 г", img: "images/sharme-citrus.jpg" },
+      { id: 602, category: "beauty", category_name: "Косметика и уход", subcategory: "hair", subcategory_name: "Волосы", title: "Твердый кондиционер для волос Sharme Hair", short_desc: "Гладкость, шелковистость и легкое расчесывание", full_desc: "Обогащен протеинами пшеницы и маслом кокоса. Разглаживает кутикулу волос по всей длине.", price: 540, volume: "45 г", img: "images/sharme-conditioner.jpg" },
+      { id: 605, category: "beauty", category_name: "Косметика и уход", subcategory: "face", subcategory_name: "Лицо", title: "Натуральная тканевая маска Nice Code", short_desc: "Экспресс-лифтинг и сияние кожи за 15 минут", full_desc: "Биоцеллюлозная основа с пептидами и растительными экстрактами для глубокого увлажнения.", price: 240, volume: "1 шт", img: "images/nice-code-mask.jpg" },
+      { id: 606, category: "beauty", category_name: "Косметика и уход", subcategory: "face", subcategory_name: "Лицо", title: "Крем для лица Happy Dew", short_desc: "Увлажняющий дневной крем с цветочными экстрактами", full_desc: "Легкая текстура быстро впитывается, выравнивая цвет лица и защищая от внешних факторов.", price: 890, volume: "50 мл", img: "images/happy-dew-cream.jpg" },
+      { id: 607, category: "beauty", category_name: "Косметика и уход", subcategory: "makeup", subcategory_name: "Макияж Foet", title: "BB-крем Foet «Идеальная кожа»", short_desc: "Естественный тон без эффекта маски", full_desc: "Подстраивается под тон кожи, увлажняет и деликатно маскирует мелкие несовершенства.", price: 1250, volume: "30 мл", img: "images/foet-bb-cream.jpg" },
+      { id: 608, category: "beauty", category_name: "Косметика и уход", subcategory: "makeup", subcategory_name: "Макияж Foet", title: "Питательный бальзам для губ Foet", short_desc: "Защита от обветривания и сухости с маслом ши", full_desc: "Восстанавливает гидробаланс нежной кожи губ, предотвращая шелушения и микротрещинки.", price: 420, volume: "1 шт", img: "images/foet-lip-balm.jpg" },
+      { id: 610, category: "beauty", category_name: "Косметика и уход", subcategory: "aroma", subcategory_name: "Эфирные масла", title: "Эфирное масло Sharme Essential Лаванда", short_desc: "100% чистое эфирное масло французской лаванды", full_desc: "Натуральное масло для аромаламп, ванн и массажа. Снимает стресс и настраивает на здоровый сон.", price: 440, volume: "5 мл", img: "images/sharme-lavender.jpg" },
+      { id: 701, category: "perfume_preorder", category_name: "Парфюмерия под заказ", subcategory: "enjoy_care", subcategory_name: "Номерная парфюмерия Enjoy Care", title: "Духи Enjoy Care (Номерная парфюмерия под заказ)", short_desc: "Эквиваленты мировых ароматов (20% эссенций, Чехия)", full_desc: "Стойкие духи чешского производства. Более 40 женских, мужских и унисекс ароматов. При заказе укажите номер или название парфюма в комментарии.", price: 2100, volume: "50 мл", is_preorder: true, img: "images/enjoy-care-perfume.jpg" }
+    ];
+
+    var allProducts = PRODUCTS;
+    var cart = {};
+    var currentMainCat = 'all';
+    var currentSubCat = 'all';
+    var searchQuery = '';
+    var FREE_DELIVERY_THRESHOLD = 3000;
+
+    function buildMainCategories() {
+      var box = document.getElementById('mainCategoryTabs');
+      if (!box) return;
+
+      var cats = {};
+      for (var i = 0; i < allProducts.length; i++) {
+        var p = allProducts[i];
+        if (p.category && !cats[p.category]) {
+          cats[p.category] = {
+            name: p.category_name || p.category,
+            isSpecial: (p.category === 'perfume_preorder')
+          };
+        }
+      }
+
+      box.innerHTML = '';
+
+      var allBtn = document.createElement('div');
+      allBtn.className = 'tab-main' + (currentMainCat === 'all' ? ' active' : '');
+      allBtn.textContent = 'Все товары';
+      allBtn.onclick = function() { selectMainCategory('all'); };
+      box.appendChild(allBtn);
+
+      for (var key in cats) {
+        (function(catKey) {
+          var item = cats[catKey];
+          var btn = document.createElement('div');
+          btn.className = 'tab-main' + (item.isSpecial ? ' special' : '') + (currentMainCat === catKey ? ' active' : '');
+          btn.textContent = (item.isSpecial ? '✨ ' : '') + item.name;
+          btn.onclick = function() { selectMainCategory(catKey); };
+          box.appendChild(btn);
+        })(key);
+      }
+    }
+
+    function selectMainCategory(catKey) {
+      currentMainCat = catKey;
+      currentSubCat = 'all';
+      buildMainCategories();
+      buildSubCategories(catKey);
+      renderCatalog();
+    }
+
+    function buildSubCategories(mainCat) {
+      var wrap = document.getElementById('subCategoryWrap');
+      var box = document.getElementById('subCategoryTabs');
+      if (!wrap || !box) return;
+
+      if (mainCat === 'all') {
+        wrap.style.display = 'none';
+        return;
+      }
+
+      var subcats = {};
+      for (var i = 0; i < allProducts.length; i++) {
+        var p = allProducts[i];
+        if (p.category === mainCat && p.subcategory && !subcats[p.subcategory]) {
+          subcats[p.subcategory] = p.subcategory_name || p.subcategory;
+        }
+      }
+
+      var subKeys = Object.keys(subcats);
+      if (subKeys.length <= 1) {
+        wrap.style.display = 'none';
+        return;
+      }
+
+      box.innerHTML = '';
+      var allSubBtn = document.createElement('div');
+      allSubBtn.className = 'tab-sub' + (currentSubCat === 'all' ? ' active' : '');
+      allSubBtn.textContent = 'Все в разделе';
+      allSubBtn.onclick = function() { selectSubCategory('all'); };
+      box.appendChild(allSubBtn);
+
+      for (var j = 0; j < subKeys.length; j++) {
+        (function(subKey) {
+          var btn = document.createElement('div');
+          btn.className = 'tab-sub' + (currentSubCat === subKey ? ' active' : '');
+          btn.textContent = subcats[subKey];
+          btn.onclick = function() { selectSubCategory(subKey); };
+          box.appendChild(btn);
+        })(subKeys[j]);
+      }
+
+      wrap.style.display = 'block';
+    }
+
+    function selectSubCategory(subKey) {
+      currentSubCat = subKey;
+      buildSubCategories(currentMainCat);
+      renderCatalog();
+    }
+
+    function handleSearch() {
+      var input = document.getElementById('searchInput');
+      searchQuery = input ? input.value.trim().toLowerCase() : '';
+      renderCatalog();
+    }
+
+    function renderCatalog() {
+      var container = document.getElementById('catalogList');
+      if (!container) return;
+
+      var filtered = [];
+      for (var i = 0; i < allProducts.length; i++) {
+        var p = allProducts[i];
+        var matchMain = (currentMainCat === 'all' || p.category === currentMainCat);
+        var matchSub = (currentSubCat === 'all' || p.subcategory === currentSubCat);
+        var matchSearch = (!searchQuery || 
+          p.title.toLowerCase().indexOf(searchQuery) !== -1 || 
+          (p.short_desc && p.short_desc.toLowerCase().indexOf(searchQuery) !== -1)
+        );
+        if (matchMain && matchSub && matchSearch) {
+          filtered.push(p);
+        }
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div style="grid-column: span 2; text-align: center; color: #6b7280; padding: 40px 10px;">Товаров не найдено.</div>';
+        return;
+      }
+
+      container.innerHTML = '';
+
+      for (var k = 0; k < filtered.length; k++) {
+        (function(p) {
+          var count = cart[p.id] || 0;
+          var isPreorder = p.is_preorder;
+
+          var card = document.createElement('div');
+          card.className = 'card';
+          card.onclick = function() { openDetail(p.id); };
+
+          var imgWrap = document.createElement('div');
+          imgWrap.className = 'card-img-wrap';
+
+          var img = document.createElement('img');
+          img.src = p.img;
+          img.alt = p.title;
+          img.loading = 'lazy';
+          img.onerror = function() {
+            this.onerror = null;
+            this.src = 'https://dummyimage.com/300x200/e8f5e9/00875a.png&text=🌿+Greenway';
+          };
+          imgWrap.appendChild(img);
+
+          if (isPreorder) {
+            var chip = document.createElement('div');
+            chip.className = 'card-chip badge-preorder';
+            chip.textContent = 'Под заказ';
+            imgWrap.appendChild(chip);
+          }
+
+          var title = document.createElement('div');
+          title.className = 'card-title';
+          title.textContent = p.title;
+
+          var desc = document.createElement('div');
+          desc.className = 'card-desc';
+          desc.textContent = p.short_desc || '';
+
+          var bottom = document.createElement('div');
+          bottom.className = 'card-bottom';
+          bottom.onclick = function(e) { e.stopPropagation(); };
+
+          var price = document.createElement('div');
+          price.className = 'card-price';
+          price.textContent = p.price + ' ₽';
+
+          var addBtn = document.createElement('button');
+          addBtn.className = isPreorder ? 'btn-add btn-preorder' : 'btn-add';
+          addBtn.id = 'addBtn-' + p.id;
+          addBtn.style.display = count > 0 ? 'none' : 'block';
+          addBtn.textContent = isPreorder ? 'Предзаказ' : '+ В корзину';
+          addBtn.onclick = function() { changeQty(p.id, 1); };
+
+          var qtyBox = document.createElement('div');
+          qtyBox.className = 'qty-controls';
+          qtyBox.id = 'qtyBox-' + p.id;
+          qtyBox.style.display = count > 0 ? 'flex' : 'none';
+
+          var minusBtn = document.createElement('button');
+          minusBtn.className = 'btn-qty';
+          minusBtn.textContent = '−';
+          minusBtn.onclick = function() { changeQty(p.id, -1); };
+
+          var qtyNum = document.createElement('span');
+          qtyNum.className = 'qty-num';
+          qtyNum.id = 'qtyNum-' + p.id;
+          qtyNum.textContent = count;
+
+          var plusBtn = document.createElement('button');
+          plusBtn.className = 'btn-qty';
+          plusBtn.textContent = '+';
+          plusBtn.onclick = function() { changeQty(p.id, 1); };
+
+          qtyBox.appendChild(minusBtn);
+          qtyBox.appendChild(qtyNum);
+          qtyBox.appendChild(plusBtn);
+
+          bottom.appendChild(price);
+          bottom.appendChild(addBtn);
+          bottom.appendChild(qtyBox);
+
+          card.appendChild(imgWrap);
+          card.appendChild(title);
+          card.appendChild(desc);
+          card.appendChild(bottom);
+
+          container.appendChild(card);
+        })(filtered[k]);
+      }
+    }
+
+    function changeQty(id, delta) {
+      cart[id] = (cart[id] || 0) + delta;
+      if (cart[id] <= 0) delete cart[id];
+      
+      updateProductCardUI(id);
+      updateCartBar();
+      var cartSheet = document.getElementById('cartSheet');
+      if (cartSheet && cartSheet.style.display === 'block') {
+        renderCartSheet();
+      }
+      var detailSheet = document.getElementById('detailSheet');
+      if (detailSheet && detailSheet.style.display === 'block') {
+        updateDetailButton(id);
+      }
+    }
+
+    function updateProductCardUI(id) {
+      var count = cart[id] || 0;
+      var addBtn = document.getElementById('addBtn-' + id);
+      var qtyBox = document.getElementById('qtyBox-' + id);
+      var qtyNum = document.getElementById('qtyNum-' + id);
+
+      if (addBtn && qtyBox) {
+        addBtn.style.display = count > 0 ? 'none' : 'block';
+        qtyBox.style.display = count > 0 ? 'flex' : 'none';
+        if (qtyNum) qtyNum.textContent = count;
+      }
+    }
+
+    function updateCartBar() {
+      var totalCount = 0;
+      var totalPrice = 0;
+
+      for (var id in cart) {
+        var p = null;
+        for (var i = 0; i < allProducts.length; i++) {
+          if (allProducts[i].id == id) { p = allProducts[i]; break; }
+        }
+        if (p) {
+          totalCount += cart[id];
+          totalPrice += cart[id] * p.price;
+        }
+      }
+
+      var bar = document.getElementById('cartBar');
+      if (!bar) return;
+
+      if (totalCount > 0) {
+        bar.style.display = 'flex';
+        var countEl = document.getElementById('cartCount');
+        var totalEl = document.getElementById('cartTotal');
+        if (countEl) countEl.textContent = 'В корзине: ' + totalCount + ' шт.';
+        if (totalEl) totalEl.textContent = totalPrice + ' ₽ ›';
+      } else {
+        bar.style.display = 'none';
+      }
+    }
+
+    function openDetail(id) {
+      var p = null;
+      for (var i = 0; i < allProducts.length; i++) {
+        if (allProducts[i].id == id) { p = allProducts[i]; break; }
+      }
+      if (!p) return;
+
+      var dImg = document.getElementById('detailImg');
+      if (dImg) {
+        dImg.onerror = function() {
+          this.onerror = null;
+          this.src = 'https://dummyimage.com/600x400/e8f5e9/00875a.png&text=🌿+Greenway+Global';
+        };
+        dImg.src = p.img;
+      }
+
+      var titleEl = document.getElementById('detailTitle');
+      if (titleEl) titleEl.textContent = p.title;
+      
+      var catBadge = document.getElementById('detailCategory');
+      if (catBadge) {
+        catBadge.textContent = p.is_preorder ? 'Парфюмерия под заказ' : (p.subcategory_name || p.category_name || 'Товар');
+        catBadge.className = p.is_preorder ? 'badge badge-preorder' : 'badge';
+      }
+
+      var metaEl = document.getElementById('detailMeta');
+      if (metaEl) metaEl.textContent = p.volume ? 'Фасовка / объем: ' + p.volume : '';
+
+      var descEl = document.getElementById('detailDesc');
+      if (descEl) descEl.textContent = p.full_desc || p.short_desc || 'Описание отсутствует.';
+
+      var priceEl = document.getElementById('detailPrice');
+      if (priceEl) priceEl.textContent = p.price + ' ₽';
+
+      updateDetailButton(id);
+
+      var overlay = document.getElementById('overlay');
+      var detailSheet = document.getElementById('detailSheet');
+      if (overlay) overlay.style.display = 'block';
+      if (detailSheet) detailSheet.style.display = 'block';
+    }
+
+    function updateDetailButton(id) {
+      var p = null;
+      for (var i = 0; i < allProducts.length; i++) {
+        if (allProducts[i].id == id) { p = allProducts[i]; break; }
+      }
+      var count = cart[id] || 0;
+      var box = document.getElementById('detailBtnContainer');
+      if (!box) return;
+
+      var isPreorder = p && p.is_preorder;
+      box.innerHTML = '';
+
+      if (count > 0) {
+        var wrap = document.createElement('div');
+        wrap.style.cssText = 'display:flex; align-items:center; gap:8px;';
+
+        var minusBtn = document.createElement('button');
+        minusBtn.className = 'btn-qty';
+        minusBtn.textContent = '−';
+        minusBtn.onclick = function() { changeQty(id, -1); };
+
+        var num = document.createElement('span');
+        num.style.cssText = 'font-weight:700; min-width:16px; text-align:center;';
+        num.textContent = count;
+
+        var plusBtn = document.createElement('button');
+        plusBtn.className = 'btn-qty';
+        plusBtn.textContent = '+';
+        plusBtn.onclick = function() { changeQty(id, 1); };
+
+        wrap.appendChild(minusBtn);
+        wrap.appendChild(num);
+        wrap.appendChild(plusBtn);
+        box.appendChild(wrap);
+      } else {
+        var btn = document.createElement('button');
+        btn.className = 'btn-add' + (isPreorder ? ' btn-preorder' : '');
+        btn.style.cssText = 'padding:10px 18px; font-size:14px;';
+        btn.textContent = isPreorder ? 'Оформить предзаказ' : '+ В корзину';
+        btn.onclick = function() { changeQty(id, 1); };
+        box.appendChild(btn);
+      }
+    }
+
+    function openCartSheet() {
+      renderCartSheet();
+      var overlay = document.getElementById('overlay');
+      var cartSheet = document.getElementById('cartSheet');
+      if (overlay) overlay.style.display = 'block';
+      if (cartSheet) cartSheet.style.display = 'block';
+    }
+
+    function updateDeliveryProgress(totalSum) {
+      var box = document.getElementById('deliveryProgressBox');
+      var bar = document.getElementById('deliveryProgressBar');
+      var text = document.getElementById('deliveryProgressText');
+      if (!box || !bar || !text) return;
+
+      if (totalSum <= 0) {
+        box.style.display = 'none';
+        return;
+      }
+
+      box.style.display = 'block';
+
+      if (totalSum >= FREE_DELIVERY_THRESHOLD) {
+        bar.style.width = '100%';
+        bar.style.backgroundColor = '#00875A';
+        text.innerHTML = '<span class="delivery-success-text">🎉 Доставка по РФ бесплатно!</span>';
+      } else {
+        var diff = FREE_DELIVERY_THRESHOLD - totalSum;
+        var percent = Math.min(100, Math.round((totalSum / FREE_DELIVERY_THRESHOLD) * 100));
+        bar.style.width = percent + '%';
+        bar.style.backgroundColor = '#E58E26';
+        text.innerHTML = '<span>До бесплатной доставки:</span><b>еще ' + diff + ' ₽</b>';
+      }
+    }
+
+    function renderCartSheet() {
+      var container = document.getElementById('cartItemsContainer');
+      if (!container) return;
+
+      var totalSum = 0;
+      var keys = Object.keys(cart);
+
+      if (keys.length === 0) {
+        container.innerHTML = '<div class="empty-cart-msg">Корзина пуста</div>';
+        var sumEl = document.getElementById('cartTotalSum');
+        if (sumEl) sumEl.textContent = '0 ₽';
+        updateDeliveryProgress(0);
+        return;
+      }
+
+      container.innerHTML = '';
+
+      for (var i = 0; i < keys.length; i++) {
+        (function(id) {
+          var p = null;
+          for (var j = 0; j < allProducts.length; j++) {
+            if (allProducts[j].id == id) { p = allProducts[j]; break; }
+          }
+          if (!p) return;
+          var count = cart[id];
+          var sum = count * p.price;
+          totalSum += sum;
+
+          var item = document.createElement('div');
+          item.className = 'cart-item';
+
+          var info = document.createElement('div');
+          info.style.maxWidth = '60%';
+
+          var title = document.createElement('b');
+          title.textContent = p.title;
+          info.appendChild(title);
+
+          if (p.is_preorder) {
+            var pre = document.createElement('span');
+            pre.style.cssText = 'color:#E65100; font-weight:600; font-size:10px;';
+            pre.textContent = ' [ПОД ЗАКАЗ]';
+            info.appendChild(pre);
+          }
+
+          var priceNote = document.createElement('div');
+          priceNote.style.cssText = 'color:var(--text-muted); font-size:11px;';
+          priceNote.textContent = p.price + ' ₽ / шт.';
+          info.appendChild(priceNote);
+
+          var actions = document.createElement('div');
+          actions.style.cssText = 'display:flex; align-items:center; gap:10px;';
+
+          var ctrls = document.createElement('div');
+          ctrls.style.cssText = 'display:flex; align-items:center; gap:5px;';
+
+          var minusBtn = document.createElement('button');
+          minusBtn.className = 'btn-qty';
+          minusBtn.textContent = '−';
+          minusBtn.onclick = function() { changeQty(p.id, -1); };
+
+          var num = document.createElement('span');
+          num.className = 'qty-num';
+          num.textContent = count;
+
+          var plusBtn = document.createElement('button');
+          plusBtn.className = 'btn-qty';
+          plusBtn.textContent = '+';
+          plusBtn.onclick = function() { changeQty(p.id, 1); };
+
+          ctrls.appendChild(minusBtn);
+          ctrls.appendChild(num);
+          ctrls.appendChild(plusBtn);
+
+          var sumItemEl = document.createElement('div');
+          sumItemEl.style.cssText = 'font-weight:700; min-width:55px; text-align:right;';
+          sumItemEl.textContent = sum + ' ₽';
+
+          actions.appendChild(ctrls);
+          actions.appendChild(sumItemEl);
+
+          item.appendChild(info);
+          item.appendChild(actions);
+          container.appendChild(item);
+        })(keys[i]);
+      }
+
+      var totalSumEl = document.getElementById('cartTotalSum');
+      if (totalSumEl) totalSumEl.textContent = totalSum + ' ₽';
+
+      updateDeliveryProgress(totalSum);
+    }
+
+    function closeAllSheets() {
+      var overlay = document.getElementById('overlay');
+      var detailSheet = document.getElementById('detailSheet');
+      var cartSheet = document.getElementById('cartSheet');
+      if (overlay) overlay.style.display = 'none';
+      if (detailSheet) detailSheet.style.display = 'none';
+      if (cartSheet) cartSheet.style.display = 'none';
+    }
+
+    // Привязка обработчиков
+    document.getElementById('searchInput').oninput = handleSearch;
+    document.getElementById('cartBar').onclick = openCartSheet;
+    document.getElementById('overlay').onclick = closeAllSheets;
+    document.getElementById('closeDetailBtn').onclick = closeAllSheets;
+    document.getElementById('closeCartBtn').onclick = closeAllSheets;
+
+    // Прямой запуск
+    buildMainCategories();
+    renderCatalog();
+  </script>
+</body>
+</html>
