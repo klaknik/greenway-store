@@ -58,6 +58,27 @@
     .card-price { font-size: 14px; font-weight: 700; color: var(--primary-dark); }
     .card-price-custom { font-size: 11px; font-weight: 700; color: var(--accent); }
 
+    /* Баннер во всю ширину «Не нашли нужный товар?» */
+    .card-fullwidth {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, #FFFFFF 0%, #F4FBF7 100%);
+      border: 1.5px dashed #00875A;
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      cursor: pointer;
+      margin-top: 4px;
+    }
+    .card-fullwidth:active { background: #E8F5E9; }
+    .card-fullwidth-content { flex: 1; }
+    .card-fullwidth-title { font-size: 14px; font-weight: 700; color: var(--primary-dark); display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+    .card-fullwidth-desc { font-size: 11.5px; color: var(--text-muted); line-height: 1.35; }
+    .card-fullwidth-btn { background: var(--primary); color: #fff; border: none; border-radius: 10px; padding: 8px 14px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+
     /* Кнопки */
     .btn-add { background: var(--primary); color: #fff; border: none; border-radius: 8px; padding: 6px 10px; font-size: 12px; font-weight: 600; cursor: pointer; }
     .btn-add.btn-preorder { background: var(--accent); }
@@ -336,7 +357,7 @@
     </button>
   </div>
 
-  <!-- Шторка: «Нет нужного товара» -->
+  <!-- Шторка: «Не нашли нужный товар?» -->
   <div class="sheet" id="customOrderModalSheet">
     <div class="sheet-header">
       <span class="badge" style="background:#E8F5E9; color:var(--primary-dark);">Greenway Global</span>
@@ -496,7 +517,7 @@
       { id: 608, category: "beauty", category_name: "Косметика и уход", subcategory: "makeup", subcategory_name: "Макияж Foet", title: "Питательный бальзам для губ Foet", short_desc: "Защита от обветривания и сухости с маслом ши", full_desc: "Восстанавливает гидробаланс нежной кожи губ, предотвращая шелушения и микротрещинки.", price: 420, volume: "1 шт", img: "images/foet-lip-balm.jpg" },
       { id: 610, category: "beauty", category_name: "Косметика и уход", subcategory: "aroma", subcategory_name: "Эфирные масла", title: "Эфирное масло Sharme Essential Лаванда", short_desc: "100% чистое эфирное масло французской лаванды", full_desc: "Натуральное масло для аромаламп, ванн и массажа. Снимает стресс и настраивает на здоровый сон.", price: 440, volume: "5 мл", img: "images/sharme-lavender.jpg" },
       { id: 701, category: "perfume_preorder", category_name: "Парфюмерия под заказ", subcategory: "enjoy_care", subcategory_name: "Номерная парфюмерия Enjoy Care", title: "Духи Enjoy Care (Номерная парфюмерия под заказ)", short_desc: "Эквиваленты мировых ароматов (20% эссенций, Чехия)", full_desc: "Стойкие духи чешского производства. Более 40 женских, мужских и унисекс ароматов. Напишите менеджеру для подбора аромата и уточнения наличия.", price: 0, volume: "50 мл", is_preorder: true, img: "images/enjoy-care-perfume.jpg" },
-      { id: 801, category: "custom_request", category_name: "Другие товары", subcategory: "custom", subcategory_name: "Под заказ", title: "Нет нужного товара?", short_desc: "Привезем любую позицию из полного каталога Greenway под заказ", full_desc: "Полный ассортимент продукции можно посмотреть на официальном сайте greenwayglobal.com/shop. Если нужного товара нет на витрине — свяжитесь с нами, поможем оформить под заказ!", price: 0, volume: "индивидуально", is_custom_request: true, img: "https://dummyimage.com/400x300/e8f5e9/00875a.png&text=📦+Любой+товар+Greenway" }
+      { id: 801, category: "custom_request", category_name: "Другие товары", subcategory: "custom", subcategory_name: "Под заказ", title: "Не нашли нужный товар?", short_desc: "Привезем любую позицию из полного каталога Greenway под заказ", full_desc: "Полный ассортимент продукции можно посмотреть на официальном сайте greenwayglobal.com/shop. Если нужного товара нет на витрине — свяжитесь с нами, поможем оформить под заказ!", price: 0, volume: "индивидуально", is_custom_request: true }
     ];
 
     var allProducts = PRODUCTS;
@@ -658,19 +679,49 @@
       container.innerHTML = '';
 
       filtered.forEach(function(item) {
-        var count = cart[item.id] || 0;
         var isPreorder = item.is_preorder;
         var isCustom = item.is_custom_request;
 
+        /* Если это позиция «Не нашли нужный товар?» — рисуем широкий баннер */
+        if (isCustom) {
+          var banner = document.createElement('div');
+          banner.className = 'card-fullwidth';
+          banner.onclick = function() { openCustomOrderModal(); };
+
+          var content = document.createElement('div');
+          content.className = 'card-fullwidth-content';
+
+          var title = document.createElement('div');
+          title.className = 'card-fullwidth-title';
+          title.innerHTML = '<span>🔎</span> <span>Не нашли нужный товар?</span>';
+
+          var desc = document.createElement('div');
+          desc.className = 'card-fullwidth-desc';
+          desc.textContent = 'Привезём любую позицию из полного каталога Greenway под заказ';
+
+          content.appendChild(title);
+          content.appendChild(desc);
+
+          var btn = document.createElement('button');
+          btn.className = 'card-fullwidth-btn';
+          btn.textContent = 'Узнать ›';
+          btn.onclick = function(e) {
+            e.stopPropagation();
+            openCustomOrderModal();
+          };
+
+          banner.appendChild(content);
+          banner.appendChild(btn);
+
+          container.appendChild(banner);
+          return;
+        }
+
+        /* Обычные карточки товаров */
+        var count = cart[item.id] || 0;
         var card = document.createElement('div');
         card.className = 'card';
-        card.onclick = function() { 
-          if (isCustom) {
-            openCustomOrderModal();
-          } else {
-            openDetail(item.id); 
-          }
-        };
+        card.onclick = function() { openDetail(item.id); };
 
         var imgWrap = document.createElement('div');
         imgWrap.className = 'card-img-wrap';
@@ -685,20 +736,20 @@
         };
         imgWrap.appendChild(img);
 
-        if (isPreorder || isCustom) {
+        if (isPreorder) {
           var chip = document.createElement('div');
           chip.className = 'card-chip badge-preorder';
-          chip.textContent = isCustom ? 'Любой товар' : 'Под заказ';
+          chip.textContent = 'Под заказ';
           imgWrap.appendChild(chip);
         }
 
-        var title = document.createElement('div');
-        title.className = 'card-title';
-        title.textContent = item.title;
+        var titleEl = document.createElement('div');
+        titleEl.className = 'card-title';
+        titleEl.textContent = item.title;
 
-        var desc = document.createElement('div');
-        desc.className = 'card-desc';
-        desc.textContent = item.short_desc || '';
+        var descEl = document.createElement('div');
+        descEl.className = 'card-desc';
+        descEl.textContent = item.short_desc || '';
 
         var bottom = document.createElement('div');
         bottom.className = 'card-bottom';
@@ -708,9 +759,6 @@
         if (isPreorder) {
           price.className = 'card-price-custom';
           price.textContent = 'Цена по запросу';
-        } else if (isCustom) {
-          price.className = 'card-price-custom';
-          price.textContent = 'Под заказ';
         } else {
           price.className = 'card-price';
           price.textContent = item.price + ' ₽';
@@ -724,12 +772,6 @@
           preorderBtn.textContent = 'Предзаказ';
           preorderBtn.onclick = function() { openPreorderModal(); };
           actionBox.appendChild(preorderBtn);
-        } else if (isCustom) {
-          var customBtn = document.createElement('button');
-          customBtn.className = 'btn-add btn-preorder';
-          customBtn.textContent = 'Узнать';
-          customBtn.onclick = function() { openCustomOrderModal(); };
-          actionBox.appendChild(customBtn);
         } else {
           var addBtn = document.createElement('button');
           addBtn.className = 'btn-add';
@@ -770,8 +812,8 @@
         bottom.appendChild(actionBox);
 
         card.appendChild(imgWrap);
-        card.appendChild(title);
-        card.appendChild(desc);
+        card.appendChild(titleEl);
+        card.appendChild(descEl);
         card.appendChild(bottom);
 
         container.appendChild(card);
