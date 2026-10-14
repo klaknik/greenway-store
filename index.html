@@ -8,6 +8,7 @@
     :root {
       --primary: #00875A;
       --primary-dark: #006644;
+      --accent: #E58E26;
       --bg: #F4F6F8;
       --card-bg: #FFFFFF;
       --text: #1F2937;
@@ -20,20 +21,23 @@
     header { background: #fff; padding: 14px 16px; position: sticky; top: 0; z-index: 25; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
     header h1 { font-size: 18px; font-weight: 700; color: var(--primary); }
     .badge { background: #E8F5E9; color: var(--primary); font-size: 11px; padding: 4px 8px; border-radius: 12px; font-weight: 600; }
+    .badge-preorder { background: #FFF3E0; color: #E65100; border: 1px solid #FFE0B2; }
 
     /* Поиск */
     .search-wrap { padding: 10px 16px 4px; background: #fff; }
     .search-input { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 10px; font-size: 13px; outline: none; background: var(--bg); }
     .search-input:focus { border-color: var(--primary); background: #fff; }
 
-    /* Разделы 1-го уровня */
+    /* Навигация 1-го уровня */
     .nav-wrap { background: #fff; position: sticky; top: 53px; z-index: 20; border-bottom: 1px solid var(--border); }
     .tabs-main { display: flex; gap: 8px; padding: 8px 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .tabs-main::-webkit-scrollbar { display: none; }
     .tab-main { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; background: var(--bg); color: var(--text-muted); cursor: pointer; white-space: nowrap; border: 1px solid transparent; user-select: none; }
     .tab-main.active { background: var(--primary); color: #fff; font-weight: 600; }
+    .tab-main.special { border: 1px dashed var(--accent); color: var(--accent); }
+    .tab-main.special.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-    /* Подразделы 2-го уровня */
+    /* Навигация 2-го уровня */
     .subtabs-wrap { background: #FAFAFA; border-bottom: 1px solid var(--border); display: none; }
     .tabs-sub { display: flex; gap: 6px; padding: 8px 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .tabs-sub::-webkit-scrollbar { display: none; }
@@ -42,20 +46,23 @@
 
     /* Сетка товаров */
     .catalog { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 16px; }
-    .card { background: var(--card-bg); border-radius: 14px; padding: 10px; border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; }
-    .card img { width: 100%; height: 125px; object-fit: cover; border-radius: 10px; margin-bottom: 8px; background: #eee; }
+    .card { background: var(--card-bg); border-radius: 14px; padding: 10px; border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; position: relative; }
+    .card-img-wrap { position: relative; width: 100%; height: 125px; margin-bottom: 8px; }
+    .card img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; background: #eee; }
+    .card-chip { position: absolute; top: 6px; left: 6px; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 6px; text-transform: uppercase; }
     .card-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; line-height: 1.3; }
     .card-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; flex-grow: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .card-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; }
     .card-price { font-size: 14px; font-weight: 700; color: var(--primary-dark); }
 
-    /* Кнопки и счетчик корзины */
+    /* Кнопки */
     .btn-add { background: var(--primary); color: #fff; border: none; border-radius: 8px; padding: 6px 10px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .btn-add.btn-preorder { background: var(--accent); }
     .qty-controls { display: none; align-items: center; gap: 6px; }
     .btn-qty { background: var(--bg); border: 1px solid var(--border); width: 26px; height: 26px; border-radius: 6px; font-weight: bold; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .qty-num { font-size: 13px; font-weight: 600; min-width: 14px; text-align: center; }
 
-    /* Корзина внизу */
+    /* Корзина */
     .cart-bar { position: fixed; bottom: 16px; left: 16px; right: 16px; background: var(--primary); color: #fff; border-radius: 14px; padding: 14px 18px; display: none; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0, 135, 90, 0.35); z-index: 50; cursor: pointer; }
     .cart-bar span { font-weight: 600; font-size: 14px; }
 
@@ -66,14 +73,14 @@
     .sheet-close { border: none; background: none; font-size: 22px; cursor: pointer; color: var(--text-muted); }
 
     /* Детали */
-    .detail-img { width: 100%; height: 200px; object-fit: cover; border-radius: 14px; margin-bottom: 14px; }
+    .detail-img { width: 100%; height: 220px; object-fit: cover; border-radius: 14px; margin-bottom: 14px; }
     .detail-title { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
     .detail-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; }
     .detail-text { font-size: 14px; line-height: 1.5; color: var(--text); margin-bottom: 20px; }
     .detail-action { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 14px; }
     .detail-price { font-size: 18px; font-weight: 700; color: var(--primary-dark); }
 
-    /* Элементы корзины */
+    /* Окно корзины */
     .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
     .empty-cart-msg { text-align: center; color: var(--text-muted); padding: 30px 0; font-size: 14px; }
   </style>
@@ -86,7 +93,7 @@
   </header>
 
   <div class="search-wrap">
-    <input type="text" id="searchInput" class="search-input" placeholder="🔍 Поиск по названию или описанию..." oninput="handleSearch()">
+    <input type="text" id="searchInput" class="search-input" placeholder="🔍 Поиск по 38 товарам каталога..." oninput="handleSearch()">
   </div>
 
   <div class="nav-wrap">
@@ -109,7 +116,7 @@
 
   <div class="modal-overlay" id="overlay" onclick="closeAllSheets()"></div>
 
-  <!-- Описание товара -->
+  <!-- Шторка товара -->
   <div class="sheet" id="detailSheet">
     <div class="sheet-header">
       <span class="badge" id="detailCategory">Категория</span>
@@ -125,7 +132,7 @@
     </div>
   </div>
 
-  <!-- Окно корзины -->
+  <!-- Шторка корзины -->
   <div class="sheet" id="cartSheet">
     <div class="sheet-header">
       <h2>Ваша корзина</h2>
@@ -133,44 +140,12 @@
     </div>
     <div id="cartItemsContainer"></div>
     <div style="display:flex; justify-content:space-between; margin-top:16px; font-weight:700; font-size:16px;">
-      <span>Итого в корзине:</span>
+      <span>Итого к оплате:</span>
       <span id="cartTotalSum">0 ₽</span>
     </div>
   </div>
 
   <script>
-    // Резервная база для ПК-версии
-    const FALLBACK_PRODUCTS = [
-      { id: 101, category: "home", category_name: "Дом и уборка", subcategory: "fibers", subcategory_name: "Файберы Green Fiber", title: "Файбер для мытья посуды Green Fiber HOME S1", short_desc: "Моет посуду без моющих средств", full_desc: "Двустороннее микроволокно: мягкая сторона удаляет жир даже в холодной воде, жесткая очищает въевшиеся загрязнения.", price: 330, volume: "1 шт", img: "images/fiber-dish.jpg" },
-      { id: 102, category: "home", category_name: "Дом и уборка", subcategory: "fibers", subcategory_name: "Файберы Green Fiber", title: "Диск Инволвер Green Fiber HOME S2", short_desc: "Удаление стойкого нагара, жира и въевшейся грязи", full_desc: "Плетение «Инволвер» очищает труднодоступные места, духовки, вытяжки, обувь и кафель без химии.", price: 570, volume: "1 шт", img: "images/fiber-involver.jpg" },
-      { id: 103, category: "home", category_name: "Дом и уборка", subcategory: "fibers", subcategory_name: "Файберы Green Fiber", title: "Файбер универсальный Green Fiber HOME A1", short_desc: "Сухая и влажная уборка любых поверхностей", full_desc: "В сухом виде притягивает пыль словно магнит, во влажном впитывает грязь.", price: 590, volume: "1 шт", img: "images/fiber-universal.jpg" },
-      { id: 105, category: "home", category_name: "Дом и уборка", subcategory: "clean", subcategory_name: "Чистящие средства BioTrim", title: "Очищающая паста BioTrim Mystik", short_desc: "Удаляет нагар, ржавчину, известковый налет", full_desc: "Экологичный биоразлагаемый состав на основе микроминералов. Безопасен для кожи рук.", price: 380, volume: "200 г", img: "images/biotrim-mystik-paste.jpg" },
-      { id: 106, category: "home", category_name: "Дом и уборка", subcategory: "clean", subcategory_name: "Чистящие средства BioTrim", title: "Очищающий порошок BioTrim Mystik", short_desc: "Кислородный очиститель посуды и приборов", full_desc: "Активируется кипятком, расщепляет чайный налет, нагар и жировые отложения.", price: 380, volume: "160 г", img: "images/biotrim-mystik-powder.jpg" },
-      { id: 107, category: "home", category_name: "Дом и уборка", subcategory: "laundry", subcategory_name: "Стирка BioTrim", title: "Пластины для стирки BioTrim Blank", short_desc: "Гипоаллергенная эко-стирка белья", full_desc: "Полностью выполаскиваются из волокон ткани. Подходят для детского белья и аллергиков.", price: 790, volume: "38 шт", img: "images/biotrim-plates.jpg" },
-      { id: 108, category: "home", category_name: "Дом и уборка", subcategory: "laundry", subcategory_name: "Стирка BioTrim", title: "Экспресс-спрей пятновыводитель BioTrim", short_desc: "Быстрое удаление пятен от кофе, вина и соусов", full_desc: "Компактный флакон для экстренной очистки одежды. Не оставляет разводов.", price: 420, volume: "50 мл", img: "images/biotrim-spray.jpg" },
-      { id: 109, category: "home", category_name: "Дом и уборка", subcategory: "mops", subcategory_name: "Системы уборки", title: "Универсальная швабра Green Fiber MOP", short_desc: "Эргономичная швабра со сменными насадками", full_desc: "Шарнирная платформа позволяет промывать плинтусы, стены и пространство под мебелью.", price: 4900, volume: "1 комплект", img: "images/mop-universal.jpg" },
-      { id: 201, category: "health", category_name: "Здоровье", subcategory: "drain", subcategory_name: "Дренирующие напитки DrainEffect", title: "Дренирующий напиток DrainEffect Green", short_desc: "Снятие отеков и вывод застойной жидкости", full_desc: "Растительный комплекс (лемонграсс, белый чай, мята, алоэ) активизирует дренажную систему.", price: 1150, volume: "20 стиков", img: "images/draineffect-green.jpg" },
-      { id: 202, category: "health", category_name: "Здоровье", subcategory: "drain", subcategory_name: "Дренирующие напитки DrainEffect", title: "Дренирующий напиток DrainEffect Red", short_desc: "Ягодный дренаж и тонус сосудов", full_desc: "Экстракты бузины, артишока и гибискуса стимулируют микроциркуляцию и обмен веществ.", price: 1150, volume: "20 стиков", img: "images/draineffect-red.jpg" },
-      { id: 203, category: "health", category_name: "Здоровье", subcategory: "supplements", subcategory_name: "БАДы Welllab", title: "Welllab Омега-3 ПНЖК", short_desc: "Концентрат жирных кислот EPA и DHA", full_desc: "Очищенный рыбий жир северных пород рыб для эластичности сосудов, поддержки мозга и иммунитета.", price: 1190, volume: "60 капсул", img: "images/welllab-omega.jpg" },
-      { id: 204, category: "health", category_name: "Здоровье", subcategory: "supplements", subcategory_name: "БАДы Welllab", title: "Welllab Магний B6", short_desc: "Антистресс и поддержка нервной системы", full_desc: "Органический цитрат магния помогает бороться с судорогами, бессонницей и эмоциональной усталостью.", price: 990, volume: "60 капсул", img: "images/welllab-magnesium.jpg" },
-      { id: 205, category: "health", category_name: "Здоровье", subcategory: "supplements", subcategory_name: "БАДы Welllab", title: "Welllab Витамин D3 600 ME", short_desc: "Укрепление иммунитета, костей и зубов", full_desc: "Биодоступная масляная форма холекальциферола для круглогодичной поддержки организма.", price: 640, volume: "60 капсул", img: "images/welllab-d3.jpg" },
-      { id: 207, category: "health", category_name: "Здоровье", subcategory: "tea", subcategory_name: "Фиточаи TeaVitall", title: "Чай TeaVitall Express Fresh 1", short_desc: "Мягкое очищение ЖКТ и моторика кишечника", full_desc: "Алтайский травяной купаж с сенной, володушкой и крушиной для детоксикации организма.", price: 420, volume: "30 пакетов", img: "images/tea-fresh.jpg" },
-      { id: 210, category: "health", category_name: "Здоровье", subcategory: "drops", subcategory_name: "Леденцы EcoDrops", title: "Леденцы Healthberry EcoDrops Tooth", short_desc: "Свежесть дыхания и защита эмали", full_desc: "Изомальт, квадрокомплекс и экстракты против образования налета.", price: 240, volume: "12 шт", img: "images/ecodrops-tooth.jpg" },
-      { id: 303, category: "beauty", category_name: "Красота и уход", subcategory: "makeup", subcategory_name: "Макияж Foet", title: "Сатиновая помада для губ Foet", short_desc: "Комфортное покрытие и стойкий пигмент", full_desc: "Формула с маслами жожоба и ши, не сушит нежную кожу губ.", price: 650, volume: "1.4 г", img: "images/foet-lipstick.jpg" },
-      { id: 304, category: "beauty", category_name: "Красота и уход", subcategory: "makeup", subcategory_name: "Макияж Foet", title: "Матовая помада для губ Foet Velvet", short_desc: "Бархатный финиш без ощущения сухости", full_desc: "Стойкий оттенок, ровное нанесение и комфортная текстура.", price: 720, volume: "1.4 г", img: "images/foet-matte.jpg" },
-      { id: 305, category: "beauty", category_name: "Красота и уход", subcategory: "makeup", subcategory_name: "Макияж Foet", title: "Подводка-фломастер для глаз Foet", short_desc: "Четкие стрелки насыщенного черного цвета", full_desc: "Тонкий фетровый аппликатор для идеальных линий. Не растекается.", price: 550, volume: "1.2 мл", img: "images/foet-eyeliner.jpg" },
-      { id: 307, category: "beauty", category_name: "Красота и уход", subcategory: "hemp", subcategory_name: "Косметика Hemp Beauty Lab", title: "Крем для рук Hemp увлажняющий", short_desc: "Быстрое впитывание и защита кожи от сухости", full_desc: "Восстанавливает гидролипидный баланс после контакта с водой.", price: 370, volume: "75 мл", img: "images/hemp-hand-cream.jpg" },
-      { id: 308, category: "beauty", category_name: "Красота и уход", subcategory: "soap", subcategory_name: "Натуральное мыло Sharme", title: "Мыло ручной работы Sharme Soap Ягодный йогурт", short_desc: "Бережное очищение с кремовой пеной", full_desc: "Омыленные растительные масла сохраняют природную мягкость кожи.", price: 290, volume: "80 г", img: "images/sharme-soap-berry.jpg" },
-      { id: 401, category: "nutrition", category_name: "Питание", subcategory: "balancer", subcategory_name: "Коктейли Balancer Daily", title: "Коктейль BALANCER Daily Ваниль", short_desc: "Сбалансированный прием пищи за 1 минуту", full_desc: "20 г белка, пребиотики, омега-3 и комплекс витаминов. Сытость на 3-4 часа.", price: 1800, volume: "10 саше", img: "images/balancer-vanilla.jpg" },
-      { id: 403, category: "nutrition", category_name: "Питание", subcategory: "balancer", subcategory_name: "Коктейли Balancer Daily", title: "Коктейль BALANCER Daily Клубника", short_desc: "Нежный ягодный шейк для легкого перекуса", full_desc: "Оптимальное соотношение белков, жиров и медленных углеводов.", price: 1800, volume: "10 саше", img: "images/balancer-strawberry.jpg" },
-      { id: 501, category: "aroma", category_name: "Ароматерапия", subcategory: "oils", subcategory_name: "Эфирные масла Sharme", title: "Эфирное масло Sharme Essential Лаванда", short_desc: "Релаксация, снятие стресса и здоровый сон", full_desc: "100% чистое эфирное масло французской лаванды для аромаламп и ванн.", price: 440, volume: "5 мл", img: "images/sharme-lavender.jpg" },
-      { id: 502, category: "aroma", category_name: "Ароматерапия", subcategory: "oils", subcategory_name: "Эфирные масла Sharme", title: "Эфирное масло Sharme Чайное дерево", short_desc: "Природный антисептик широкого спектра", full_desc: "Очищает воздух в помещении, снимает раздражение кожи.", price: 380, volume: "5 мл", img: "images/sharme-tea-tree.jpg" },
-      { id: 503, category: "aroma", category_name: "Ароматерапия", subcategory: "oils", subcategory_name: "Эфирные масла Sharme", title: "Эфирное масло Sharme Апельсин", short_desc: "Энергия, бодрость и поднятие настроения", full_desc: "Яркий цитрусовый аромат, стимулирующий работоспособность.", price: 330, volume: "5 мл", img: "images/sharme-orange.jpg" },
-      { id: 601, category: "auto", category_name: "Автотовары", subcategory: "autofiber", subcategory_name: "Green Fiber Auto", title: "Автополотенце Green Fiber AUTO A1", short_desc: "Быстрая сушка кузова без царапин и разводов", full_desc: "Плотное волокно удерживает до трех литров воды без отжима.", price: 1050, volume: "1 шт", img: "images/fiber-auto.jpg" },
-      { id: 701, category: "kids", category_name: "Детская серия", subcategory: "kids_care", subcategory_name: "Уход за ребенком", title: "Детское полотенце с капюшоном Green Fiber Baby", short_desc: "Мягкое волокно для чувствительной кожи малыша", full_desc: "Мгновенно впитывает влагу после купания, согревает и не вызывает раздражения.", price: 2490, volume: "1 шт", img: "images/kids-towel.jpg" },
-      { id: 801, category: "perfume", category_name: "Парфюмерия", subcategory: "empireo", subcategory_name: "Парфюм Empireo", title: "Духи Empireo Classic №12", short_desc: "Цветочно-шипровый шлейфовый аромат", full_desc: "Содержание масел 20%. Стойкий шлейф бергамота, пачули и жасмина.", price: 2300, volume: "50 мл", img: "images/empireo-perfume.jpg" }
-    ];
-
     let allProducts = [];
     let cart = {};
     let currentMainCat = 'all';
@@ -180,7 +155,7 @@
     async function initCatalog() {
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 2500);
+        const timeoutId = setTimeout(() => controller.abort(), 3000);
 
         const res = await fetch('products.json?v=' + Date.now(), { signal: controller.signal });
         clearTimeout(timeoutId);
@@ -189,15 +164,10 @@
           const data = await res.json();
           if (Array.isArray(data) && data.length > 0) {
             allProducts = data;
-          } else {
-            allProducts = FALLBACK_PRODUCTS;
           }
-        } else {
-          allProducts = FALLBACK_PRODUCTS;
         }
       } catch (err) {
-        console.warn('Используем резервный каталог:', err);
-        allProducts = FALLBACK_PRODUCTS;
+        console.warn('Ошибка загрузки products.json:', err);
       }
 
       buildMainCategories();
@@ -210,13 +180,18 @@
 
       allProducts.forEach(p => {
         if (p.category && !cats[p.category]) {
-          cats[p.category] = p.category_name || p.category;
+          cats[p.category] = {
+            name: p.category_name || p.category,
+            isSpecial: p.category === 'perfume_preorder'
+          };
         }
       });
 
       let html = '<div class="tab-main active" onclick="selectMainCategory(\'all\', this)">Все товары</div>';
-      for (const [key, name] of Object.entries(cats)) {
-        html += `<div class="tab-main" onclick="selectMainCategory('${key}', this)">${name}</div>`;
+      for (const [key, obj] of Object.entries(cats)) {
+        const extraCls = obj.isSpecial ? 'special' : '';
+        const icon = obj.isSpecial ? '✨ ' : '';
+        html += `<div class="tab-main ${extraCls}" onclick="selectMainCategory('${key}', this)">${icon}${obj.name}</div>`;
       }
       box.innerHTML = html;
     }
@@ -294,14 +269,22 @@
 
       container.innerHTML = filtered.map(p => {
         const count = cart[p.id] || 0;
+        const isPreorder = p.is_preorder;
+        const chip = isPreorder ? '<div class="card-chip badge-preorder">Под заказ</div>' : '';
+        const btnText = isPreorder ? 'Предзаказ' : '+ В корзину';
+        const btnCls = isPreorder ? 'btn-add btn-preorder' : 'btn-add';
+
         return `
           <div class="card" onclick="openDetail(${p.id})">
-            <img src="${p.img}" alt="${p.title}" loading="lazy" onerror="this.onerror=null; this.src='https://dummyimage.com/300x200/e8f5e9/00875a.png&text=🌿+Greenway';">
+            <div class="card-img-wrap">
+              <img src="${p.img}" alt="${p.title}" loading="lazy" onerror="this.onerror=null; this.src='https://dummyimage.com/300x200/e8f5e9/00875a.png&text=🌿+Greenway';">
+              ${chip}
+            </div>
             <div class="card-title">${p.title}</div>
             <div class="card-desc">${p.short_desc || ''}</div>
             <div class="card-bottom" onclick="event.stopPropagation()">
               <div class="card-price">${p.price} ₽</div>
-              <button class="btn-add" id="addBtn-${p.id}" style="display: ${count > 0 ? 'none' : 'block'}" onclick="changeQty(${p.id}, 1)">+ В корзину</button>
+              <button class="${btnCls}" id="addBtn-${p.id}" style="display: ${count > 0 ? 'none' : 'block'}" onclick="changeQty(${p.id}, 1)">${btnText}</button>
               <div class="qty-controls" id="qtyBox-${p.id}" style="display: ${count > 0 ? 'flex' : 'none'}">
                 <button class="btn-qty" onclick="changeQty(${p.id}, -1)">−</button>
                 <span class="qty-num" id="qtyNum-${p.id}">${count}</span>
@@ -375,7 +358,11 @@
       dImg.src = p.img;
 
       document.getElementById('detailTitle').innerText = p.title;
-      document.getElementById('detailCategory').innerText = p.subcategory_name || p.category_name || 'Товар';
+      
+      const catBadge = document.getElementById('detailCategory');
+      catBadge.innerText = p.is_preorder ? 'Парфюмерия под заказ' : (p.subcategory_name || p.category_name || 'Товар');
+      catBadge.className = p.is_preorder ? 'badge badge-preorder' : 'badge';
+
       document.getElementById('detailMeta').innerText = p.volume ? `Фасовка / объем: ${p.volume}` : '';
       document.getElementById('detailDesc').innerText = p.full_desc || p.short_desc || 'Описание отсутствует.';
       document.getElementById('detailPrice').innerText = `${p.price} ₽`;
@@ -387,8 +374,11 @@
     }
 
     function updateDetailButton(id) {
+      const p = allProducts.find(x => x.id == id);
       const count = cart[id] || 0;
       const box = document.getElementById('detailBtnContainer');
+      const isPreorder = p && p.is_preorder;
+
       if (count > 0) {
         box.innerHTML = `
           <div style="display:flex; align-items:center; gap:8px;">
@@ -398,7 +388,9 @@
           </div>
         `;
       } else {
-        box.innerHTML = `<button class="btn-add" style="padding:10px 18px; font-size:14px;" onclick="changeQty(${id}, 1)">+ В корзину</button>`;
+        const btnLabel = isPreorder ? 'Оформить предзаказ' : '+ В корзину';
+        const extraCls = isPreorder ? 'btn-preorder' : '';
+        box.innerHTML = `<button class="btn-add ${extraCls}" style="padding:10px 18px; font-size:14px;" onclick="changeQty(${id}, 1)">${btnLabel}</button>`;
       }
     }
 
@@ -425,11 +417,12 @@
         const count = cart[id];
         const sum = count * p.price;
         totalSum += sum;
+        const preorderLabel = p.is_preorder ? '<span style="color:#E65100; font-weight:600; font-size:10px;"> [ПОД ЗАКАЗ]</span>' : '';
 
         return `
           <div class="cart-item">
             <div style="max-width: 60%;">
-              <b>${p.title}</b>
+              <b>${p.title}${preorderLabel}</b>
               <div style="color:var(--text-muted); font-size:11px;">${p.price} ₽ / шт.</div>
             </div>
             <div style="display:flex; align-items:center; gap:10px;">
@@ -453,7 +446,6 @@
       document.getElementById('cartSheet').style.display = 'none';
     }
 
-    // Запуск
     initCatalog();
   </script>
 </body>
