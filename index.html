@@ -93,7 +93,7 @@
   </header>
 
   <div class="search-wrap">
-    <input type="text" id="searchInput" class="search-input" placeholder="🔍 Поиск по 38 товарам каталога..." oninput="handleSearch()">
+    <input type="text" id="searchInput" class="search-input" placeholder="🔍 Поиск..." oninput="handleSearch()">
   </div>
 
   <div class="nav-wrap">
@@ -146,307 +146,36 @@
   </div>
 
   <script>
-    let allProducts = [];
-    let cart = {};
-    let currentMainCat = 'all';
-    let currentSubCat = 'all';
-    let searchQuery = '';
-
-    async function initCatalog() {
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 3000);
-
-        const res = await fetch('products.json?v=' + Date.now(), { signal: controller.signal });
-        clearTimeout(timeoutId);
-
-        if (res.ok) {
-          const data = await res.json();
-          if (Array.isArray(data) && data.length > 0) {
-            allProducts = data;
-          }
-        }
-      } catch (err) {
-        console.warn('Ошибка загрузки products.json:', err);
-      }
-
-      buildMainCategories();
-      renderCatalog();
-    }
-
-    function buildMainCategories() {
-      const box = document.getElementById('mainCategoryTabs');
-      const cats = {};
-
-      allProducts.forEach(p => {
-        if (p.category && !cats[p.category]) {
-          cats[p.category] = {
-            name: p.category_name || p.category,
-            isSpecial: p.category === 'perfume_preorder'
-          };
-        }
-      });
-
-      let html = '<div class="tab-main active" onclick="selectMainCategory(\'all\', this)">Все товары</div>';
-      for (const [key, obj] of Object.entries(cats)) {
-        const extraCls = obj.isSpecial ? 'special' : '';
-        const icon = obj.isSpecial ? '✨ ' : '';
-        html += `<div class="tab-main ${extraCls}" onclick="selectMainCategory('${key}', this)">${icon}${obj.name}</div>`;
-      }
-      box.innerHTML = html;
-    }
-
-    function selectMainCategory(catKey, el) {
-      document.querySelectorAll('.tab-main').forEach(t => t.classList.remove('active'));
-      el.classList.add('active');
-
-      currentMainCat = catKey;
-      currentSubCat = 'all';
-
-      buildSubCategories(catKey);
-      renderCatalog();
-    }
-
-    function buildSubCategories(mainCat) {
-      const wrap = document.getElementById('subCategoryWrap');
-      const box = document.getElementById('subCategoryTabs');
-
-      if (mainCat === 'all') {
-        wrap.style.display = 'none';
-        return;
-      }
-
-      const subcats = {};
-      allProducts.filter(p => p.category === mainCat).forEach(p => {
-        if (p.subcategory && !subcats[p.subcategory]) {
-          subcats[p.subcategory] = p.subcategory_name || p.subcategory;
-        }
-      });
-
-      const subKeys = Object.keys(subcats);
-      if (subKeys.length <= 1) {
-        wrap.style.display = 'none';
-        return;
-      }
-
-      let html = '<div class="tab-sub active" onclick="selectSubCategory(\'all\', this)">Все в разделе</div>';
-      for (const [key, name] of Object.entries(subcats)) {
-        html += `<div class="tab-sub" onclick="selectSubCategory('${key}', this)">${name}</div>`;
-      }
-      box.innerHTML = html;
-      wrap.style.display = 'block';
-    }
-
-    function selectSubCategory(subKey, el) {
-      document.querySelectorAll('.tab-sub').forEach(t => t.classList.remove('active'));
-      el.classList.add('active');
-      currentSubCat = subKey;
-      renderCatalog();
-    }
-
-    function handleSearch() {
-      searchQuery = document.getElementById('searchInput').value.trim().toLowerCase();
-      renderCatalog();
-    }
-
-    function renderCatalog() {
-      const container = document.getElementById('catalogList');
-
-      let filtered = allProducts.filter(p => {
-        const matchMain = (currentMainCat === 'all' || p.category === currentMainCat);
-        const matchSub = (currentSubCat === 'all' || p.subcategory === currentSubCat);
-        const matchSearch = (!searchQuery || 
-          p.title.toLowerCase().includes(searchQuery) || 
-          (p.short_desc && p.short_desc.toLowerCase().includes(searchQuery))
-        );
-        return matchMain && matchSub && matchSearch;
-      });
-
-      if (filtered.length === 0) {
-        container.innerHTML = '<div style="grid-column: span 2; text-align: center; color: #6b7280; padding: 40px 10px;">Товаров не найдено.</div>';
-        return;
-      }
-
-      container.innerHTML = filtered.map(p => {
-        const count = cart[p.id] || 0;
-        const isPreorder = p.is_preorder;
-        const chip = isPreorder ? '<div class="card-chip badge-preorder">Под заказ</div>' : '';
-        const btnText = isPreorder ? 'Предзаказ' : '+ В корзину';
-        const btnCls = isPreorder ? 'btn-add btn-preorder' : 'btn-add';
-
-        return `
-          <div class="card" onclick="openDetail(${p.id})">
-            <div class="card-img-wrap">
-              <img src="${p.img}" alt="${p.title}" loading="lazy" onerror="this.onerror=null; this.src='https://dummyimage.com/300x200/e8f5e9/00875a.png&text=🌿+Greenway';">
-              ${chip}
-            </div>
-            <div class="card-title">${p.title}</div>
-            <div class="card-desc">${p.short_desc || ''}</div>
-            <div class="card-bottom" onclick="event.stopPropagation()">
-              <div class="card-price">${p.price} ₽</div>
-              <button class="${btnCls}" id="addBtn-${p.id}" style="display: ${count > 0 ? 'none' : 'block'}" onclick="changeQty(${p.id}, 1)">${btnText}</button>
-              <div class="qty-controls" id="qtyBox-${p.id}" style="display: ${count > 0 ? 'flex' : 'none'}">
-                <button class="btn-qty" onclick="changeQty(${p.id}, -1)">−</button>
-                <span class="qty-num" id="qtyNum-${p.id}">${count}</span>
-                <button class="btn-qty" onclick="changeQty(${p.id}, 1)">+</button>
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function changeQty(id, delta) {
-      cart[id] = (cart[id] || 0) + delta;
-      if (cart[id] <= 0) delete cart[id];
-      
-      updateProductCardUI(id);
-      updateCartBar();
-      if (document.getElementById('cartSheet').style.display === 'block') {
-        renderCartSheet();
-      }
-      if (document.getElementById('detailSheet').style.display === 'block') {
-        updateDetailButton(id);
-      }
-    }
-
-    function updateProductCardUI(id) {
-      const count = cart[id] || 0;
-      const addBtn = document.getElementById(`addBtn-${id}`);
-      const qtyBox = document.getElementById(`qtyBox-${id}`);
-      const qtyNum = document.getElementById(`qtyNum-${id}`);
-
-      if (addBtn && qtyBox) {
-        addBtn.style.display = count > 0 ? 'none' : 'block';
-        qtyBox.style.display = count > 0 ? 'flex' : 'none';
-        if (qtyNum) qtyNum.innerText = count;
-      }
-    }
-
-    function updateCartBar() {
-      let totalCount = 0;
-      let totalPrice = 0;
-
-      Object.keys(cart).forEach(id => {
-        const p = allProducts.find(x => x.id == id);
-        if (p) {
-          totalCount += cart[id];
-          totalPrice += cart[id] * p.price;
-        }
-      });
-
-      const bar = document.getElementById('cartBar');
-      if (totalCount > 0) {
-        bar.style.display = 'flex';
-        document.getElementById('cartCount').innerText = `В корзине: ${totalCount} шт.`;
-        document.getElementById('cartTotal').innerText = `${totalPrice} ₽ ›`;
-      } else {
-        bar.style.display = 'none';
-        closeAllSheets();
-      }
-    }
-
-    function openDetail(id) {
-      const p = allProducts.find(x => x.id == id);
-      if (!p) return;
-
-      const dImg = document.getElementById('detailImg');
-      dImg.onerror = function() {
-        this.onerror = null;
-        this.src = 'https://dummyimage.com/600x400/e8f5e9/00875a.png&text=🌿+Greenway+Global';
-      };
-      dImg.src = p.img;
-
-      document.getElementById('detailTitle').innerText = p.title;
-      
-      const catBadge = document.getElementById('detailCategory');
-      catBadge.innerText = p.is_preorder ? 'Парфюмерия под заказ' : (p.subcategory_name || p.category_name || 'Товар');
-      catBadge.className = p.is_preorder ? 'badge badge-preorder' : 'badge';
-
-      document.getElementById('detailMeta').innerText = p.volume ? `Фасовка / объем: ${p.volume}` : '';
-      document.getElementById('detailDesc').innerText = p.full_desc || p.short_desc || 'Описание отсутствует.';
-      document.getElementById('detailPrice').innerText = `${p.price} ₽`;
-
-      updateDetailButton(id);
-
-      document.getElementById('overlay').style.display = 'block';
-      document.getElementById('detailSheet').style.display = 'block';
-    }
-
-    function updateDetailButton(id) {
-      const p = allProducts.find(x => x.id == id);
-      const count = cart[id] || 0;
-      const box = document.getElementById('detailBtnContainer');
-      const isPreorder = p && p.is_preorder;
-
-      if (count > 0) {
-        box.innerHTML = `
-          <div style="display:flex; align-items:center; gap:8px;">
-            <button class="btn-qty" onclick="changeQty(${id}, -1)">−</button>
-            <span style="font-weight:700; min-width:16px; text-align:center;">${count}</span>
-            <button class="btn-qty" onclick="changeQty(${id}, 1)">+</button>
-          </div>
-        `;
-      } else {
-        const btnLabel = isPreorder ? 'Оформить предзаказ' : '+ В корзину';
-        const extraCls = isPreorder ? 'btn-preorder' : '';
-        box.innerHTML = `<button class="btn-add ${extraCls}" style="padding:10px 18px; font-size:14px;" onclick="changeQty(${id}, 1)">${btnLabel}</button>`;
-      }
-    }
-
-    function openCartSheet() {
-      renderCartSheet();
-      document.getElementById('overlay').style.display = 'block';
-      document.getElementById('cartSheet').style.display = 'block';
-    }
-
-    function renderCartSheet() {
-      const container = document.getElementById('cartItemsContainer');
-      let totalSum = 0;
-      const keys = Object.keys(cart);
-
-      if (keys.length === 0) {
-        container.innerHTML = '<div class="empty-cart-msg">Корзина пуста</div>';
-        document.getElementById('cartTotalSum').innerText = '0 ₽';
-        return;
-      }
-
-      container.innerHTML = keys.map(id => {
-        const p = allProducts.find(x => x.id == id);
-        if (!p) return '';
-        const count = cart[id];
-        const sum = count * p.price;
-        totalSum += sum;
-        const preorderLabel = p.is_preorder ? '<span style="color:#E65100; font-weight:600; font-size:10px;"> [ПОД ЗАКАЗ]</span>' : '';
-
-        return `
-          <div class="cart-item">
-            <div style="max-width: 60%;">
-              <b>${p.title}${preorderLabel}</b>
-              <div style="color:var(--text-muted); font-size:11px;">${p.price} ₽ / шт.</div>
-            </div>
-            <div style="display:flex; align-items:center; gap:10px;">
-              <div style="display:flex; align-items:center; gap:5px;">
-                <button class="btn-qty" onclick="changeQty(${p.id}, -1)">−</button>
-                <span class="qty-num">${count}</span>
-                <button class="btn-qty" onclick="changeQty(${p.id}, 1)">+</button>
-              </div>
-              <div style="font-weight:700; min-width:55px; text-align:right;">${sum} ₽</div>
-            </div>
-          </div>
-        `;
-      }).join('');
-
-      document.getElementById('cartTotalSum').innerText = `${totalSum} ₽`;
-    }
-
-    function closeAllSheets() {
-      document.getElementById('overlay').style.display = 'none';
-      document.getElementById('detailSheet').style.display = 'none';
-      document.getElementById('cartSheet').style.display = 'none';
-    }
-
-    initCatalog();
-  </script>
-</body>
-</html>
+    // Встроенная база для мгновенной загрузки и защиты от сбоев сети
+    const DEFAULT_PRODUCTS = [
+      { id: 101, category: "fibers", category_name: "Эко-файберы", subcategory: "kitchen", subcategory_name: "Кухня и посуда", title: "Файбер для мытья посуды Green Fiber HOME S1", short_desc: "Моет жирную посуду без капли бытовой химии", full_desc: "Двусторонняя салфетка: мягкая сторона собирает жир и налет в холодной воде, жесткая очищает присохшую пищу без царапин.", price: 330, volume: "1 шт", img: "images/fiber-dish-s1.jpg" },
+      { id: 102, category: "fibers", category_name: "Эко-файберы", subcategory: "universal", subcategory_name: "Универсальные", title: "Универсальный файбер Green Fiber HOME A1", short_desc: "Притягивает пыль как магнит, собирает грязь", full_desc: "Микроволокно с антистатическим эффектом. При сухой уборке полирует и удаляет пыль, при влажной — глубоко очищает любые поверхности.", price: 590, volume: "1 шт", img: "images/fiber-universal-a1.jpg" },
+      { id: 103, category: "fibers", category_name: "Эко-файберы", subcategory: "glass", subcategory_name: "Стекла и зеркала", title: "Файбер для мытья стекол и зеркал HOME P1", short_desc: "Идеальный блеск без разводов и ворсинок", full_desc: "Позволяет отмыть окна, зеркала и глянец простой водой без вытирания насухо и бытовой химии.", price: 490, volume: "1 шт", img: "images/fiber-glass-p1.jpg" },
+      { id: 104, category: "fibers", category_name: "Эко-файберы", subcategory: "involver", subcategory_name: "Линейка Инволвер", title: "Диск «Инволвер» Green Fiber HOME S2", short_desc: "Удаление стойкого нагара, жира и налета", full_desc: "Сверхпрочная спиралевидная нить удаляет стойкую въевшуюся грязь с духовок, сковородок, вытяжек и сантехники.", price: 570, volume: "1 шт", img: "images/fiber-involver-s2.jpg" },
+      { id: 105, category: "fibers", category_name: "Эко-файберы", subcategory: "involver", subcategory_name: "Линейка Инволвер", title: "Губка «Инволвер» Green Fiber HOME S3", short_desc: "Чистка мягкой мебели, обуви, замши и ковров", full_desc: "Эргономичная губка проникает в структуру текстиля и кожи, вытягивая глубокие пятна и застарелую грязь.", price: 790, volume: "1 шт", img: "images/fiber-sponge-s3.jpg" },
+      { id: 106, category: "fibers", category_name: "Эко-файберы", subcategory: "auto", subcategory_name: "Автотовары", title: "Автополотенце двухстороннее Green Fiber AUTO A1", short_desc: "Быстрая сушка кузова автомобиля без разводов", full_desc: "Впитывает несколько литров влаги за один проход. Мягкий ворс безопасен для лакокрасочного покрытия.", price: 1050, volume: "1 шт", img: "images/fiber-auto-a1.jpg" },
+      { id: 107, category: "fibers", category_name: "Эко-файберы", subcategory: "delicate", subcategory_name: "Деликатный уход", title: "Файбер для экранов и мониторов HOME P2", short_desc: "Бережная чистка смартфонов, планшетов и ТВ", full_desc: "Удаляет отпечатки пальцев и кожный жир без спиртовых растворов, не повреждая антибликовые покрытия.", price: 320, volume: "1 шт", img: "images/fiber-screens-p2.jpg" },
+      { id: 108, category: "fibers", category_name: "Эко-файберы", subcategory: "care", subcategory_name: "Красота и уход", title: "Косметическая салфетка Green Fiber CARE", short_desc: "Снятие стойкого макияжа и бережное очищение кожи", full_desc: "Работает только с теплой водой. Очищает поры и удаляет косметику без раздражения и молочка.", price: 330, volume: "1 шт", img: "images/fiber-care-napkin.jpg" },
+      { id: 109, category: "fibers", category_name: "Эко-файберы", subcategory: "involver", subcategory_name: "Линейка Инволвер", title: "Варежка «Инволвер» Green Fiber HOME S4", short_desc: "Генеральная уборка, решетки гриль и плитка", full_desc: "Удобно фиксируется на руке, защищая кожу и позволяя легко очищать сложные рельефные поверхности.", price: 1050, volume: "1 шт", img: "images/fiber-mitten-s4.jpg" },
+      { id: 110, category: "fibers", category_name: "Эко-файберы", subcategory: "delicate", subcategory_name: "Деликатный уход", title: "Файбер для деликатных поверхностей HOME С1", short_desc: "Для оптики, ювелирных изделий и антиквариата", full_desc: "Шелковистое полотно бережно полирует хромированные детали, очки и хрупкие предметы интерьера.", price: 420, volume: "1 шт", img: "images/fiber-delicate-c1.jpg" },
+      { id: 111, category: "fibers", category_name: "Эко-файберы", subcategory: "sets", subcategory_name: "Готовые наборы", title: "Набор текстиля для уборки HOME EXPERT SET", short_desc: "Комплексное решение для экологичной чистоты дома", full_desc: "Стартовый набор из ключевых файберов бренда для посуды, стекол, зеркал и полов в фирменной коробке.", price: 3950, volume: "комплект", img: "images/fiber-expert-set.jpg" },
+      { id: 201, category: "biotrim", category_name: "Чистка и стирка BioTrim", subcategory: "cleaners", subcategory_name: "Очищение", title: "Очищающая паста BioTrim Mystik", short_desc: "Справляется со ржавчиной, нагаром и накипью", full_desc: "Биоразлагаемый экологичный состав на основе микроминералов. Безопасна для органов дыхания и рук.", price: 380, volume: "200 г", img: "images/biotrim-mystik-paste.jpg" },
+      { id: 202, category: "biotrim", category_name: "Чистка и стирка BioTrim", subcategory: "cleaners", subcategory_name: "Очищение", title: "Очищающий порошок BioTrim Mystik", short_desc: "Кислородное экспресс-удаление налета и дезинфекция", full_desc: "Активируется кипятком. Отбеливает столовые приборы, кружки, термосы и выводит органические пятна.", price: 380, volume: "160 г", img: "images/biotrim-mystik-powder.jpg" },
+      { id: 203, category: "biotrim", category_name: "Чистка и стирка BioTrim", subcategory: "laundry", subcategory_name: "Эко-стирка", title: "Пластины для стирки белья BioTrim", short_desc: "Растительная замена фосфатным порошкам", full_desc: "100% растворяются в воде, выполаскиваются без остатка. Подходят для детского белья и аллергиков.", price: 790, volume: "38 шт", img: "images/biotrim-plates.jpg" },
+      { id: 204, category: "biotrim", category_name: "Чистка и стирка BioTrim", subcategory: "stains", subcategory_name: "Пятновыводители", title: "Природный пятновыводитель-спрей BioTrim ECO", short_desc: "Быстро расщепляет пятна вина, кофе, ягод и соусов", full_desc: "Удобный компактный формат для экстренной очистки одежды. Не повреждает структуру волокон ткани.", price: 420, volume: "50 мл", img: "images/biotrim-spray.jpg" },
+      { id: 205, category: "biotrim", category_name: "Чистка и стирка BioTrim", subcategory: "stains", subcategory_name: "Пятновыводители", title: "Мыло ручной работы BioTrim для удаления пятен", short_desc: "Точечная застирка воротничков и въевшихся пятен", full_desc: "Омыленные растительные масла быстро вытягивают загрязнения без хлора и агрессивных ПАВ.", price: 190, volume: "125 г", img: "images/biotrim-soap-stain.jpg" },
+      { id: 301, category: "mops", category_name: "Уборочные системы", subcategory: "systems", subcategory_name: "Швабры", title: "Универсальная швабра Green Fiber MOP", short_desc: "Шарнирная платформа и 2 сменные насадки", full_desc: "Позволяет отмывать плинтусы, стены, потолки и полы под мебелью без контакта рук с грязной водой.", price: 4900, volume: "1 комплект", img: "images/mop-universal.jpg" },
+      { id: 302, category: "mops", category_name: "Уборочные системы", subcategory: "systems", subcategory_name: "Швабры", title: "Швабра с отжимом Green Fiber Twist Mop", short_desc: "Чистые руки: встроенный механизм скручивания", full_desc: "Спиральное микроволокно впитывает большой объем влаги и пыли. Отжим происходит одним движением рукоятки.", price: 3800, volume: "1 комплект", img: "images/mop-twist.jpg" },
+      { id: 303, category: "mops", category_name: "Уборочные системы", subcategory: "systems", subcategory_name: "Швабры", title: "Аэро-швабра с распылителем Green Fiber AERO", short_desc: "Встроенный резервуар: уборка без ведер и тазов", full_desc: "Мелкодисперсное распыление защищает паркет и ламинат от избытка влаги и разбухания.", price: 4200, volume: "1 комплект", img: "images/mop-aero.jpg" },
+      { id: 401, category: "health", category_name: "Здоровье и БАДы", subcategory: "detox", subcategory_name: "Детокс и ЖКТ", title: "Welllab Liquid Chitosan", short_desc: "Природный жидкий энтеросорбент на основе хитозана", full_desc: "Связывает и выводит токсины, аллергены и соли металлов, поддерживая здоровую микрофлору ЖКТ.", price: 1250, volume: "100 мл", img: "images/welllab-chitosan.jpg" },
+      { id: 402, category: "health", category_name: "Здоровье и БАДы", subcategory: "vitamins", subcategory_name: "Витамины", title: "Welllab Omega-3 Plus", short_desc: "Концентрат ПНЖК высокой очистки (EPA и DHA)", full_desc: "Очищенный рыбий жир северных пород рыб для эластичности сосудов, работы мозга и здоровья кожи.", price: 1190, volume: "60 капсул", img: "images/welllab-omega.jpg" },
+      { id: 403, category: "health", category_name: "Здоровье и БАДы", subcategory: "vitamins", subcategory_name: "Витамины", title: "Welllab С-Complex", short_desc: "Биодоступная некислая форма витамина C", full_desc: "Стимулирует синтез коллагена, укрепляет стенки капилляров и повышает сопротивляемость вирусам.", price: 750, volume: "60 капсул", img: "images/welllab-c-complex.jpg" },
+      { id: 404, category: "health", category_name: "Здоровье и БАДы", subcategory: "antistress", subcategory_name: "Антистресс и сон", title: "Welllab 5-HTP", short_desc: "Предшественник серотонина: спокойствие и настроение", full_desc: "Натуральный окситриптофан снижает уровень тревожности, перепады настроения и улучшает сон.", price: 1100, volume: "60 капсул", img: "images/welllab-5-htp.jpg" },
+      { id: 405, category: "health", category_name: "Здоровье и БАДы", subcategory: "targeted", subcategory_name: "Целевые комплексы", title: "Welllab Urolux", short_desc: "Растительный комплекс для здоровья почек", full_desc: "Экстракты брусники, толокнянки и можжевельника препятствуют застойным процессам и воспалениям мочевыводящих путей.", price: 1050, volume: "60 капсул", img: "images/welllab-urolux.jpg" },
+      { id: 406, category: "health", category_name: "Здоровье и БАДы", subcategory: "targeted", subcategory_name: "Целевые комплексы", title: "Welllab Cardio", short_desc: "Поддержка сердечной мышцы и тонуса сосудов", full_desc: "Боярышник, коэнзим Q10, рутин и таурин нормализуют ритм и питают миокард.", price: 1150, volume: "60 капсул", img: "images/welllab-cardio.jpg" },
+      { id: 407, category: "health", category_name: "Здоровье и БАДы", subcategory: "antistress", subcategory_name: "Антистресс и сон", title: "Welllab Слип Тайм", short_desc: "Легкое засыпание и глубокий ночной отдых", full_desc: "Комплекс с мелатонином, пассифлорой и хмелем облегчает засыпание при смене часовых поясов и переутомлении.", price: 950, volume: "30 капсул", img: "images/welllab-sleep-time.jpg" },
+      { id: 501, category: "nutrition", category_name: "Питание и напитки", subcategory: "cocktails", subcategory_name: "Коктейли Balancer", title: "Протеиновый коктейль Balancer Daily Ваниль", short_desc: "Полноценный прием пищи за 1 минуту: 20 г белка", full_desc: "Баланс белков, антиоксидантов, витаминов и клетчатки. Насыщает на 3-4 часа при 210 ккал.", price: 1800, volume: "10 саше", img: "images/balancer-vanilla.jpg" },
+      { id: 503, category: "nutrition", category_name: "Питание и напитки", subcategory: "collagen", subcategory_name: "Коллаген", title: "Balancer Collagen с витамином C", short_desc: "Гидролизованный коллаген для связок, волос и кожи", full_desc: "Биодоступные пептиды коллагена ускоряют восстановление связок и улучшают тургор кожи.", price: 2100, volume: "14 саше", img: "images/balancer-collagen.jpg" },
+      { id: 504, category: "nutrition", category_name: "Питание и напитки", subcategory: "drain", subcategory_name: "Дренаж", title: "Дренирующий напиток DrainEffect / Drain Max", short_desc: "Вывод застойной жидкости и снятие отеков", full_desc: "Растительный комплекс стимулирует циркуляцию лимфы, уменьшая объемы тела без вымывания солей.", price: 1150, volume: "20 стиков", img: "images/balancer-drain.jpg" },
+      { id: 507, category: "nutrition", category_name: "Питание и напитки", subcategory: "tea", subcategory_name: "Чаи TeaVitall", title: "Функциональный чай TeaVitall Express Premier", short_desc: "Энергетический купаж с кипреем, имбирем и перцем", full_desc: "Купаж для мужской силы, поддержания тонуса и выносливости в течение активного дня.", price: 420, volume: "30 пакетов", img: "images/tea-premier.jpg" },
+      { id: 508, category: "nutrition", category_name: "Питание и напитки", subcategory: "tea", subcategory_name: "Чаи TeaVitall", title: "Очищающий чай TeaVitall Express Fresh 1", short_desc
