@@ -3,9 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>Greenway Global — Экомаркет</title>
   <style>
     :root {
@@ -23,7 +20,6 @@
     html, body {
       width: 100%;
       min-height: 100vh;
-      min-height: 100dvh;
       background-color: var(--bg);
       color: var(--text);
       padding-bottom: 75px;
@@ -34,11 +30,9 @@
     header h1 { font-size: 18px; font-weight: 700; color: var(--primary); }
     .badge { background: #E8F5E9; color: var(--primary); font-size: 11px; padding: 4px 8px; border-radius: 12px; font-weight: 600; }
 
-    /* Страницы вкладок */
     .tab-page { display: none; width: 100%; }
     .tab-page.active { display: block; }
 
-    /* Поиск и категории в каталоге */
     .search-wrap { padding: 10px 16px 4px; background: #fff; }
     .search-input { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 10px; font-size: 13px; outline: none; background: var(--bg); }
     .search-input:focus { border-color: var(--primary); background: #fff; }
@@ -57,7 +51,6 @@
     .tab-sub { padding: 4px 11px; border-radius: 14px; font-size: 12px; font-weight: 500; background: #fff; color: var(--text-muted); cursor: pointer; white-space: nowrap; border: 1px solid var(--border); user-select: none; }
     .tab-sub.active { background: #E8F5E9; color: var(--primary-dark); border-color: var(--primary); font-weight: 600; }
 
-    /* Сетка каталога */
     .catalog { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 16px; }
     .card { background: var(--card-bg); border-radius: 14px; padding: 10px; border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; position: relative; }
     .card-img-wrap { position: relative; width: 100%; height: 125px; margin-bottom: 8px; }
@@ -67,7 +60,6 @@
     .card-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; }
     .card-price { font-size: 14px; font-weight: 700; color: var(--primary-dark); }
 
-    /* Широкие баннеры (Духи и Не нашли товар) */
     .card-fullwidth {
       grid-column: 1 / -1;
       background: linear-gradient(135deg, #FFFFFF 0%, #F4FBF7 100%);
@@ -94,19 +86,16 @@
     .card-fullwidth-btn { background: var(--primary); color: #fff; border: none; border-radius: 10px; padding: 9px 16px; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
     .card-fullwidth-btn-perfume { background: var(--accent); }
 
-    /* Кнопки */
     .btn-add { background: var(--primary); color: #fff; border: none; border-radius: 8px; padding: 6px 10px; font-size: 12px; font-weight: 600; cursor: pointer; }
     .qty-controls { display: none; align-items: center; gap: 6px; }
     .btn-qty { background: var(--bg); border: 1px solid var(--border); width: 26px; height: 26px; border-radius: 6px; font-weight: bold; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .qty-num { font-size: 13px; font-weight: 600; min-width: 14px; text-align: center; }
 
-    /* Контейнеры страниц */
     .page-container { padding: 16px; }
     .info-card { background: #fff; border-radius: 14px; padding: 16px; border: 1px solid var(--border); margin-bottom: 12px; }
     .info-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--primary-dark); display: flex; align-items: center; gap: 6px; }
     .info-card p { font-size: 13px; line-height: 1.5; color: var(--text); margin-bottom: 6px; }
 
-    /* Аккордеон FAQ */
     .faq-item { border-bottom: 1px solid var(--border); padding: 12px 0; }
     .faq-item:first-of-type { padding-top: 4px; }
     .faq-item:last-child { border-bottom: none; padding-bottom: 4px; }
@@ -116,26 +105,22 @@
     .faq-item.open .faq-answer { display: block; }
     .faq-item.open .faq-arrow { transform: rotate(180deg); color: var(--primary); }
 
-    /* Прогресс-бар доставки */
     .delivery-progress-box { background: #F8FAF9; border: 1px solid #E1EFEA; border-radius: 12px; padding: 12px; margin-bottom: 14px; display: none; }
     .delivery-progress-text { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between; }
     .delivery-progress-bar-bg { width: 100%; height: 7px; background: #E5E7EB; border-radius: 6px; overflow: hidden; }
     .delivery-progress-bar-fill { height: 100%; width: 0%; background: var(--primary); border-radius: 6px; transition: width 0.3s ease, background-color 0.3s ease; }
     .delivery-success-text { color: var(--primary-dark); font-weight: 700; font-size: 12px; display: flex; align-items: center; gap: 4px; }
 
-    /* Корзина внутри «Мои заказы» */
     .cart-box { background: #fff; border-radius: 14px; padding: 16px; border: 1px solid var(--border); margin-bottom: 16px; }
     .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
     .empty-cart-msg { text-align: center; color: var(--text-muted); padding: 24px 0; font-size: 14px; }
     .cart-summary-line { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
     .cart-summary-total { display: flex; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border); font-weight: 700; font-size: 16px; color: var(--text); }
 
-    /* История заказов */
     .order-history-item { background: #F9FAFB; border: 1px solid var(--border); border-radius: 10px; padding: 12px; margin-bottom: 10px; font-size: 12px; }
     .order-history-header { display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 4px; color: var(--text); }
     .order-history-status { color: var(--primary); font-weight: 600; }
 
-    /* Кнопки действий */
     .btn-action { width: 100%; background: var(--primary); color: #fff; border: none; border-radius: 14px; padding: 14px; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 14px; display: flex; justify-content: center; align-items: center; gap: 8px; text-decoration: none; }
     .btn-action:active { background: var(--primary-dark); }
     .btn-action-accent { background: var(--accent); }
@@ -143,20 +128,17 @@
     .btn-action-outline { background: #fff; color: var(--primary); border: 1.5px solid var(--primary); }
     .btn-action-outline:active { background: #E8F5E9; }
 
-    /* Нижняя панель навигации (Таббар) */
     .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 60px; background: #fff; border-top: 1px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 40; }
     .nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--text-muted); cursor: pointer; font-size: 10px; font-weight: 500; position: relative; user-select: none; }
     .nav-btn.active { color: var(--primary); font-weight: 700; }
     .nav-btn-icon { font-size: 19px; margin-bottom: 2px; }
     .nav-badge { position: absolute; top: 6px; right: 26%; background: #d63031; color: #fff; font-size: 9px; font-weight: 700; border-radius: 10px; padding: 1px 5px; min-width: 15px; text-align: center; display: none; }
 
-    /* Шторки */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; display: none; }
     .sheet { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-radius: 20px 20px 0 0; padding: 20px 16px; max-height: 90vh; overflow-y: auto; z-index: 101; display: none; }
     .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
     .sheet-close { border: none; background: none; font-size: 22px; cursor: pointer; color: var(--text-muted); }
 
-    /* Детали товара */
     .detail-img { width: 100%; height: 220px; object-fit: cover; border-radius: 14px; margin-bottom: 14px; }
     .detail-title { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
     .detail-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; }
@@ -164,7 +146,6 @@
     .detail-action { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 14px; }
     .detail-price { font-size: 18px; font-weight: 700; color: var(--primary-dark); }
 
-    /* Поля адреса */
     .form-group { margin-bottom: 11px; }
     .form-row { display: flex; gap: 10px; }
     .form-row .form-group { flex: 1; }
@@ -510,7 +491,7 @@
   </div>
 
   <script>
-    // Ссылки установлены:
+    // Безопасная инициализация ссылок
     var PAYMENT_URL = "https://vk.ru/away.php?to=https%3A%2F%2Fwww.tbank-online.com%2Frm%2Fr_ekgRQeAIwO.gnFmJhokXP%2FJXIT190570&utf=1";
     var MANAGER_CONTACT_URL = "https://max.ru/u/f9LHodD0cOL85oIQ4kQZhAJ8Amc9j6FCMAK9NQW9KQ8pRjSeEOvzxHDvNtM";
     var ORDER_API_URL = ""; 
@@ -568,13 +549,6 @@
     var currentMainCat = 'all';
     var currentSubCat = 'all';
     var searchQuery = '';
-
-    try {
-      if (window.MAX && window.MAX.expand) {
-        window.MAX.expand();
-      }
-      window.scrollTo(0, 1);
-    } catch (e) {}
 
     try {
       var saved = localStorage.getItem('gw_order_history');
@@ -728,7 +702,6 @@
       container.innerHTML = '';
 
       filtered.forEach(function(item) {
-        /* Баннер духов Enjoy Care */
         if (item.is_perfume_banner) {
           var pBanner = document.createElement('div');
           pBanner.className = 'card-fullwidth card-fullwidth-perfume';
@@ -763,7 +736,6 @@
           return;
         }
 
-        /* Баннер «Не нашли нужный товар?» */
         if (item.is_custom_request) {
           var banner = document.createElement('div');
           banner.className = 'card-fullwidth';
@@ -798,7 +770,6 @@
           return;
         }
 
-        /* Стандартные товары */
         var count = cart[item.id] || 0;
         var card = document.createElement('div');
         card.className = 'card';
@@ -1068,4 +1039,75 @@
       var keys = Object.keys(cart);
 
       if (keys.length === 0) {
-        container.innerHTML = '<div class="empty-
+        container.innerHTML = '<div class="empty-cart-msg">Ваша корзина пуста</div>';
+        if (summaryBox) summaryBox.style.display = 'none';
+        updateDeliveryProgress(0);
+        return;
+      }
+
+      if (summaryBox) summaryBox.style.display = 'block';
+      container.innerHTML = '';
+
+      keys.forEach(function(id) {
+        var p = allProducts.find(function(x) { return x.id == id; });
+        if (!p) return;
+        var count = cart[id];
+        var cost = count * p.price;
+
+        var item = document.createElement('div');
+        item.className = 'cart-item';
+
+        var info = document.createElement('div');
+        info.style.maxWidth = '60%';
+
+        var title = document.createElement('b');
+        title.textContent = p.title;
+        info.appendChild(title);
+
+        var priceNote = document.createElement('div');
+        priceNote.style.cssText = 'color:var(--text-muted); font-size:11px;';
+        priceNote.textContent = p.price + ' ₽ / шт.';
+        info.appendChild(priceNote);
+
+        var actions = document.createElement('div');
+        actions.style.cssText = 'display:flex; align-items:center; gap:10px;';
+
+        var ctrls = document.createElement('div');
+        ctrls.style.cssText = 'display:flex; align-items:center; gap:5px;';
+
+        var minusBtn = document.createElement('button');
+        minusBtn.className = 'btn-qty';
+        minusBtn.textContent = '−';
+        minusBtn.onclick = function() { changeQty(p.id, -1); };
+
+        var num = document.createElement('span');
+        num.className = 'qty-num';
+        num.textContent = count;
+
+        var plusBtn = document.createElement('button');
+        plusBtn.className = 'btn-qty';
+        plusBtn.textContent = '+';
+        plusBtn.onclick = function() { changeQty(p.id, 1); };
+
+        ctrls.appendChild(minusBtn);
+        ctrls.appendChild(num);
+        ctrls.appendChild(plusBtn);
+
+        var sumItemEl = document.createElement('div');
+        sumItemEl.style.cssText = 'font-weight:700; min-width:55px; text-align:right;';
+        sumItemEl.textContent = cost + ' ₽';
+
+        actions.appendChild(ctrls);
+        actions.appendChild(sumItemEl);
+
+        item.appendChild(info);
+        item.appendChild(actions);
+        container.appendChild(item);
+      });
+
+      document.getElementById('cartSubtotalSum').textContent = subtotal + ' ₽';
+
+      var deliveryLabel = document.getElementById('cartDeliveryCost');
+      if (delivery === 0) {
+        deliveryLabel.textContent = 'Бесплатно (Курьер) 🎉';
+        deliveryLabel.style.color =
