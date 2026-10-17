@@ -8,7 +8,7 @@
     "title": "Файбер для мытья посуды Green Fiber HOME S1",
     "short_desc": "Моет жирную посуду без капли бытовой химии",
     "full_desc": "Двусторонняя салфетка: мягкая сторона собирает жир и налет в холодной воде, жесткая очищает присохшую пищу без царапин.",
-    "price": 330,
+    "price": 440,
     "volume": "1 шт",
     "img": "images/fiber-dish-s1.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/fiber/06002"
@@ -22,7 +22,7 @@
     "title": "Универсальный файбер Green Fiber HOME A1",
     "short_desc": "Притягивает пыль как магнит, собирает грязь",
     "full_desc": "Микроволокно с антистатическим эффектом. При сухой уборке полирует и удаляет пыль, при влажной — глубоко очищает любые поверхности.",
-    "price": 590,
+    "price": 690,
     "volume": "1 шт",
     "img": "images/fiber-universal-a1.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/fiber/06013"
@@ -36,7 +36,7 @@
     "title": "Файбер для мытья стекол и зеркал HOME P1",
     "short_desc": "Идеальный блеск без разводов и ворсинок",
     "full_desc": "Позволяет отмыть окна, зеркала и глянец простой водой без вытирания насухо и бытовой химии.",
-    "price": 490,
+    "price": 580,
     "volume": "1 шт",
     "img": "images/fiber-glass-p1.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/fiber/06008"
@@ -50,7 +50,7 @@
     "title": "Диск «Инволвер» Green Fiber HOME S2",
     "short_desc": "Удаление стойкого нагара, жира и налета",
     "full_desc": "Сверхпрочная спиралевидная нить удаляет стойкую въевшуюся грязь с духовок, сковородок, вытяжек и сантехники.",
-    "price": 570,
+    "price": 690,
     "volume": "1 шт",
     "img": "images/fiber-involver-s2.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/fiber/06019"
@@ -64,7 +64,7 @@
     "title": "Губка «Инволвер» Green Fiber HOME S3",
     "short_desc": "Чистка мягкой мебели, обуви, замши и ковров",
     "full_desc": "Эргономичная губка проникает в структуру текстиля и кожи, вытягивая глубокие пятна и застарелую грязь.",
-    "price": 790,
+    "price": 930,
     "volume": "1 шт",
     "img": "images/fiber-sponge-s3.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/fiber/06046"
@@ -78,7 +78,7 @@
     "title": "Файбер для экранов и мониторов HOME P2",
     "short_desc": "Бережная чистка смартфонов, планшетов и ТВ",
     "full_desc": "Удаляет отпечатки пальцев и кожный жир без спиртовых растворов, не повреждая антибликовые покрытия.",
-    "price": 320,
+    "price": 380,
     "volume": "1 шт",
     "img": "images/fiber-screens-p2.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/fiber/06054"
@@ -92,7 +92,7 @@
     "title": "Косметическая салфетка Green Fiber CARE",
     "short_desc": "Снятие стойкого макияжа и бережное очищение кожи",
     "full_desc": "Работает только с теплой водой. Очищает поры и удаляет косметику без раздражения и молочка.",
-    "price": 330,
+    "price": 390,
     "volume": "1 шт",
     "img": "images/fiber-care-napkin.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/fiber/06138"
@@ -106,7 +106,7 @@
     "title": "Набор текстиля для уборки HOME EXPERT SET",
     "short_desc": "Комплексное решение для экологичной чистоты дома",
     "full_desc": "Стартовый набор из ключевых файберов бренда для посуды, стекол, зеркал и полов в фирменной коробке.",
-    "price": 3950,
+    "price": 4500,
     "volume": "комплект",
     "img": "images/fiber-expert-set.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/fiber/06063"
@@ -120,7 +120,7 @@
     "title": "Очищающая паста BioTrim Mystik",
     "short_desc": "Справляется со ржавчиной, нагаром и накипью",
     "full_desc": "Биоразлагаемый экологичный состав на основе микроминералов. Безопасна для органов дыхания и рук.",
-    "price": 380,
+    "price": 510,
     "volume": "200 г",
     "img": "images/biotrim-mystik-paste.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/biotrim/03301"
@@ -134,7 +134,7 @@
     "title": "Очищающий порошок BioTrim Mystik",
     "short_desc": "Кислородное экспресс-удаление налета и дезинфекция",
     "full_desc": "Активируется кипятком. Отбеливает столовые приборы, кружки, термосы и выводит органические пятна.",
-    "price": 380,
+    "price": 510,
     "volume": "160 г",
     "img": "images/biotrim-mystik-powder.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/biotrim/03302"
@@ -148,7 +148,7 @@
     "title": "Пластины для стирки белья BioTrim",
     "short_desc": "Растительная замена фосфатным порошкам",
     "full_desc": "100% растворяются в воде, выполаскиваются без остатка. Подходят для детского белья и аллергиков.",
-    "price": 790,
+    "price": 930,
     "volume": "38 шт",
     "img": "images/biotrim-plates.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/biotrim/03705"
@@ -162,7 +162,7 @@
     "title": "Природный пятновыводитель-спрей BioTrim ECO",
     "short_desc": "Быстро расщепляет пятна вина, кофе, ягод и соусов",
     "full_desc": "Удобный компактный формат для экстренной очистки одежды. Не повреждает структуру волокон ткани.",
-    "price": 420,
+    "price": 490,
     "volume": "50 мл",
     "img": "images/biotrim-spray.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/biotrim/03229"
@@ -176,7 +176,7 @@
     "title": "Натуральное твердое мыло ручной работы с ароматом ягодного йогурта SHARME SOAP",
     "short_desc": "Бережное очищение кожи и натуральный ягодный аромат",
     "full_desc": "Натуральное мыло ручной работы сварено на основе растительных масел. Не сушит кожу рук и оставляет легкий аромат ягодного десерта.",
-    "price": 190,
+    "price": 380,
     "volume": "1 шт",
     "img": "images/biotrim-soap-stain.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/sharme-soap/02771"
@@ -190,7 +190,7 @@
     "title": "Универсальная швабра Green Fiber MOP",
     "short_desc": "Шарнирная платформа и 2 сменные насадки",
     "full_desc": "Позволяет отмывать плинтусы, стены, потолки и полы под мебелью без контакта рук с грязной водой.",
-    "price": 4900,
+    "price": 5700,
     "volume": "1 комплект",
     "img": "images/mop-universal.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/aquamatic/06115"
@@ -204,7 +204,7 @@
     "title": "Швабра с отжимом Green Fiber Twist Mop",
     "short_desc": "Чистые руки: встроенный механизм скручивания",
     "full_desc": "Спиральное микроволокно впитывает большой объем влаги и пыли. Отжим происходит одним движением рукоятки.",
-    "price": 3800,
+    "price": 4400,
     "volume": "1 комплект",
     "img": "images/mop-twist.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/aquamatic/06122"
@@ -218,7 +218,7 @@
     "title": "Аэро-швабра с распылителем Green Fiber AERO",
     "short_desc": "Встроенный резервуар: уборка без ведер и тазов",
     "full_desc": "Мелкодисперсное распыление защищает паркет и ламинат от избытка влаги и разбухания.",
-    "price": 4200,
+    "price": 4900,
     "volume": "1 комплект",
     "img": "images/mop-aero.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/aquamatic/06105"
@@ -232,7 +232,7 @@
     "title": "Welllab Omega-3 Plus",
     "short_desc": "Концентрат ПНЖК высокой очистки (EPA и DHA)",
     "full_desc": "Очищенный рыбий жир северных пород рыб для эластичности сосудов, работы мозга и здоровья кожи.",
-    "price": 1190,
+    "price": 2710,
     "volume": "60 капсул",
     "img": "images/welllab-omega.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/welllab/070707"
@@ -246,7 +246,7 @@
     "title": "Welllab С-Complex",
     "short_desc": "Биодоступная некислая форма витамина C",
     "full_desc": "Стимулирует синтез коллагена, укрепляет стенки капилляров и повышает сопротивляемость вирусам.",
-    "price": 750,
+    "price": 990,
     "volume": "60 капсул",
     "img": "images/welllab-c-complex.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/welllab/070701"
@@ -260,7 +260,7 @@
     "title": "Welllab 5-HTP",
     "short_desc": "Предшественник серотонина: спокойствие и настроение",
     "full_desc": "Натуральный окситриптофан снижает уровень тревожности, перепады настроения и улучшает сон.",
-    "price": 1100,
+    "price": 1390,
     "volume": "60 капсул",
     "img": "images/welllab-5-htp.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/welllab/070748"
@@ -274,7 +274,7 @@
     "title": "Welllab Urolux",
     "short_desc": "Растительный комплекс для здоровья почек",
     "full_desc": "Экстракты брусники, толокнянки и можжевельника препятствуют застойным процессам и воспалениям мочевыводящих путей.",
-    "price": 1050,
+    "price": 1290,
     "volume": "60 капсул",
     "img": "images/welllab-urolux.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/welllab/070706"
@@ -288,7 +288,7 @@
     "title": "Welllab Cardio",
     "short_desc": "Поддержка сердечной мышцы и тонуса сосудов",
     "full_desc": "Боярышник, коэнзим Q10, рутин и таурин нормализуют ритм и питают миокард.",
-    "price": 1150,
+    "price": 1390,
     "volume": "60 капсул",
     "img": "images/welllab-cardio.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/welllab/070703"
@@ -302,7 +302,7 @@
     "title": "Welllab Слип Тайм",
     "short_desc": "Легкое засыпание и глубокий ночной отдых",
     "full_desc": "Комплекс с мелатонином, пассифлорой и хмелем облегчает засыпание при смене часовых поясов и переутомлении.",
-    "price": 950,
+    "price": 1190,
     "volume": "30 капсул",
     "img": "images/welllab-sleep-time.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/welllab/070756"
@@ -316,7 +316,7 @@
     "title": "Протеиновый коктейль Balancer Daily Ваниль",
     "short_desc": "Полноценный прием пищи за 1 минуту: 20 г белка",
     "full_desc": "Баланс белков, антиоксидантов, витаминов и клетчатки. Насыщает на 3-4 часа при 210 ккал.",
-    "price": 1800,
+    "price": 2100,
     "volume": "10 саше",
     "img": "images/balancer-vanilla.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/balancer/012644"
@@ -330,7 +330,7 @@
     "title": "Balancer Collagen с витамином C",
     "short_desc": "Гидролизованный коллаген для связок, волос и кожи",
     "full_desc": "Биодоступные пептиды коллагена ускоряют восстановление связок и улучшают тургор кожи.",
-    "price": 2100,
+    "price": 2490,
     "volume": "14 саше",
     "img": "images/balancer-collagen.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/balancer/012622"
@@ -344,7 +344,7 @@
     "title": "Дренирующий напиток DrainEffect / Drain Max",
     "short_desc": "Вывод застойной жидкости и снятие отеков",
     "full_desc": "Растительный комплекс стимулирует циркуляцию лимфы, уменьшая объемы тела без вымывания солей.",
-    "price": 1150,
+    "price": 1390,
     "volume": "20 стиков",
     "img": "images/balancer-drain.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/balancer/012636"
@@ -358,7 +358,7 @@
     "title": "Функциональный чай TeaVitall Express Premier",
     "short_desc": "Энергетический купаж с кипреем, имбирем и перцем",
     "full_desc": "Купаж для мужской силы, поддержания тонуса и выносливости в течение активного дня.",
-    "price": 420,
+    "price": 490,
     "volume": "30 пакетов",
     "img": "images/tea-premier.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/teavitall/01592"
@@ -372,7 +372,7 @@
     "title": "Очищающий чай TeaVitall Express Fresh 1",
     "short_desc": "Детокс ЖКТ на травах Горного Алтая",
     "full_desc": "Сенна, володушка и крушина деликатно активируют моторику кишечника без спазмов.",
-    "price": 420,
+    "price": 490,
     "volume": "30 пакетов",
     "img": "images/tea-fresh.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/teavitall/01590"
@@ -386,7 +386,7 @@
     "title": "Чай TeaVitall Anyday Zanzibar",
     "short_desc": "Пряный каркаде с цедрой апельсина и гвоздикой",
     "full_desc": "Ароматный напиток с ярким вкусом специй и легкой фруктовой кислинкой.",
-    "price": 390,
+    "price": 450,
     "volume": "38 пакетов",
     "img": "images/tea-zanzibar.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/teavitall/01581"
@@ -400,7 +400,7 @@
     "title": "Натуральный твердый шампунь Sharme Hair Mumie для активизации роста волос",
     "short_desc": "Укрепление корней и стимуляция роста с алтайским мумие",
     "full_desc": "Натуральный концентрат с алтайским мумие укрепляет волосяные фолликулы, пробуждает спящие луковицы и возвращает волосам силу.",
-    "price": 490,
+    "price": 590,
     "volume": "50 г",
     "img": "images/sharme-citrus.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/sharme-hair/02791"
@@ -414,7 +414,7 @@
     "title": "Твердый кондиционер для волос Sharme Hair",
     "short_desc": "Гладкость, шелковистость и легкое расчесывание",
     "full_desc": "Обогащен протеинами пшеницы и маслом кокоса. Разглаживает кутикулу волос по всей длине.",
-    "price": 540,
+    "price": 640,
     "volume": "45 г",
     "img": "images/sharme-conditioner.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/sharme-hair/02785"
@@ -428,7 +428,7 @@
     "title": "Тканевая маска для лица успокаивающая с Д-пантенолом NICE CODE",
     "short_desc": "Быстрое снятие раздражений и глубокое увлажнение",
     "full_desc": "Экстракты центеллы и Д-пантенол мгновенно успокаивают чувствительную кожу, снимают покраснения и восстанавливают защитный барьер.",
-    "price": 240,
+    "price": 290,
     "volume": "1 шт",
     "img": "images/nice-code-mask.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/nicecode/02973"
@@ -442,7 +442,7 @@
     "title": "Увлажняющий крем для лица Happy Dew Basic Care",
     "short_desc": "Базовое увлажнение на основе цветочных экстрактов",
     "full_desc": "Легкая формула с гидролатами цветов поддерживает водный баланс кожи в течение всего дня без жирного блеска.",
-    "price": 890,
+    "price": 1050,
     "volume": "50 мл",
     "img": "images/happy-dew-cream.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/happy-dew/03306"
@@ -456,7 +456,7 @@
     "title": "BB-крем Foet «Идеальная кожа»",
     "short_desc": "Естественный тон без эффекта маски",
     "full_desc": "Подстраивается под тон кожи, увлажняет и деликатно маскирует мелкие несовершенства.",
-    "price": 1250,
+    "price": 1490,
     "volume": "30 мл",
     "img": "images/foet-bb-cream.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/foet/02758"
@@ -470,7 +470,7 @@
     "title": "Оттеночный бальзам для губ Foet",
     "short_desc": "Питание с маслом ши и деликатный оттенок",
     "full_desc": "Ухаживающий бальзам смягчает кожу губ, защищает от обветривания и придает легкий свежий оттенок.",
-    "price": 420,
+    "price": 490,
     "volume": "1 шт",
     "img": "images/foet-lip-balm.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/foet/03113"
@@ -484,7 +484,7 @@
     "title": "Эфирное масло Sharme Essential Лаванда",
     "short_desc": "100% чистое эфирное масло французской лаванды",
     "full_desc": "Натуральное масло для аромаламп, ванн и массажа. Снимает стресс и настраивает на здоровый сон.",
-    "price": 440,
+    "price": 520,
     "volume": "5 мл",
     "img": "images/sharme-lavender.jpg",
     "gw_url": "https://greenwayglobal.com/shop/brands/sharme-essential/02992"
