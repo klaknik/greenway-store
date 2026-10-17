@@ -162,6 +162,7 @@
     <div class="badge">Экомаркет</div>
   </header>
 
+  <!-- 1. КАТАЛОГ -->
   <div id="pageCatalog" class="tab-page active">
     <div class="search-wrap">
       <input type="text" id="searchInput" class="search-input" placeholder="🔍 Поиск...">
@@ -177,6 +178,7 @@
     </div>
   </div>
 
+  <!-- 2. ДОСТАВКА -->
   <div id="pageDelivery" class="tab-page">
     <div class="page-container">
       <div class="info-card">
@@ -194,6 +196,7 @@
     </div>
   </div>
 
+  <!-- 3. МОИ ЗАКАЗЫ -->
   <div id="pageOrders" class="tab-page">
     <div class="page-container">
       <div class="cart-box">
@@ -236,6 +239,7 @@
     </div>
   </div>
 
+  <!-- 4. FAQ -->
   <div id="pageFaq" class="tab-page">
     <div class="page-container">
       <div class="info-card">
@@ -278,6 +282,7 @@
     </div>
   </div>
 
+  <!-- ТАББАР -->
   <div class="bottom-nav">
     <div class="nav-btn active" id="navBtnCatalog" onclick="switchTab('catalog')">
       <div class="nav-btn-icon">🛍</div>
@@ -300,6 +305,7 @@
 
   <div class="modal-overlay" id="overlay"></div>
 
+  <!-- ШТОРКИ -->
   <div class="sheet" id="detailSheet">
     <div class="sheet-header">
       <span class="badge" id="detailCategory">Категория</span>
@@ -918,7 +924,7 @@
       document.getElementById('closePreorderBtn').onclick = closeAllSheets;
       document.getElementById('closeCustomOrderBtn').onclick = closeAllSheets;
 
-      // Загрузка актуального products.json со сбросом кэша
+      // Чтение products.json со сбросом кэша
       fetch('products.json?v=' + Date.now())
         .then(function(res) {
           if (!res.ok) throw new Error('HTTP ' + res.status);
