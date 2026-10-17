@@ -1,0 +1,36 @@
+name: Auto Update Greenway Prices & Descriptions
+
+on:
+  schedule:
+    # 03:00 и 15:00 UTC = ровно 06:00 и 18:00 по Московскому времени (UTC+3)
+    - cron: '0 3,15 * * *'
+  workflow_dispatch: # Позволяет запускать вручную кнопкой в Actions
+
+permissions:
+  contents: write
+
+jobs:
+  run-updater:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
+
+      - name: Update prices and descriptions
+        run: python update_prices.py
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add products.json
+          git commit -m "Автообновление цен и описаний Greenway" || exit 0
+          git push
