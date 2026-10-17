@@ -33,7 +33,6 @@
     header { background: #fff; padding: 14px 16px; position: sticky; top: 0; z-index: 25; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
     header h1 { font-size: 18px; font-weight: 700; color: var(--primary); }
     .badge { background: #E8F5E9; color: var(--primary); font-size: 11px; padding: 4px 8px; border-radius: 12px; font-weight: 600; }
-    .badge-preorder { background: #FFF3E0; color: #E65100; border: 1px solid #FFE0B2; }
 
     /* Страницы вкладок */
     .tab-page { display: none; width: 100%; }
@@ -57,25 +56,6 @@
     .tabs-sub::-webkit-scrollbar { display: none; }
     .tab-sub { padding: 4px 11px; border-radius: 14px; font-size: 12px; font-weight: 500; background: #fff; color: var(--text-muted); cursor: pointer; white-space: nowrap; border: 1px solid var(--border); user-select: none; }
     .tab-sub.active { background: #E8F5E9; color: var(--primary-dark); border-color: var(--primary); font-weight: 600; }
-
-    /* Промо-баннер программы лояльности */
-    .promo-banner {
-      margin: 12px 16px 0;
-      background: linear-gradient(135deg, #00875A 0%, #005A3C 100%);
-      color: #fff;
-      border-radius: 14px;
-      padding: 12px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0, 135, 90, 0.2);
-    }
-    .promo-banner:active { opacity: 0.9; }
-    .promo-banner-text { font-size: 12.5px; font-weight: 600; line-height: 1.35; }
-    .promo-banner-sub { font-size: 11px; opacity: 0.85; font-weight: 400; margin-top: 2px; }
-    .promo-banner-btn { background: #fff; color: var(--primary-dark); font-size: 11px; font-weight: 700; padding: 7px 12px; border-radius: 8px; border: none; white-space: nowrap; }
 
     /* Сетка каталога */
     .catalog { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 16px; }
@@ -125,10 +105,6 @@
     .info-card { background: #fff; border-radius: 14px; padding: 16px; border: 1px solid var(--border); margin-bottom: 12px; }
     .info-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--primary-dark); display: flex; align-items: center; gap: 6px; }
     .info-card p { font-size: 13px; line-height: 1.5; color: var(--text); margin-bottom: 6px; }
-
-    /* Преимущества бонусов */
-    .benefit-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; font-size: 13px; line-height: 1.4; color: var(--text); }
-    .benefit-icon { font-size: 18px; flex-shrink: 0; }
 
     /* Аккордеон FAQ */
     .faq-item { border-bottom: 1px solid var(--border); padding: 12px 0; }
@@ -211,15 +187,6 @@
       <input type="text" id="searchInput" class="search-input" placeholder="🔍 Поиск...">
     </div>
 
-    <!-- Баннер регистрации и кешбэка -->
-    <div class="promo-banner" onclick="openRegisterModal(false)">
-      <div>
-        <div class="promo-banner-text">🎁 Получайте кешбэк до 20% с заказов</div>
-        <div class="promo-banner-sub">Откройте бесплатный бонусный счёт Greenway</div>
-      </div>
-      <button class="promo-banner-btn">Оформить ›</button>
-    </div>
-
     <div class="nav-wrap">
       <div class="tabs-main" id="mainCategoryTabs"></div>
     </div>
@@ -282,8 +249,7 @@
             <span id="cartTotalSum">0 ₽</span>
           </div>
 
-          <!-- При нажатии проверяется регистрация: для новых пользователей открывается инвайт, для повторных — сразу адрес -->
-          <button class="btn-action" id="checkoutBtn" onclick="handleCheckoutStep()">
+          <button class="btn-action" id="checkoutBtn" onclick="openAddressSheet()">
             <span>Продолжить</span>
             <span>›</span>
           </button>
@@ -415,51 +381,10 @@
     </div>
   </div>
 
-  <!-- Шторка: Обязательная регистрация перед заказом / Бонусный счёт Greenway -->
-  <div class="sheet" id="registerModalSheet">
-    <div class="sheet-header">
-      <span class="badge" style="background:#E8F5E9; color:var(--primary-dark);">Обязательный шаг перед заказом</span>
-      <button class="sheet-close" id="closeRegisterBtn">✕</button>
-    </div>
-    <h2 class="detail-title" id="registerSheetTitle">Регистрация в Greenway Global</h2>
-    <p style="font-size: 13.5px; line-height: 1.5; color: var(--text-muted); margin: 8px 0 14px;" id="registerSheetDesc">
-      Для оформления первого заказа необходимо бесплатно открыть личный номер клиента Greenway. На него будут начисляться бонусы и кешбэк за каждую покупку!
-    </p>
-
-    <div class="benefit-item">
-      <span class="benefit-icon">💳</span>
-      <div><b>Кешбэк до 20%</b> на подарочный счёт для оплаты следующих покупок.</div>
-    </div>
-    <div class="benefit-item">
-      <span class="benefit-icon">🎁</span>
-      <div><b>Закрытые промо-акции</b>, подарки и эксклюзивные новинки от компании.</div>
-    </div>
-    <div class="benefit-item">
-      <span class="benefit-icon">🔒</span>
-      <div><b>Бесплатно:</b> регистрация занимает 1 минуту по номеру телефона и ни к чему не обязывает.</div>
-    </div>
-
-    <!-- Кнопка 1: Открытие вашей инвайт-ссылки -->
-    <button class="btn-action" onclick="openGreenwayRegistration()" id="btnGoRegister">
-      <span>1. Зарегистрироваться в Greenway (1 мин) ›</span>
-    </button>
-
-    <!-- Кнопка 2: Подтверждение регистрации и переход к адресу -->
-    <button class="btn-action btn-action-accent" onclick="confirmRegistrationSuccess()" id="btnConfirmRegistered" style="margin-top: 8px;">
-      <span>2. Я зарегистрировался — продолжить заказ ›</span>
-    </button>
-
-    <div style="text-align:center; margin-top:12px;">
-      <a href="javascript:void(0)" onclick="confirmRegistrationSuccess()" style="font-size:12px; color:var(--text-muted); text-decoration:underline;">
-        У меня уже есть регистрация в Greenway
-      </a>
-    </div>
-  </div>
-
   <!-- Шторка: Предзаказ парфюмерии Enjoy Care -->
   <div class="sheet" id="preorderModalSheet">
     <div class="sheet-header">
-      <span class="badge badge-preorder">Enjoy Care (Под заказ)</span>
+      <span class="badge" style="background:#FFF3E0; color:#E65100;">Enjoy Care (Под заказ)</span>
       <button class="sheet-close" id="closePreorderBtn">✕</button>
     </div>
     <h2 class="detail-title">Заказ номерной парфюмерии</h2>
@@ -585,10 +510,9 @@
   </div>
 
   <script>
-    // НАСТРОЙКИ ССЫЛОК:
-    var PAYMENT_URL = "https://yookassa.ru"; 
-    var MANAGER_CONTACT_URL = ""; 
-    var GREENWAY_INVITE_URL = "https://greenwayglobal.com/invite/client/jDYnTqVsUq"; // Ваша инвайт-ссылка
+    // Ссылки установлены:
+    var PAYMENT_URL = "https://vk.ru/away.php?to=https%3A%2F%2Fwww.tbank-online.com%2Frm%2Fr_ekgRQeAIwO.gnFmJhokXP%2FJXIT190570&utf=1";
+    var MANAGER_CONTACT_URL = "https://max.ru/u/f9LHodD0cOL85oIQ4kQZhAJ8Amc9j6FCMAK9NQW9KQ8pRjSeEOvzxHDvNtM";
     var ORDER_API_URL = ""; 
 
     var FREE_DELIVERY_THRESHOLD = 3000;
@@ -645,9 +569,6 @@
     var currentSubCat = 'all';
     var searchQuery = '';
 
-    // Проверка статуса регистрации клиента в Greenway
-    var isUserRegistered = (localStorage.getItem('gw_user_registered') === 'true');
-
     try {
       if (window.MAX && window.MAX.expand) {
         window.MAX.expand();
@@ -689,60 +610,7 @@
       if (MANAGER_CONTACT_URL && MANAGER_CONTACT_URL.indexOf('http') === 0) {
         window.open(MANAGER_CONTACT_URL, '_blank');
       } else {
-        alert('Ссылка на менеджера настраивается.');
-      }
-    }
-
-    /* Логика шага регистрации: для новых открывает инвайт, для повторных — сразу адрес */
-    function handleCheckoutStep() {
-      var subtotal = getCartSubtotal();
-      if (subtotal <= 0) return;
-
-      if (!isUserRegistered) {
-        openRegisterModal(true);
-      } else {
-        openAddressSheet();
-      }
-    }
-
-    function openRegisterModal(isRequiredFlow) {
-      closeAllSheets();
-      var titleEl = document.getElementById('registerSheetTitle');
-      var descEl = document.getElementById('registerSheetDesc');
-
-      if (isRequiredFlow) {
-        titleEl.textContent = 'Обязательный шаг перед заказом';
-        descEl.textContent = 'Для оформления первого заказа необходимо зарегистрировать номер клиента Greenway. На него прикрепятся бонусы и скидки!';
-      } else {
-        titleEl.textContent = 'Бонусный счёт Greenway Global';
-        descEl.textContent = 'Зарегистрируйтесь как клиент Greenway и получайте до 20% кешбэка с каждой покупки!';
-      }
-
-      document.getElementById('overlay').style.display = 'block';
-      document.getElementById('registerModalSheet').style.display = 'block';
-    }
-
-    function openGreenwayRegistration() {
-      if (GREENWAY_INVITE_URL && GREENWAY_INVITE_URL.indexOf('http') === 0) {
-        window.open(GREENWAY_INVITE_URL, '_blank');
-      } else {
-        alert('Ссылка регистрации настраивается.');
-      }
-    }
-
-    function confirmRegistrationSuccess() {
-      isUserRegistered = true;
-      try {
-        localStorage.setItem('gw_user_registered', 'true');
-      } catch (e) {}
-
-      closeAllSheets();
-
-      // Если корзина не пуста, сразу переводим к адресу
-      if (getCartSubtotal() > 0) {
-        openAddressSheet();
-      } else {
-        alert('Бонусный счёт успешно активирован!');
+        alert('Ссылка на контакт настраивается.');
       }
     }
 
@@ -1200,266 +1068,4 @@
       var keys = Object.keys(cart);
 
       if (keys.length === 0) {
-        container.innerHTML = '<div class="empty-cart-msg">Ваша корзина пуста</div>';
-        if (summaryBox) summaryBox.style.display = 'none';
-        updateDeliveryProgress(0);
-        return;
-      }
-
-      if (summaryBox) summaryBox.style.display = 'block';
-      container.innerHTML = '';
-
-      keys.forEach(function(id) {
-        var p = allProducts.find(function(x) { return x.id == id; });
-        if (!p) return;
-        var count = cart[id];
-        var cost = count * p.price;
-
-        var item = document.createElement('div');
-        item.className = 'cart-item';
-
-        var info = document.createElement('div');
-        info.style.maxWidth = '60%';
-
-        var title = document.createElement('b');
-        title.textContent = p.title;
-        info.appendChild(title);
-
-        var priceNote = document.createElement('div');
-        priceNote.style.cssText = 'color:var(--text-muted); font-size:11px;';
-        priceNote.textContent = p.price + ' ₽ / шт.';
-        info.appendChild(priceNote);
-
-        var actions = document.createElement('div');
-        actions.style.cssText = 'display:flex; align-items:center; gap:10px;';
-
-        var ctrls = document.createElement('div');
-        ctrls.style.cssText = 'display:flex; align-items:center; gap:5px;';
-
-        var minusBtn = document.createElement('button');
-        minusBtn.className = 'btn-qty';
-        minusBtn.textContent = '−';
-        minusBtn.onclick = function() { changeQty(p.id, -1); };
-
-        var num = document.createElement('span');
-        num.className = 'qty-num';
-        num.textContent = count;
-
-        var plusBtn = document.createElement('button');
-        plusBtn.className = 'btn-qty';
-        plusBtn.textContent = '+';
-        plusBtn.onclick = function() { changeQty(p.id, 1); };
-
-        ctrls.appendChild(minusBtn);
-        ctrls.appendChild(num);
-        ctrls.appendChild(plusBtn);
-
-        var sumItemEl = document.createElement('div');
-        sumItemEl.style.cssText = 'font-weight:700; min-width:55px; text-align:right;';
-        sumItemEl.textContent = cost + ' ₽';
-
-        actions.appendChild(ctrls);
-        actions.appendChild(sumItemEl);
-
-        item.appendChild(info);
-        item.appendChild(actions);
-        container.appendChild(item);
-      });
-
-      document.getElementById('cartSubtotalSum').textContent = subtotal + ' ₽';
-
-      var deliveryLabel = document.getElementById('cartDeliveryCost');
-      if (delivery === 0) {
-        deliveryLabel.textContent = 'Бесплатно (Курьер) 🎉';
-        deliveryLabel.style.color = 'var(--primary)';
-      } else {
-        deliveryLabel.textContent = '500 ₽';
-        deliveryLabel.style.color = 'var(--text)';
-      }
-
-      document.getElementById('cartTotalSum').textContent = grandTotal + ' ₽';
-      updateDeliveryProgress(subtotal);
-    }
-
-    function renderOrderHistory() {
-      var box = document.getElementById('orderHistoryContainer');
-      if (!box) return;
-
-      if (!orderHistory || orderHistory.length === 0) {
-        box.innerHTML = '<p style="color:var(--text-muted); font-size:13px;">Ранее оформленных заказов пока нет.</p>';
-        return;
-      }
-
-      box.innerHTML = '';
-      orderHistory.slice().reverse().forEach(function(o) {
-        var el = document.createElement('div');
-        el.className = 'order-history-item';
-        el.innerHTML = `
-          <div class="order-history-header">
-            <span>Заказ #${o.id}</span>
-            <span>${o.total_price} ₽</span>
-          </div>
-          <div style="color:var(--text-muted); margin-bottom:4px;">${o.date}</div>
-          <div class="order-history-status">Статус: ${o.status}</div>
-          <div style="margin-top:4px; font-size:11px; color:#555;">${o.items_preview}</div>
-        `;
-        box.appendChild(el);
-      });
-    }
-
-    function openAddressSheet() {
-      var subtotal = getCartSubtotal();
-      if (subtotal <= 0) return;
-
-      var delivery = getDeliveryCost(subtotal);
-      var grandTotal = subtotal + delivery;
-
-      document.getElementById('summaryGoods').textContent = subtotal + ' ₽';
-      var delEl = document.getElementById('summaryDelivery');
-      if (delivery === 0) {
-        delEl.textContent = 'Бесплатно (Курьер)';
-        delEl.style.color = 'var(--primary)';
-      } else {
-        delEl.textContent = '500 ₽';
-        delEl.style.color = 'var(--text)';
-      }
-      document.getElementById('summaryTotal').textContent = grandTotal + ' ₽';
-
-      document.getElementById('overlay').style.display = 'block';
-      document.getElementById('addressSheet').style.display = 'block';
-    }
-
-    function confirmAndPay() {
-      var name = document.getElementById('orderName').value.trim();
-      var phone = document.getElementById('orderPhone').value.trim();
-      var region = document.getElementById('orderRegion').value.trim();
-      var zip = document.getElementById('orderZip').value.trim();
-      var district = document.getElementById('orderDistrict').value.trim();
-      var city = document.getElementById('orderCity').value.trim();
-      var street = document.getElementById('orderStreet').value.trim();
-      var house = document.getElementById('orderHouse').value.trim();
-      var apt = document.getElementById('orderApt').value.trim();
-      var comment = document.getElementById('orderComment').value.trim();
-
-      var hasError = false;
-
-      function check(errId, condition) {
-        var errEl = document.getElementById(errId);
-        if (condition) { errEl.style.display = 'block'; hasError = true; } 
-        else { errEl.style.display = 'none'; }
-      }
-
-      check('nameError', !name);
-      check('phoneError', !phone || phone.length < 7);
-      check('regionError', !region);
-      check('zipError', !zip || zip.length !== 6);
-      check('cityError', !city);
-      check('streetError', !street);
-
-      if (hasError) return;
-
-      var subtotal = getCartSubtotal();
-      var delivery = getDeliveryCost(subtotal);
-      var grandTotal = subtotal + delivery;
-
-      var keys = Object.keys(cart);
-      var orderLines = [];
-
-      keys.forEach(function(id, index) {
-        var p = allProducts.find(function(x) { return x.id == id; });
-        if (p) {
-          var count = cart[id];
-          var cost = count * p.price;
-          orderLines.push((index + 1) + ". " + p.title + " — " + count + " шт. x " + p.price + " ₽ = " + cost + " ₽");
-        }
-      });
-
-      var fullAddressString = "Индекс: " + zip + ", " + region + (district ? ", " + district : "") + ", " + city + ", ул. " + street + (house ? ", д. " + house : "") + (apt ? ", кв./оф. " + apt : "");
-
-      var orderNum = Math.floor(100000 + Math.random() * 900000);
-      var newOrder = {
-        id: orderNum,
-        date: new Date().toLocaleDateString('ru-RU') + " " + new Date().toLocaleTimeString('ru-RU', {hour:'2-digit', minute:'2-digit'}),
-        status: "Ожидает оплаты",
-        items_preview: orderLines.slice(0, 2).join('; ') + (orderLines.length > 2 ? ' и др.' : ''),
-        total_price: grandTotal
-      };
-
-      orderHistory.push(newOrder);
-      try {
-        localStorage.setItem('gw_order_history', JSON.stringify(orderHistory));
-      } catch (e) {}
-
-      var payload = {
-        action: "new_order_submitted",
-        order_id: orderNum,
-        customer: {
-          name: name,
-          phone: phone,
-          zip: zip,
-          region: region,
-          district: district,
-          city: city,
-          street: street,
-          house: house,
-          apt: apt,
-          full_address: fullAddressString,
-          comment: comment
-        },
-        items: orderLines,
-        subtotal_price: subtotal,
-        delivery_price: delivery,
-        total_price: grandTotal,
-        payment_status: "awaiting_payment"
-      };
-
-      cart = {};
-      updateCartBadge();
-      closeAllSheets();
-
-      if (ORDER_API_URL && ORDER_API_URL.indexOf('http') === 0) {
-        fetch(ORDER_API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        }).catch(function(){});
-      }
-
-      if (PAYMENT_URL && PAYMENT_URL.indexOf('http') === 0) {
-        window.location.href = PAYMENT_URL;
-      } else {
-        switchTab('orders');
-        alert('Заказ #' + orderNum + ' успешно создан и передан в обработку!');
-      }
-    }
-
-    function closeAllSheets() {
-      var overlay = document.getElementById('overlay');
-      var detailSheet = document.getElementById('detailSheet');
-      var addressSheet = document.getElementById('addressSheet');
-      var preorderSheet = document.getElementById('preorderModalSheet');
-      var customOrderSheet = document.getElementById('customOrderModalSheet');
-      var registerSheet = document.getElementById('registerModalSheet');
-
-      if (overlay) overlay.style.display = 'none';
-      if (detailSheet) detailSheet.style.display = 'none';
-      if (addressSheet) addressSheet.style.display = 'none';
-      if (preorderSheet) preorderSheet.style.display = 'none';
-      if (customOrderSheet) customOrderSheet.style.display = 'none';
-      if (registerSheet) registerSheet.style.display = 'none';
-    }
-
-    document.getElementById('searchInput').oninput = handleSearch;
-    document.getElementById('overlay').onclick = closeAllSheets;
-    document.getElementById('closeDetailBtn').onclick = closeAllSheets;
-    document.getElementById('closeAddressBtn').onclick = closeAllSheets;
-    document.getElementById('closePreorderBtn').onclick = closeAllSheets;
-    document.getElementById('closeCustomOrderBtn').onclick = closeAllSheets;
-    document.getElementById('closeRegisterBtn').onclick = closeAllSheets;
-
-    buildMainCategories();
-    renderCatalog();
-    updateCartBadge();
-  </script>
-</body>
-</html>
+        container.innerHTML = '<div class="empty-
