@@ -162,24 +162,21 @@
     <div class="badge">Экомаркет</div>
   </header>
 
-  <!-- 1. ВКЛАДКА: КАТАЛОГ -->
   <div id="pageCatalog" class="tab-page active">
     <div class="search-wrap">
       <input type="text" id="searchInput" class="search-input" placeholder="🔍 Поиск...">
     </div>
-
     <div class="nav-wrap">
       <div class="tabs-main" id="mainCategoryTabs"></div>
     </div>
-
     <div class="subtabs-wrap" id="subCategoryWrap">
       <div class="tabs-sub" id="subCategoryTabs"></div>
     </div>
-
-    <div class="catalog" id="catalogList"></div>
+    <div class="catalog" id="catalogList">
+      <div style="grid-column: span 2; text-align: center; color: #6b7280; padding: 40px 10px;">Загрузка каталога...</div>
+    </div>
   </div>
 
-  <!-- 2. ВКЛАДКА: ДОСТАВКА И ОПЛАТА -->
   <div id="pageDelivery" class="tab-page">
     <div class="page-container">
       <div class="info-card">
@@ -189,7 +186,6 @@
         <p>• <b>Пункты выдачи и доставка:</b> СДЭК, пункты выдачи OZON, Wildberries (WB) или курьером прямо до двери.</p>
         <p>• <b>Отправка:</b> в течение 1–2 рабочих дней после подтверждения заказа.</p>
       </div>
-
       <div class="info-card">
         <h3>💳 Оплата заказов</h3>
         <p>• Удобная и безопасная оплата через <b>СБП (Систему быстрых платежей)</b>.</p>
@@ -198,12 +194,10 @@
     </div>
   </div>
 
-  <!-- 3. ВКЛАДКА: МОИ ЗАКАЗЫ -->
   <div id="pageOrders" class="tab-page">
     <div class="page-container">
       <div class="cart-box">
         <h2 style="font-size:16px; font-weight:700; margin-bottom:12px;">Текущая корзина</h2>
-
         <div class="delivery-progress-box" id="deliveryProgressBox">
           <div class="delivery-progress-text" id="deliveryProgressText">
             <span>До бесплатной курьерской доставки:</span>
@@ -213,9 +207,7 @@
             <div class="delivery-progress-bar-fill" id="deliveryProgressBar"></div>
           </div>
         </div>
-
         <div id="cartItemsContainer"></div>
-
         <div id="cartSummaryBox" style="display:none; margin-top:14px;">
           <div class="cart-summary-line">
             <span>Товары:</span>
@@ -229,14 +221,12 @@
             <span>Итого к оплате:</span>
             <span id="cartTotalSum">0 ₽</span>
           </div>
-
           <button class="btn-action" id="checkoutBtn" onclick="openAddressSheet()">
             <span>Продолжить</span>
             <span>›</span>
           </button>
         </div>
       </div>
-
       <div class="info-card">
         <h3>📦 История заказов</h3>
         <div id="orderHistoryContainer">
@@ -246,42 +236,28 @@
     </div>
   </div>
 
-  <!-- 4. ВКЛАДКА: ВОПРОСЫ (FAQ) -->
   <div id="pageFaq" class="tab-page">
     <div class="page-container">
       <div class="info-card">
         <h3>❓ Часто задаваемые вопросы</h3>
-
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-question">
             <span>Какие категории товаров предлагает Greenway?</span>
             <span class="faq-arrow">▼</span>
           </div>
           <div class="faq-answer">
-            В каталоге представлены: экологичная бытовая химия, биоразлагаемые чистящие средства, натуральная косметика и парфюмерия, биодобавки и витаминные комплексы, здоровое питание (коктейли, чаи, каши), а также аксессуары для дома и здоровья. Полный список вы найдёте в нашем каталоге продукции Greenway.
+            В каталоге представлены: экологичная бытовая химия, биоразлагаемые чистящие средства, натуральная косметика и парфюмерия, биодобавки и витаминные комплексы, здоровое питание (коктейли, чаи, каши), а также аксессуары для дома и здоровья.
           </div>
         </div>
-
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-question">
             <span>Почему продукты Greenway считаются экологичными?</span>
             <span class="faq-arrow">▼</span>
           </div>
           <div class="faq-answer">
-            В производстве используются только натуральные и безопасные составы, упаковка пригодна для вторичной переработки, а многие товары многоразовые. Продукция сертифицирована по международным стандартам качества и не содержит агрессивной «химии».
+            В производстве используются только натуральные и безопасные составы, упаковка пригодна для вторичной переработки, а продукция сертифицирована по международным стандартам качества.
           </div>
         </div>
-
-        <div class="faq-item" onclick="toggleFaq(this)">
-          <div class="faq-question">
-            <span>Сколько продуктов в ассортименте Greenway?</span>
-            <span class="faq-arrow">▼</span>
-          </div>
-          <div class="faq-answer">
-            На данный момент насчитывается более 1000 товаров, объединённых в 32 собственные торговые марки. Ассортимент постоянно расширяется благодаря научным разработкам и обратной связи от партнёров.
-          </div>
-        </div>
-
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-question">
             <span>Как ухаживать за файберами Greenway?</span>
@@ -291,28 +267,7 @@
             Стирайте мылом без отбеливателей (мыло BioTrim или детское). Не сушите на горячих батареях и не гладьте утюгом.
           </div>
         </div>
-
-        <div class="faq-item" onclick="toggleFaq(this)">
-          <div class="faq-question">
-            <span>Как заказать духи?</span>
-            <span class="faq-arrow">▼</span>
-          </div>
-          <div class="faq-answer">
-            Нажмите кнопку «Предзаказ» в блоке духов или напишите менеджеру напрямую — вышлем каталог всех номеров и сориентируем по наличию.
-          </div>
-        </div>
-
-        <div class="faq-item" onclick="toggleFaq(this)">
-          <div class="faq-question">
-            <span>Как отследить посылку?</span>
-            <span class="faq-arrow">▼</span>
-          </div>
-          <div class="faq-answer">
-            После отправки трек-номер для отслеживания (СДЭК, OZON, WB или курьер) поступит вам в чат.
-          </div>
-        </div>
       </div>
-
       <div class="info-card" style="text-align: center;">
         <h3>💬 Нужна консультация?</h3>
         <p>Помогу сориентироваться в продукции GreenWay, подсказать по наличию и ответить на вопросы.</p>
@@ -323,7 +278,6 @@
     </div>
   </div>
 
-  <!-- ТАББАР ВНИЗУ -->
   <div class="bottom-nav">
     <div class="nav-btn active" id="navBtnCatalog" onclick="switchTab('catalog')">
       <div class="nav-btn-icon">🛍</div>
@@ -346,7 +300,6 @@
 
   <div class="modal-overlay" id="overlay"></div>
 
-  <!-- Шторка: Карточка товара -->
   <div class="sheet" id="detailSheet">
     <div class="sheet-header">
       <span class="badge" id="detailCategory">Категория</span>
@@ -362,7 +315,6 @@
     </div>
   </div>
 
-  <!-- Шторка: Духи Enjoy Care -->
   <div class="sheet" id="preorderModalSheet">
     <div class="sheet-header">
       <span class="badge" style="background:#FFF3E0; color:#E65100;">Enjoy Care (Под заказ)</span>
@@ -372,15 +324,11 @@
     <p style="font-size: 14px; line-height: 1.5; color: var(--text); margin: 14px 0 16px;">
       Ароматы Enjoy Care подбираются индивидуально по номерному каталогу. Напишите менеджеру для уточнения наличия и оформления заказа.
     </p>
-    <div style="background: #FFF8E1; border: 1px solid #FFE082; border-radius: 12px; padding: 12px; font-size: 13px; margin-bottom: 16px; color: #7A5200;">
-      ✨ Более 40 мужских и женских ароматов. Производство Чехия, 20% эфирных эссенций.
-    </div>
     <button class="btn-action btn-action-accent" onclick="openManagerChat()">
       <span>💬 Написать менеджеру</span>
     </button>
   </div>
 
-  <!-- Шторка: «Не нашли нужный товар?» -->
   <div class="sheet" id="customOrderModalSheet">
     <div class="sheet-header">
       <span class="badge" style="background:#E8F5E9; color:var(--primary-dark);">Greenway Global</span>
@@ -390,85 +338,61 @@
     <p style="font-size: 14px; line-height: 1.5; color: var(--text); margin: 12px 0 14px;">
       Полный ассортимент продукции Greenway можно посмотреть на официальном сайте:
     </p>
-    <a href="https://greenwayglobal.com/shop" target="_blank" style="display:inline-block; font-size: 14px; font-weight:700; color: var(--primary); text-decoration: underline; margin-bottom: 16px; word-break: break-all;">
+    <a href="https://greenwayglobal.com/shop" target="_blank" style="display:inline-block; font-size: 14px; font-weight:700; color: var(--primary); text-decoration: underline; margin-bottom: 16px;">
       https://greenwayglobal.com/shop ↗
     </a>
-    <div style="background: #F4F6F8; border: 1px solid var(--border); border-radius: 12px; padding: 12px; font-size: 13px; margin-bottom: 16px; color: var(--text);">
-      💬 Если у вас остались вопросы или вы хотите заказать позицию, которой сейчас нет на витрине — свяжитесь с нами, всё подскажем и оформим под заказ!
-    </div>
     <button class="btn-action" onclick="openManagerChat()">
       <span>💬 Связаться с нами</span>
     </button>
-    <a href="https://greenwayglobal.com/shop" target="_blank" class="btn-action btn-action-outline" style="margin-top: 8px;">
-      <span>🌐 Открыть сайт Greenway</span>
-    </a>
   </div>
 
-  <!-- Шторка: Ввод адреса доставки -->
   <div class="sheet" id="addressSheet">
     <div class="sheet-header">
       <h2>Данные для доставки</h2>
       <button class="sheet-close" id="closeAddressBtn">✕</button>
     </div>
-
     <div class="form-group">
       <label class="form-label">ФИО получателя *</label>
       <input type="text" id="orderName" class="form-input" placeholder="Иванов Иван Иванович">
       <div class="form-error" id="nameError">Укажите ФИО полностью</div>
     </div>
-
     <div class="form-group">
       <label class="form-label">Телефон *</label>
       <input type="tel" id="orderPhone" class="form-input" placeholder="+7 (999) 000-00-00">
       <div class="form-error" id="phoneError">Укажите телефон для связи</div>
     </div>
-
     <div class="form-row">
       <div class="form-group" style="flex: 1.4;">
-        <label class="form-label">Область / Край / Республика *</label>
+        <label class="form-label">Регион / Область *</label>
         <input type="text" id="orderRegion" class="form-input" placeholder="Московская обл.">
         <div class="form-error" id="regionError">Укажите регион</div>
       </div>
       <div class="form-group" style="flex: 1;">
-        <label class="form-label">Почтовый индекс *</label>
+        <label class="form-label">Индекс *</label>
         <input type="number" id="orderZip" class="form-input" placeholder="101000">
         <div class="form-error" id="zipError">6 цифр индекса</div>
       </div>
     </div>
-
     <div class="form-row">
       <div class="form-group">
-        <label class="form-label">Район (если есть)</label>
-        <input type="text" id="orderDistrict" class="form-input" placeholder="Одинцовский р-н">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Город / Населённый пункт *</label>
+        <label class="form-label">Город *</label>
         <input type="text" id="orderCity" class="form-input" placeholder="г. Москва">
-        <div class="form-error" id="cityError">Укажите город/посёлок</div>
+        <div class="form-error" id="cityError">Укажите город</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Улица или ПВЗ *</label>
+        <input type="text" id="orderStreet" class="form-input" placeholder="ул. Ленина">
+        <div class="form-error" id="streetError">Укажите адрес</div>
       </div>
     </div>
-
-    <div class="form-row">
-      <div class="form-group" style="flex: 2;">
-        <label class="form-label">Улица или адрес ПВЗ (СДЭК / OZON / WB) *</label>
-        <input type="text" id="orderStreet" class="form-input" placeholder="ул. Ленина или адрес ПВЗ">
-        <div class="form-error" id="streetError">Укажите улицу или ПВЗ</div>
-      </div>
-      <div class="form-group" style="flex: 1;">
-        <label class="form-label">Дом / Корпус</label>
-        <input type="text" id="orderHouse" class="form-input" placeholder="12 к. 1">
-      </div>
-      <div class="form-group" style="flex: 1;">
-        <label class="form-label">Кв. / Офис</label>
-        <input type="text" id="orderApt" class="form-input" placeholder="45">
-      </div>
-    </div>
-
     <div class="form-group">
-      <label class="form-label">Комментарий к заказу</label>
-      <input type="text" id="orderComment" class="form-input" placeholder="Предпочтительный ПВЗ, код домофона...">
+      <label class="form-label">Дом, квартира / офис</label>
+      <input type="text" id="orderHouse" class="form-input" placeholder="д. 12, кв. 45">
     </div>
-
+    <div class="form-group">
+      <label class="form-label">Комментарий</label>
+      <input type="text" id="orderComment" class="form-input" placeholder="Код домофона, удобный ПВЗ...">
+    </div>
     <div style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:12px; padding:12px; margin:14px 0; font-size:13px;">
       <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
         <span style="color:var(--text-muted);">Товары:</span>
@@ -483,7 +407,6 @@
         <span id="summaryTotal" style="color:var(--primary-dark);">0 ₽</span>
       </div>
     </div>
-
     <button class="btn-action" id="paySubmitBtn" onclick="confirmAndPay()">
       <span>Перейти к оплате</span>
       <span>🔒</span>
@@ -535,9 +458,7 @@
     }
 
     function openManagerChat() {
-      if (MANAGER_CONTACT_URL) {
-        window.open(MANAGER_CONTACT_URL, '_blank');
-      }
+      if (MANAGER_CONTACT_URL) window.open(MANAGER_CONTACT_URL, '_blank');
     }
 
     function buildMainCategories() {
@@ -658,32 +579,13 @@
           var pBanner = document.createElement('div');
           pBanner.className = 'card-fullwidth card-fullwidth-perfume';
           pBanner.onclick = function() { openPreorderModal(); };
-
-          var pContent = document.createElement('div');
-          pContent.className = 'card-fullwidth-content';
-
-          var pTitle = document.createElement('div');
-          pTitle.className = 'card-fullwidth-title';
-          pTitle.innerHTML = '<span>✨</span> <span>Духи Enjoy Care (Чехия)</span>';
-
-          var pDesc = document.createElement('div');
-          pDesc.className = 'card-fullwidth-desc';
-          pDesc.textContent = 'Эквиваленты мировых ароматов (20% эссенций). Индивидуальный подбор номеров под заказ';
-
-          pContent.appendChild(pTitle);
-          pContent.appendChild(pDesc);
-
-          var pBtn = document.createElement('button');
-          pBtn.className = 'card-fullwidth-btn card-fullwidth-btn-perfume';
-          pBtn.textContent = 'Предзаказ ›';
-          pBtn.onclick = function(e) {
-            e.stopPropagation();
-            openPreorderModal();
-          };
-
-          pBanner.appendChild(pContent);
-          pBanner.appendChild(pBtn);
-
+          pBanner.innerHTML = `
+            <div class="card-fullwidth-content">
+              <div class="card-fullwidth-title"><span>✨</span> <span>Духи Enjoy Care (Чехия)</span></div>
+              <div class="card-fullwidth-desc">Эквиваленты мировых ароматов (20% эссенций). Индивидуальный подбор номеров под заказ</div>
+            </div>
+            <button class="card-fullwidth-btn card-fullwidth-btn-perfume">Предзаказ ›</button>
+          `;
           container.appendChild(pBanner);
           return;
         }
@@ -692,32 +594,13 @@
           var banner = document.createElement('div');
           banner.className = 'card-fullwidth';
           banner.onclick = function() { openCustomOrderModal(); };
-
-          var content = document.createElement('div');
-          content.className = 'card-fullwidth-content';
-
-          var title = document.createElement('div');
-          title.className = 'card-fullwidth-title';
-          title.innerHTML = '<span>🔎</span> <span>Не нашли нужный товар?</span>';
-
-          var desc = document.createElement('div');
-          desc.className = 'card-fullwidth-desc';
-          desc.textContent = 'Привезём любую позицию из полного каталога Greenway под заказ';
-
-          content.appendChild(title);
-          content.appendChild(desc);
-
-          var btn = document.createElement('button');
-          btn.className = 'card-fullwidth-btn';
-          btn.textContent = 'Узнать ›';
-          btn.onclick = function(e) {
-            e.stopPropagation();
-            openCustomOrderModal();
-          };
-
-          banner.appendChild(content);
-          banner.appendChild(btn);
-
+          banner.innerHTML = `
+            <div class="card-fullwidth-content">
+              <div class="card-fullwidth-title"><span>🔎</span> <span>Не нашли нужный товар?</span></div>
+              <div class="card-fullwidth-desc">Привезём любую позицию из полного каталога Greenway под заказ</div>
+            </div>
+            <button class="card-fullwidth-btn">Узнать ›</button>
+          `;
           container.appendChild(banner);
           return;
         }
@@ -729,15 +612,11 @@
 
         var imgWrap = document.createElement('div');
         imgWrap.className = 'card-img-wrap';
-
         var img = document.createElement('img');
         img.src = item.img || 'https://dummyimage.com/300x200/e8f5e9/00875a.png&text=🌿+Greenway';
         img.alt = item.title;
         img.loading = 'lazy';
-        img.onerror = function() {
-          this.onerror = null;
-          this.src = 'https://dummyimage.com/300x200/e8f5e9/00875a.png&text=🌿+Greenway';
-        };
+        img.onerror = function() { this.src = 'https://dummyimage.com/300x200/e8f5e9/00875a.png&text=🌿+Greenway'; };
         imgWrap.appendChild(img);
 
         var titleEl = document.createElement('div');
@@ -757,7 +636,6 @@
         price.textContent = item.price + ' ₽';
 
         var actionBox = document.createElement('div');
-
         var addBtn = document.createElement('button');
         addBtn.className = 'btn-add';
         addBtn.id = 'addBtn-' + item.id;
@@ -791,7 +669,6 @@
 
         actionBox.appendChild(addBtn);
         actionBox.appendChild(qtyBox);
-
         bottom.appendChild(price);
         bottom.appendChild(actionBox);
 
@@ -799,7 +676,6 @@
         card.appendChild(titleEl);
         card.appendChild(descEl);
         card.appendChild(bottom);
-
         container.appendChild(card);
       });
     }
@@ -819,7 +695,6 @@
     function changeQty(id, delta) {
       cart[id] = (cart[id] || 0) + delta;
       if (cart[id] <= 0) delete cart[id];
-      
       updateProductCardUI(id);
       updateCartBadge();
       renderCartSheet();
@@ -859,18 +734,11 @@
 
     function updateCartBadge() {
       var totalCount = 0;
-      Object.keys(cart).forEach(function(id) {
-        totalCount += cart[id];
-      });
-
+      Object.keys(cart).forEach(function(id) { totalCount += cart[id]; });
       var badge = document.getElementById('navCartBadge');
       if (badge) {
-        if (totalCount > 0) {
-          badge.textContent = totalCount;
-          badge.style.display = 'block';
-        } else {
-          badge.style.display = 'none';
-        }
+        badge.textContent = totalCount;
+        badge.style.display = totalCount > 0 ? 'block' : 'none';
       }
     }
 
@@ -879,69 +747,34 @@
       if (!p) return;
 
       var dImg = document.getElementById('detailImg');
-      if (dImg) {
-        dImg.onerror = function() {
-          this.onerror = null;
-          this.src = 'https://dummyimage.com/600x400/e8f5e9/00875a.png&text=🌿+Greenway+Global';
-        };
-        dImg.src = p.img || 'https://dummyimage.com/600x400/e8f5e9/00875a.png&text=🌿+Greenway+Global';
-      }
+      if (dImg) dImg.src = p.img || 'https://dummyimage.com/600x400/e8f5e9/00875a.png&text=🌿+Greenway';
 
-      var titleEl = document.getElementById('detailTitle');
-      if (titleEl) titleEl.textContent = p.title;
-      
-      var catBadge = document.getElementById('detailCategory');
-      if (catBadge) {
-        catBadge.textContent = p.subcategory_name || p.category_name || 'Товар';
-        catBadge.className = 'badge';
-      }
-
-      var metaEl = document.getElementById('detailMeta');
-      if (metaEl) metaEl.textContent = p.volume ? 'Фасовка / объем: ' + p.volume : '';
-
-      var descEl = document.getElementById('detailDesc');
-      if (descEl) descEl.textContent = p.full_desc || p.short_desc || 'Описание отсутствует.';
-
-      var priceEl = document.getElementById('detailPrice');
-      if (priceEl) priceEl.textContent = p.price + ' ₽';
+      document.getElementById('detailTitle').textContent = p.title;
+      document.getElementById('detailCategory').textContent = p.subcategory_name || p.category_name || 'Товар';
+      document.getElementById('detailMeta').textContent = p.volume ? 'Фасовка / объем: ' + p.volume : '';
+      document.getElementById('detailDesc').textContent = p.full_desc || p.short_desc || '';
+      document.getElementById('detailPrice').textContent = p.price + ' ₽';
 
       updateDetailButton(id);
-
-      var overlay = document.getElementById('overlay');
-      var detailSheet = document.getElementById('detailSheet');
-      if (overlay) overlay.style.display = 'block';
-      if (detailSheet) detailSheet.style.display = 'block';
+      document.getElementById('overlay').style.display = 'block';
+      document.getElementById('detailSheet').style.display = 'block';
     }
 
     function updateDetailButton(id) {
       var p = allProducts.find(function(x) { return x.id == id; });
       var box = document.getElementById('detailBtnContainer');
       if (!box || !p) return;
-
       box.innerHTML = '';
 
       var count = cart[id] || 0;
       if (count > 0) {
         var wrap = document.createElement('div');
         wrap.style.cssText = 'display:flex; align-items:center; gap:8px;';
-
-        var minusBtn = document.createElement('button');
-        minusBtn.className = 'btn-qty';
-        minusBtn.textContent = '−';
-        minusBtn.onclick = function() { changeQty(id, -1); };
-
-        var num = document.createElement('span');
-        num.style.cssText = 'font-weight:700; min-width:16px; text-align:center;';
-        num.textContent = count;
-
-        var plusBtn = document.createElement('button');
-        plusBtn.className = 'btn-qty';
-        plusBtn.textContent = '+';
-        plusBtn.onclick = function() { changeQty(id, 1); };
-
-        wrap.appendChild(minusBtn);
-        wrap.appendChild(num);
-        wrap.appendChild(plusBtn);
+        wrap.innerHTML = `
+          <button class="btn-qty" onclick="changeQty(${id}, -1)">−</button>
+          <span style="font-weight:700; min-width:16px; text-align:center;">${count}</span>
+          <button class="btn-qty" onclick="changeQty(${id}, 1)">+</button>
+        `;
         box.appendChild(wrap);
       } else {
         var btn = document.createElement('button');
@@ -950,32 +783,6 @@
         btn.textContent = '+ В корзину';
         btn.onclick = function() { changeQty(id, 1); };
         box.appendChild(btn);
-      }
-    }
-
-    function updateDeliveryProgress(subtotal) {
-      var box = document.getElementById('deliveryProgressBox');
-      var bar = document.getElementById('deliveryProgressBar');
-      var text = document.getElementById('deliveryProgressText');
-      if (!box || !bar || !text) return;
-
-      if (subtotal <= 0) {
-        box.style.display = 'none';
-        return;
-      }
-
-      box.style.display = 'block';
-
-      if (subtotal >= FREE_DELIVERY_THRESHOLD) {
-        bar.style.width = '100%';
-        bar.style.backgroundColor = '#00875A';
-        text.innerHTML = '<span class="delivery-success-text">🎉 Бесплатная курьерская доставка по РФ!</span>';
-      } else {
-        var diff = FREE_DELIVERY_THRESHOLD - subtotal;
-        var percent = Math.min(100, Math.round((subtotal / FREE_DELIVERY_THRESHOLD) * 100));
-        bar.style.width = percent + '%';
-        bar.style.backgroundColor = '#E58E26';
-        text.innerHTML = '<span>До бесплатного курьера:</span><b>еще ' + diff + ' ₽</b>';
       }
     }
 
@@ -989,11 +796,9 @@
       var grandTotal = subtotal + delivery;
 
       var keys = Object.keys(cart);
-
       if (keys.length === 0) {
         container.innerHTML = '<div class="empty-cart-msg">Ваша корзина пуста</div>';
         if (summaryBox) summaryBox.style.display = 'none';
-        updateDeliveryProgress(0);
         return;
       }
 
@@ -1004,92 +809,45 @@
         var p = allProducts.find(function(x) { return x.id == id; });
         if (!p) return;
         var count = cart[id];
-        var cost = count * p.price;
-
         var item = document.createElement('div');
         item.className = 'cart-item';
-
-        var info = document.createElement('div');
-        info.style.maxWidth = '60%';
-
-        var title = document.createElement('b');
-        title.textContent = p.title;
-        info.appendChild(title);
-
-        var priceNote = document.createElement('div');
-        priceNote.style.cssText = 'color:var(--text-muted); font-size:11px;';
-        priceNote.textContent = p.price + ' ₽ / шт.';
-        info.appendChild(priceNote);
-
-        var actions = document.createElement('div');
-        actions.style.cssText = 'display:flex; align-items:center; gap:10px;';
-
-        var ctrls = document.createElement('div');
-        ctrls.style.cssText = 'display:flex; align-items:center; gap:5px;';
-
-        var minusBtn = document.createElement('button');
-        minusBtn.className = 'btn-qty';
-        minusBtn.textContent = '−';
-        minusBtn.onclick = function() { changeQty(p.id, -1); };
-
-        var num = document.createElement('span');
-        num.className = 'qty-num';
-        num.textContent = count;
-
-        var plusBtn = document.createElement('button');
-        plusBtn.className = 'btn-qty';
-        plusBtn.textContent = '+';
-        plusBtn.onclick = function() { changeQty(p.id, 1); };
-
-        ctrls.appendChild(minusBtn);
-        ctrls.appendChild(num);
-        ctrls.appendChild(plusBtn);
-
-        var sumItemEl = document.createElement('div');
-        sumItemEl.style.cssText = 'font-weight:700; min-width:55px; text-align:right;';
-        sumItemEl.textContent = cost + ' ₽';
-
-        actions.appendChild(ctrls);
-        actions.appendChild(sumItemEl);
-
-        item.appendChild(info);
-        item.appendChild(actions);
+        item.innerHTML = `
+          <div style="max-width:60%;">
+            <b>${p.title}</b>
+            <div style="color:var(--text-muted); font-size:11px;">${p.price} ₽ / шт.</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="display:flex; align-items:center; gap:5px;">
+              <button class="btn-qty" onclick="changeQty(${p.id}, -1)">−</button>
+              <span class="qty-num">${count}</span>
+              <button class="btn-qty" onclick="changeQty(${p.id}, 1)">+</button>
+            </div>
+            <div style="font-weight:700; min-width:55px; text-align:right;">${count * p.price} ₽</div>
+          </div>
+        `;
         container.appendChild(item);
       });
 
       document.getElementById('cartSubtotalSum').textContent = subtotal + ' ₽';
-
       var deliveryLabel = document.getElementById('cartDeliveryCost');
-      if (delivery === 0) {
-        deliveryLabel.textContent = 'Бесплатно (Курьер) 🎉';
-        deliveryLabel.style.color = 'var(--primary)';
-      } else {
-        deliveryLabel.textContent = '500 ₽';
-        deliveryLabel.style.color = 'var(--text)';
-      }
-
+      deliveryLabel.textContent = delivery === 0 ? 'Бесплатно (Курьер) 🎉' : '500 ₽';
+      deliveryLabel.style.color = delivery === 0 ? 'var(--primary)' : 'var(--text)';
       document.getElementById('cartTotalSum').textContent = grandTotal + ' ₽';
-      updateDeliveryProgress(subtotal);
     }
 
     function renderOrderHistory() {
       var box = document.getElementById('orderHistoryContainer');
       if (!box) return;
-
-      if (!orderHistory || orderHistory.length === 0) {
+      if (!orderHistory.length) {
         box.innerHTML = '<p style="color:var(--text-muted); font-size:13px;">Ранее оформленных заказов пока нет.</p>';
         return;
       }
-
       box.innerHTML = '';
       orderHistory.slice().reverse().forEach(function(o) {
         var el = document.createElement('div');
         el.className = 'order-history-item';
         el.innerHTML = `
-          <div class="order-history-header">
-            <span>Заказ #${o.id}</span>
-            <span>${o.total_price} ₽</span>
-          </div>
+          <div class="order-history-header"><span>Заказ #${o.id}</span><span>${o.total_price} ₽</span></div>
           <div style="color:var(--text-muted); margin-bottom:4px;">${o.date}</div>
           <div class="order-history-status">Статус: ${o.status}</div>
           <div style="margin-top:4px; font-size:11px; color:#555;">${o.items_preview}</div>
@@ -1101,21 +859,10 @@
     function openAddressSheet() {
       var subtotal = getCartSubtotal();
       if (subtotal <= 0) return;
-
       var delivery = getDeliveryCost(subtotal);
-      var grandTotal = subtotal + delivery;
-
       document.getElementById('summaryGoods').textContent = subtotal + ' ₽';
-      var delEl = document.getElementById('summaryDelivery');
-      if (delivery === 0) {
-        delEl.textContent = 'Бесплатно (Курьер)';
-        delEl.style.color = 'var(--primary)';
-      } else {
-        delEl.textContent = '500 ₽';
-        delEl.style.color = 'var(--text)';
-      }
-      document.getElementById('summaryTotal').textContent = grandTotal + ' ₽';
-
+      document.getElementById('summaryDelivery').textContent = delivery === 0 ? 'Бесплатно (Курьер)' : '500 ₽';
+      document.getElementById('summaryTotal').textContent = (subtotal + delivery) + ' ₽';
       document.getElementById('overlay').style.display = 'block';
       document.getElementById('addressSheet').style.display = 'block';
     }
@@ -1125,86 +872,42 @@
       var phone = document.getElementById('orderPhone').value.trim();
       var region = document.getElementById('orderRegion').value.trim();
       var zip = document.getElementById('orderZip').value.trim();
-      var district = document.getElementById('orderDistrict').value.trim();
       var city = document.getElementById('orderCity').value.trim();
       var street = document.getElementById('orderStreet').value.trim();
-      var house = document.getElementById('orderHouse').value.trim();
-      var apt = document.getElementById('orderApt').value.trim();
-      var comment = document.getElementById('orderComment').value.trim();
 
-      var hasError = false;
-
-      function check(errId, condition) {
-        var errEl = document.getElementById(errId);
-        if (condition) { errEl.style.display = 'block'; hasError = true; } 
-        else { errEl.style.display = 'none'; }
+      if (!name || !phone || !region || !zip || !city || !street) {
+        alert('Пожалуйста, заполните все обязательные поля со звёздочкой (*)');
+        return;
       }
-
-      check('nameError', !name);
-      check('phoneError', !phone || phone.length < 7);
-      check('regionError', !region);
-      check('zipError', !zip || zip.length !== 6);
-      check('cityError', !city);
-      check('streetError', !street);
-
-      if (hasError) return;
 
       var subtotal = getCartSubtotal();
       var delivery = getDeliveryCost(subtotal);
       var grandTotal = subtotal + delivery;
 
-      var keys = Object.keys(cart);
-      var orderLines = [];
-
-      keys.forEach(function(id, index) {
-        var p = allProducts.find(function(x) { return x.id == id; });
-        if (p) {
-          var count = cart[id];
-          var cost = count * p.price;
-          orderLines.push((index + 1) + ". " + p.title + " — " + count + " шт. x " + p.price + " ₽ = " + cost + " ₽");
-        }
-      });
-
-      var fullAddressString = "Индекс: " + zip + ", " + region + (district ? ", " + district : "") + ", " + city + ", ул. " + street + (house ? ", д. " + house : "") + (apt ? ", кв./оф. " + apt : "");
-
       var orderNum = Math.floor(100000 + Math.random() * 900000);
-      var newOrder = {
+      orderHistory.push({
         id: orderNum,
         date: new Date().toLocaleDateString('ru-RU') + " " + new Date().toLocaleTimeString('ru-RU', {hour:'2-digit', minute:'2-digit'}),
         status: "Ожидает оплаты",
-        items_preview: orderLines.slice(0, 2).join('; ') + (orderLines.length > 2 ? ' и др.' : ''),
+        items_preview: "Товары на сумму " + subtotal + " ₽",
         total_price: grandTotal
-      };
+      });
 
-      orderHistory.push(newOrder);
-      try {
-        localStorage.setItem('gw_order_history', JSON.stringify(orderHistory));
-      } catch (e) {}
+      try { localStorage.setItem('gw_order_history', JSON.stringify(orderHistory)); } catch(e){}
 
       cart = {};
       updateCartBadge();
       closeAllSheets();
 
-      if (PAYMENT_URL) {
-        window.location.href = PAYMENT_URL;
-      } else {
-        switchTab('orders');
-        alert('Заказ #' + orderNum + ' оформлен!');
-      }
+      if (PAYMENT_URL) window.location.href = PAYMENT_URL;
     }
 
     function closeAllSheets() {
-      var overlay = document.getElementById('overlay');
-      var detailSheet = document.getElementById('detailSheet');
-      var addressSheet = document.getElementById('addressSheet');
-      var preorderSheet = document.getElementById('preorderModalSheet');
-      var customOrderSheet = document.getElementById('customOrderModalSheet');
-
-      if (overlay) overlay.style.display = 'none';
-      if (detailSheet) detailSheet.style.display = 'none';
-      if (addressSheet) addressSheet.style.display = 'none';
-      if (preorderSheet) preorderSheet.style.display = 'none';
-      if (customOrderSheet) customOrderSheet.style.display = 'none';
+      document.getElementById('overlay').style.display = 'none';
+      document.getElementById('detailSheet').style.display = 'none';
+      document.getElementById('addressSheet').style.display = 'none';
+      document.getElementById('preorderModalSheet').style.display = 'none';
+      document.getElementById('customOrderModalSheet').style.display = 'none';
     }
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -1215,10 +918,10 @@
       document.getElementById('closePreorderBtn').onclick = closeAllSheets;
       document.getElementById('closeCustomOrderBtn').onclick = closeAllSheets;
 
-      // Динамическая загрузка каталога со сбросом кэша
+      // Загрузка актуального products.json со сбросом кэша
       fetch('products.json?v=' + Date.now())
         .then(function(res) {
-          if (!res.ok) throw new Error('Не удалось загрузить products.json (HTTP ' + res.status + ')');
+          if (!res.ok) throw new Error('HTTP ' + res.status);
           return res.json();
         })
         .then(function(data) {
@@ -1228,7 +931,7 @@
           updateCartBadge();
         })
         .catch(function(err) {
-          document.getElementById('catalogList').innerHTML = '<div style="grid-column: span 2; padding: 20px; color: red; text-align: center;">Ошибка загрузки каталога: ' + err.message + '</div>';
+          document.getElementById('catalogList').innerHTML = '<div style="grid-column: span 2; padding: 20px; color: red; text-align: center;">Ошибка загрузки базы: ' + err.message + '</div>';
         });
     });
   </script>
