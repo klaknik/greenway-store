@@ -58,18 +58,36 @@
     .tab-sub { padding: 4px 11px; border-radius: 14px; font-size: 12px; font-weight: 500; background: #fff; color: var(--text-muted); cursor: pointer; white-space: nowrap; border: 1px solid var(--border); user-select: none; }
     .tab-sub.active { background: #E8F5E9; color: var(--primary-dark); border-color: var(--primary); font-weight: 600; }
 
+    /* Промо-баннер программы лояльности */
+    .promo-banner {
+      margin: 12px 16px 0;
+      background: linear-gradient(135deg, #00875A 0%, #005A3C 100%);
+      color: #fff;
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 135, 90, 0.2);
+    }
+    .promo-banner:active { opacity: 0.9; }
+    .promo-banner-text { font-size: 12.5px; font-weight: 600; line-height: 1.35; }
+    .promo-banner-sub { font-size: 11px; opacity: 0.85; font-weight: 400; margin-top: 2px; }
+    .promo-banner-btn { background: #fff; color: var(--primary-dark); font-size: 11px; font-weight: 700; padding: 7px 12px; border-radius: 8px; border: none; white-space: nowrap; }
+
     /* Сетка каталога */
     .catalog { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 16px; }
     .card { background: var(--card-bg); border-radius: 14px; padding: 10px; border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; position: relative; }
     .card-img-wrap { position: relative; width: 100%; height: 125px; margin-bottom: 8px; }
     .card img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; background: #eee; }
-    .card-chip { position: absolute; top: 6px; left: 6px; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 6px; text-transform: uppercase; }
     .card-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; line-height: 1.3; }
     .card-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; flex-grow: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .card-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; }
     .card-price { font-size: 14px; font-weight: 700; color: var(--primary-dark); }
 
-    /* Широкий баннер во всю ширину (Духи Enjoy Care и Не нашли товар) */
+    /* Широкие баннеры (Духи и Не нашли товар) */
     .card-fullwidth {
       grid-column: 1 / -1;
       background: linear-gradient(135deg, #FFFFFF 0%, #F4FBF7 100%);
@@ -107,6 +125,10 @@
     .info-card { background: #fff; border-radius: 14px; padding: 16px; border: 1px solid var(--border); margin-bottom: 12px; }
     .info-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--primary-dark); display: flex; align-items: center; gap: 6px; }
     .info-card p { font-size: 13px; line-height: 1.5; color: var(--text); margin-bottom: 6px; }
+
+    /* Преимущества бонусов */
+    .benefit-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; font-size: 13px; line-height: 1.4; color: var(--text); }
+    .benefit-icon { font-size: 18px; flex-shrink: 0; }
 
     /* Аккордеон FAQ */
     .faq-item { border-bottom: 1px solid var(--border); padding: 12px 0; }
@@ -183,10 +205,19 @@
     <div class="badge">Экомаркет</div>
   </header>
 
-  <!-- 1. ВКЛАДКА: КАТАЛОГ (Стартовая страница) -->
+  <!-- 1. ВКЛАДКА: КАТАЛОГ -->
   <div id="pageCatalog" class="tab-page active">
     <div class="search-wrap">
       <input type="text" id="searchInput" class="search-input" placeholder="🔍 Поиск...">
+    </div>
+
+    <!-- Баннер регистрации и кешбэка -->
+    <div class="promo-banner" onclick="openRegisterModal(false)">
+      <div>
+        <div class="promo-banner-text">🎁 Получайте кешбэк до 20% с заказов</div>
+        <div class="promo-banner-sub">Откройте бесплатный бонусный счёт Greenway</div>
+      </div>
+      <button class="promo-banner-btn">Оформить ›</button>
     </div>
 
     <div class="nav-wrap">
@@ -219,13 +250,12 @@
     </div>
   </div>
 
-  <!-- 3. ВКЛАДКА: МОИ ЗАКАЗЫ (Корзина + История) -->
+  <!-- 3. ВКЛАДКА: МОИ ЗАКАЗЫ -->
   <div id="pageOrders" class="tab-page">
     <div class="page-container">
       <div class="cart-box">
         <h2 style="font-size:16px; font-weight:700; margin-bottom:12px;">Текущая корзина</h2>
 
-        <!-- Прогресс бесплатной курьерской доставки -->
         <div class="delivery-progress-box" id="deliveryProgressBox">
           <div class="delivery-progress-text" id="deliveryProgressText">
             <span>До бесплатной курьерской доставки:</span>
@@ -252,14 +282,14 @@
             <span id="cartTotalSum">0 ₽</span>
           </div>
 
-          <button class="btn-action" id="checkoutBtn" onclick="openAddressSheet()">
+          <!-- При нажатии проверяется регистрация: для новых пользователей открывается инвайт, для повторных — сразу адрес -->
+          <button class="btn-action" id="checkoutBtn" onclick="handleCheckoutStep()">
             <span>Продолжить</span>
             <span>›</span>
           </button>
         </div>
       </div>
 
-      <!-- Блок истории заказов -->
       <div class="info-card">
         <h3>📦 История заказов</h3>
         <div id="orderHistoryContainer">
@@ -269,7 +299,7 @@
     </div>
   </div>
 
-  <!-- 4. ВКЛАДКА: ВОПРОСЫ (FAQ в виде аккордеона) -->
+  <!-- 4. ВКЛАДКА: ВОПРОСЫ (FAQ) -->
   <div id="pageFaq" class="tab-page">
     <div class="page-container">
       <div class="info-card">
@@ -382,6 +412,47 @@
     <div class="detail-action">
       <div class="detail-price" id="detailPrice">0 ₽</div>
       <div id="detailBtnContainer"></div>
+    </div>
+  </div>
+
+  <!-- Шторка: Обязательная регистрация перед заказом / Бонусный счёт Greenway -->
+  <div class="sheet" id="registerModalSheet">
+    <div class="sheet-header">
+      <span class="badge" style="background:#E8F5E9; color:var(--primary-dark);">Обязательный шаг перед заказом</span>
+      <button class="sheet-close" id="closeRegisterBtn">✕</button>
+    </div>
+    <h2 class="detail-title" id="registerSheetTitle">Регистрация в Greenway Global</h2>
+    <p style="font-size: 13.5px; line-height: 1.5; color: var(--text-muted); margin: 8px 0 14px;" id="registerSheetDesc">
+      Для оформления первого заказа необходимо бесплатно открыть личный номер клиента Greenway. На него будут начисляться бонусы и кешбэк за каждую покупку!
+    </p>
+
+    <div class="benefit-item">
+      <span class="benefit-icon">💳</span>
+      <div><b>Кешбэк до 20%</b> на подарочный счёт для оплаты следующих покупок.</div>
+    </div>
+    <div class="benefit-item">
+      <span class="benefit-icon">🎁</span>
+      <div><b>Закрытые промо-акции</b>, подарки и эксклюзивные новинки от компании.</div>
+    </div>
+    <div class="benefit-item">
+      <span class="benefit-icon">🔒</span>
+      <div><b>Бесплатно:</b> регистрация занимает 1 минуту по номеру телефона и ни к чему не обязывает.</div>
+    </div>
+
+    <!-- Кнопка 1: Открытие вашей инвайт-ссылки -->
+    <button class="btn-action" onclick="openGreenwayRegistration()" id="btnGoRegister">
+      <span>1. Зарегистрироваться в Greenway (1 мин) ›</span>
+    </button>
+
+    <!-- Кнопка 2: Подтверждение регистрации и переход к адресу -->
+    <button class="btn-action btn-action-accent" onclick="confirmRegistrationSuccess()" id="btnConfirmRegistered" style="margin-top: 8px;">
+      <span>2. Я зарегистрировался — продолжить заказ ›</span>
+    </button>
+
+    <div style="text-align:center; margin-top:12px;">
+      <a href="javascript:void(0)" onclick="confirmRegistrationSuccess()" style="font-size:12px; color:var(--text-muted); text-decoration:underline;">
+        У меня уже есть регистрация в Greenway
+      </a>
     </div>
   </div>
 
@@ -514,8 +585,10 @@
   </div>
 
   <script>
+    // НАСТРОЙКИ ССЫЛОК:
     var PAYMENT_URL = "https://yookassa.ru"; 
     var MANAGER_CONTACT_URL = ""; 
+    var GREENWAY_INVITE_URL = "https://greenwayglobal.com/invite/client/jDYnTqVsUq"; // Ваша инвайт-ссылка
     var ORDER_API_URL = ""; 
 
     var FREE_DELIVERY_THRESHOLD = 3000;
@@ -572,7 +645,9 @@
     var currentSubCat = 'all';
     var searchQuery = '';
 
-    // Принудительное раскрытие на весь экран
+    // Проверка статуса регистрации клиента в Greenway
+    var isUserRegistered = (localStorage.getItem('gw_user_registered') === 'true');
+
     try {
       if (window.MAX && window.MAX.expand) {
         window.MAX.expand();
@@ -615,6 +690,59 @@
         window.open(MANAGER_CONTACT_URL, '_blank');
       } else {
         alert('Ссылка на менеджера настраивается.');
+      }
+    }
+
+    /* Логика шага регистрации: для новых открывает инвайт, для повторных — сразу адрес */
+    function handleCheckoutStep() {
+      var subtotal = getCartSubtotal();
+      if (subtotal <= 0) return;
+
+      if (!isUserRegistered) {
+        openRegisterModal(true);
+      } else {
+        openAddressSheet();
+      }
+    }
+
+    function openRegisterModal(isRequiredFlow) {
+      closeAllSheets();
+      var titleEl = document.getElementById('registerSheetTitle');
+      var descEl = document.getElementById('registerSheetDesc');
+
+      if (isRequiredFlow) {
+        titleEl.textContent = 'Обязательный шаг перед заказом';
+        descEl.textContent = 'Для оформления первого заказа необходимо зарегистрировать номер клиента Greenway. На него прикрепятся бонусы и скидки!';
+      } else {
+        titleEl.textContent = 'Бонусный счёт Greenway Global';
+        descEl.textContent = 'Зарегистрируйтесь как клиент Greenway и получайте до 20% кешбэка с каждой покупки!';
+      }
+
+      document.getElementById('overlay').style.display = 'block';
+      document.getElementById('registerModalSheet').style.display = 'block';
+    }
+
+    function openGreenwayRegistration() {
+      if (GREENWAY_INVITE_URL && GREENWAY_INVITE_URL.indexOf('http') === 0) {
+        window.open(GREENWAY_INVITE_URL, '_blank');
+      } else {
+        alert('Ссылка регистрации настраивается.');
+      }
+    }
+
+    function confirmRegistrationSuccess() {
+      isUserRegistered = true;
+      try {
+        localStorage.setItem('gw_user_registered', 'true');
+      } catch (e) {}
+
+      closeAllSheets();
+
+      // Если корзина не пуста, сразу переводим к адресу
+      if (getCartSubtotal() > 0) {
+        openAddressSheet();
+      } else {
+        alert('Бонусный счёт успешно активирован!');
       }
     }
 
@@ -732,7 +860,7 @@
       container.innerHTML = '';
 
       filtered.forEach(function(item) {
-        /* 1. Широкий баннер духов Enjoy Care */
+        /* Баннер духов Enjoy Care */
         if (item.is_perfume_banner) {
           var pBanner = document.createElement('div');
           pBanner.className = 'card-fullwidth card-fullwidth-perfume';
@@ -767,7 +895,7 @@
           return;
         }
 
-        /* 2. Широкий баннер «Не нашли нужный товар?» */
+        /* Баннер «Не нашли нужный товар?» */
         if (item.is_custom_request) {
           var banner = document.createElement('div');
           banner.className = 'card-fullwidth';
@@ -802,7 +930,7 @@
           return;
         }
 
-        /* 3. Стандартные карточки товаров */
+        /* Стандартные товары */
         var count = cart[item.id] || 0;
         var card = document.createElement('div');
         card.className = 'card';
@@ -1311,12 +1439,14 @@
       var addressSheet = document.getElementById('addressSheet');
       var preorderSheet = document.getElementById('preorderModalSheet');
       var customOrderSheet = document.getElementById('customOrderModalSheet');
+      var registerSheet = document.getElementById('registerModalSheet');
 
       if (overlay) overlay.style.display = 'none';
       if (detailSheet) detailSheet.style.display = 'none';
       if (addressSheet) addressSheet.style.display = 'none';
       if (preorderSheet) preorderSheet.style.display = 'none';
       if (customOrderSheet) customOrderSheet.style.display = 'none';
+      if (registerSheet) registerSheet.style.display = 'none';
     }
 
     document.getElementById('searchInput').oninput = handleSearch;
@@ -1325,6 +1455,7 @@
     document.getElementById('closeAddressBtn').onclick = closeAllSheets;
     document.getElementById('closePreorderBtn').onclick = closeAllSheets;
     document.getElementById('closeCustomOrderBtn').onclick = closeAllSheets;
+    document.getElementById('closeRegisterBtn').onclick = closeAllSheets;
 
     buildMainCategories();
     renderCatalog();
