@@ -109,7 +109,6 @@
     .delivery-progress-text { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between; }
     .delivery-progress-bar-bg { width: 100%; height: 7px; background: #E5E7EB; border-radius: 6px; overflow: hidden; }
     .delivery-progress-bar-fill { height: 100%; width: 0%; background: var(--primary); border-radius: 6px; transition: width 0.3s ease, background-color 0.3s ease; }
-    .delivery-success-text { color: var(--primary-dark); font-weight: 700; font-size: 12px; display: flex; align-items: center; gap: 4px; }
 
     .cart-box { background: #fff; border-radius: 14px; padding: 16px; border: 1px solid var(--border); margin-bottom: 16px; }
     .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
@@ -125,8 +124,6 @@
     .btn-action:active { background: var(--primary-dark); }
     .btn-action-accent { background: var(--accent); }
     .btn-action-accent:active { background: #cf7d1f; }
-    .btn-action-outline { background: #fff; color: var(--primary); border: 1.5px solid var(--primary); }
-    .btn-action-outline:active { background: #E8F5E9; }
 
     .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 60px; background: #fff; border-top: 1px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 40; }
     .nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--text-muted); cursor: pointer; font-size: 10px; font-weight: 500; position: relative; user-select: none; }
@@ -152,7 +149,6 @@
     .form-label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: var(--text); }
     .form-input { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; font-size: 13px; outline: none; background: var(--bg); }
     .form-input:focus { border-color: var(--primary); background: #fff; }
-    .form-error { color: #d63031; font-size: 11px; margin-top: 3px; display: none; }
   </style>
 </head>
 <body>
@@ -186,8 +182,8 @@
       </div>
       <div class="info-card">
         <h3>💳 Оплата заказов</h3>
-        <p>• Удобная и безопасная оплата через <b>СБП (Систему быстрых платежей)</b>.</p>
-        <p>• Банковскими картами любых российских банков без комиссии.</p>
+        <p>• Оплата через <b>СБП (Систему быстрых платежей)</b> или банковской картой.</p>
+        <p>• Реквизиты и ссылку на оплату отправляет менеджер после подтверждения наличия товаров.</p>
       </div>
     </div>
   </div>
@@ -220,7 +216,7 @@
             <span id="cartTotalSum">0 ₽</span>
           </div>
           <button class="btn-action" id="checkoutBtn" onclick="openAddressSheet()">
-            <span>Продолжить</span>
+            <span>Продолжить оформление</span>
             <span>›</span>
           </button>
         </div>
@@ -352,35 +348,29 @@
     <div class="form-group">
       <label class="form-label">ФИО получателя *</label>
       <input type="text" id="orderName" class="form-input" placeholder="Иванов Иван Иванович">
-      <div class="form-error" id="nameError">Укажите ФИО полностью</div>
     </div>
     <div class="form-group">
       <label class="form-label">Телефон *</label>
       <input type="tel" id="orderPhone" class="form-input" placeholder="+7 (999) 000-00-00">
-      <div class="form-error" id="phoneError">Укажите телефон для связи</div>
     </div>
     <div class="form-row">
       <div class="form-group" style="flex: 1.4;">
         <label class="form-label">Регион / Область *</label>
         <input type="text" id="orderRegion" class="form-input" placeholder="Московская обл.">
-        <div class="form-error" id="regionError">Укажите регион</div>
       </div>
       <div class="form-group" style="flex: 1;">
         <label class="form-label">Индекс *</label>
-        <input type="number" id="orderZip" class="form-input" placeholder="101000">
-        <div class="form-error" id="zipError">6 цифр индекса</div>
+        <input type="text" id="orderZip" class="form-input" placeholder="101000">
       </div>
     </div>
     <div class="form-row">
       <div class="form-group">
         <label class="form-label">Город *</label>
         <input type="text" id="orderCity" class="form-input" placeholder="г. Москва">
-        <div class="form-error" id="cityError">Укажите город</div>
       </div>
       <div class="form-group">
-        <label class="form-label">Улица или ПВЗ *</label>
+        <label class="form-label">Улица или адрес ПВЗ *</label>
         <input type="text" id="orderStreet" class="form-input" placeholder="ул. Ленина">
-        <div class="form-error" id="streetError">Укажите адрес</div>
       </div>
     </div>
     <div class="form-group">
@@ -388,8 +378,8 @@
       <input type="text" id="orderHouse" class="form-input" placeholder="д. 12, кв. 45">
     </div>
     <div class="form-group">
-      <label class="form-label">Комментарий</label>
-      <input type="text" id="orderComment" class="form-input" placeholder="Код домофона, удобный ПВЗ...">
+      <label class="form-label">Комментарий к заказу</label>
+      <input type="text" id="orderComment" class="form-input" placeholder="Код домофона, удобный ПВЗ СДЭК/OZON/WB...">
     </div>
     <div style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:12px; padding:12px; margin:14px 0; font-size:13px;">
       <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
@@ -406,13 +396,13 @@
       </div>
     </div>
     <button class="btn-action" id="paySubmitBtn" onclick="confirmAndPay()">
-      <span>Перейти к оплате</span>
-      <span>🔒</span>
+      <span>Отправить заказ в MAX</span>
+      <span>💬</span>
     </button>
   </div>
 
   <script>
-    var PAYMENT_URL = "https://vk.ru/away.php?to=https://www.tbank-online.com/rm/r_ekgRQeAIwO.gnFmJhokXP/JXIT190570";
+    var GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxawGbZ2HJSgf3mQixoLolJsnWi4LlR3Xl5IHVJGsImxYYBXzusNzfqRV_oTbY40hmO/exec";
     var MANAGER_CONTACT_URL = "https://max.ru/u/f9LHodD0cOL85oIQ4kQZhAJ8Amc9j6FCMAK9NQW9KQ8pRjSeEOvzxHDvNtM";
 
     var FREE_DELIVERY_THRESHOLD = 3000;
@@ -426,7 +416,7 @@
       { id: 105, category: "fibers", category_name: "Эко-файберы", subcategory: "involver", subcategory_name: "Линейка Инволвер", title: "Губка «Инволвер» Green Fiber HOME S3", short_desc: "Чистка мягкой мебели, обуви, замши и ковров", full_desc: "Комбинированная губка из сверхпрочной нити Инволвер вытягивает застарелые загрязнения из обивки мебели, ковровых покрытий, обуви и замши. Удобный формат надежно лежит в руке.", price: 1220, volume: "1 шт", img: "images/fiber-sponge-s3.jpg", gw_url: "https://greenwayglobal.com/shop/brands/fiber/06046" },
       { id: 107, category: "fibers", category_name: "Эко-файберы", subcategory: "delicate", subcategory_name: "Деликатный уход", title: "Файбер для экранов и мониторов HOME P2", short_desc: "Бережная чистка смартфонов, планшетов и ТВ", full_desc: "Специальное гладкое микроволокно бережно очищает дисплеи смартфонов, мониторы компьютеров, планшеты и оптику. Не царапает антибликовые покрытия, удаляет следы пальцев и кожный себум без спиртовых спреев.", price: 500, volume: "1 шт", img: "images/fiber-screens-p2.jpg", gw_url: "https://greenwayglobal.com/shop/brands/fiber/06054" },
       { id: 108, category: "fibers", category_name: "Эко-файберы", subcategory: "care", subcategory_name: "Красота и уход", title: "Косметическая салфетка Green Fiber CARE", short_desc: "Снятие стойкого макияжа и бережное очищение кожи", full_desc: "Нежное микроволокно деликатно очищает поры и удаляет даже стойкую декоративную косметику только с помощью теплой воды, без использования мицеллярной воды и гидрофильных масел. Подходит для чувствительной кожи.", price: 410, volume: "1 шт", img: "images/fiber-care-napkin.jpg", gw_url: "https://greenwayglobal.com/shop/brands/fiber/06138" },
-      { id: 111, category: "fibers", category_name: "Эко-файберы", subcategory: "sets", subcategory_name: "Готовые наборы", title: "Набор для общей уборки Green Fiber General Cleaning Set", short_desc: "Комплексное решение для экологичной чистоты дома", full_desc: "Готовый универсальный набор для комплексного наведения чистоты во всем доме: включает файбер для стекол, универсальный файбер и салфетки для мебели и техники в фирменной подарочной коробке.", price: 2620, volume: "комплект", img: "images/fiber-expert-set.jpg", gw_url: "https://greenwayglobal.com/shop/brands/fiber/06063" },
+      { id: 111, category: "fibers", category_name: "Эко-файберы", subcategory: "sets", subcategory_name: "Готовые наборы", title: "Набор для общей уборки Green Fiber General Cleaning Set", short_desc: "Комплексное решение для экологичной чистоты дома", full_desc: "Готовый универсальный набор для комплексного наведения чистоты во всем доме: включает файбер для стекол, универсальный файбер и салфетки для мебели и техники в фирменной упаковке.", price: 2620, volume: "комплект", img: "images/fiber-expert-set.jpg", gw_url: "https://greenwayglobal.com/shop/brands/fiber/06063" },
       { id: 201, category: "biotrim", category_name: "Чистка и стирка BioTrim", subcategory: "cleaners", subcategory_name: "Очищение", title: "Очищающая паста BioTrim Mystik", short_desc: "Справляется со ржавчиной, нагаром и накипью", full_desc: "Экологичная чистящая паста широкого спектра действия на основе мелкодисперсного диоксида кремния и мыла. Удаляет пригоревший жир, стойкий нагар, известковый налет и ржавчину с посуды, сантехники и кафеля.", price: 510, volume: "200 г", img: "images/biotrim-mystik-paste.jpg", gw_url: "https://greenwayglobal.com/shop/brands/biotrim/03301" },
       { id: 202, category: "biotrim", category_name: "Чистка и стирка BioTrim", subcategory: "cleaners", subcategory_name: "Очищение", title: "Очищающий порошок BioTrim Mystik", short_desc: "Кислородное экспресс-удаление налета и дезинфекция", full_desc: "Кислородный порошок растворяется в горячей воде, вступая в активную реакцию. Эффективно устраняет темный налет от чая и кофе на посуде и термосах, отбеливает текстиль и дезинфицирует кухонные приборы.", price: 510, volume: "160 г", img: "images/biotrim-mystik-powder.jpg", gw_url: "https://greenwayglobal.com/shop/brands/biotrim/03302" },
       { id: 203, category: "biotrim", category_name: "Чистка и стирка BioTrim", subcategory: "laundry", subcategory_name: "Эко-стирка", title: "Пластины для стирки белья BioTrim", short_desc: "Растительная замена фосфатным порошкам", full_desc: "Биоразлагаемые пластины для бережной ручной и машинной стирки на основе кокосового спирта и растительных масел. Полностью выполаскиваются из волокон ткани, подходят для детского белья и людей с чувствительной кожей.", price: 930, volume: "38 шт", img: "images/biotrim-plates.jpg", gw_url: "https://greenwayglobal.com/shop/brands/biotrim/03705" },
@@ -912,32 +902,105 @@
       var zip = document.getElementById('orderZip').value.trim();
       var city = document.getElementById('orderCity').value.trim();
       var street = document.getElementById('orderStreet').value.trim();
+      var house = document.getElementById('orderHouse').value.trim();
+      var comment = document.getElementById('orderComment').value.trim();
 
       if (!name || !phone || !region || !zip || !city || !street) {
-        alert('Пожалуйста, заполните все обязательные поля со звёздочкой (*)');
+        alert('Пожалуйста, заполните обязательные поля (ФИО, телефон, регион, индекс, город и улицу)');
         return;
       }
+
+      var submitBtn = document.getElementById('paySubmitBtn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Отправка заказа...';
 
       var subtotal = getCartSubtotal();
       var delivery = getDeliveryCost(subtotal);
       var grandTotal = subtotal + delivery;
-
       var orderNum = Math.floor(100000 + Math.random() * 900000);
-      orderHistory.push({
-        id: orderNum,
-        date: new Date().toLocaleDateString('ru-RU') + " " + new Date().toLocaleTimeString('ru-RU', {hour:'2-digit', minute:'2-digit'}),
-        status: "Ожидает оплаты",
-        items_preview: "Товары на сумму " + subtotal + " ₽",
-        total_price: grandTotal
+      var fullAddress = region + ', г. ' + city + ', ' + street + (house ? ', ' + house : '') + ' (Индекс: ' + zip + ')';
+      var nowStr = new Date().toLocaleDateString('ru-RU') + ' ' + new Date().toLocaleTimeString('ru-RU', {hour:'2-digit', minute:'2-digit'});
+
+      var itemsList = [];
+      var itemsTextLines = [];
+      Object.keys(cart).forEach(function(id) {
+        var p = allProducts.find(function(x) { return x.id == id; });
+        if (p) {
+          var count = cart[id];
+          itemsList.push(p.title + ' — ' + count + ' шт. (' + (count * p.price) + ' ₽)');
+          itemsTextLines.push('• ' + p.title + ' — ' + count + ' шт.');
+        }
+      });
+      var itemsSummary = itemsList.join(';\n');
+
+      // 1. Формируем сообщение для менеджера в MAX
+      var orderMessage = 
+        '🌿 Заказ #' + orderNum + '\n\n' +
+        '👤 Покупатель: ' + name + '\n' +
+        '📞 Телефон: ' + phone + '\n' +
+        '📍 Доставка: ' + fullAddress + '\n' +
+        (comment ? '💬 Комментарий: ' + comment + '\n' : '') +
+        '\n📦 Товары:\n' + itemsTextLines.join('\n') + '\n\n' +
+        '🚚 Доставка: ' + (delivery === 0 ? 'Бесплатно' : delivery + ' ₽') + '\n' +
+        '💰 Итого к оплате: ' + grandTotal + ' ₽\n\n' +
+        'Здравствуйте! Заказ сформирован через приложение, готов(а) оплатить.';
+
+      // Копируем в буфер обмена для удобства
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(orderMessage).catch(function(){});
+      }
+
+      // 2. Отправляем строку в Google Таблицу
+      var payload = {
+        date: nowStr,
+        order_id: orderNum,
+        name: name,
+        phone: phone,
+        address: fullAddress,
+        comment: comment || '—',
+        items: itemsSummary,
+        subtotal: subtotal,
+        delivery: delivery,
+        total: grandTotal
+      };
+
+      fetch(GOOGLE_SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).catch(function(e) {
+        console.error('Ошибка записи в таблицу:', e);
       });
 
+      // 3. Сохраняем в локальную историю заказов
+      orderHistory.push({
+        id: orderNum,
+        date: nowStr,
+        status: "Ожидает подтверждения в чате",
+        items_preview: itemsList.join(', '),
+        total_price: grandTotal
+      });
       try { localStorage.setItem('gw_order_history', JSON.stringify(orderHistory)); } catch(e){}
 
+      // Очищаем корзину
       cart = {};
       updateCartBadge();
-      closeAllSheets();
 
-      if (PAYMENT_URL) window.location.href = PAYMENT_URL;
+      // 4. Переходим в диалог с менеджером в MAX
+      setTimeout(function() {
+        closeAllSheets();
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Отправить заказ в MAX';
+
+        var maxChatLink = MANAGER_CONTACT_URL;
+        if (maxChatLink.indexOf('?') === -1) {
+          maxChatLink += '?text=' + encodeURIComponent(orderMessage);
+        } else {
+          maxChatLink += '&text=' + encodeURIComponent(orderMessage);
+        }
+        window.location.href = maxChatLink;
+      }, 350);
     }
 
     function closeAllSheets() {
