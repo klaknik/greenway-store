@@ -149,6 +149,30 @@
     .form-label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: var(--text); }
     .form-input { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; font-size: 13px; outline: none; background: var(--bg); }
     .form-input:focus { border-color: var(--primary); background: #fff; }
+
+    /* Окно успешного оформления */
+    .success-box {
+      text-align: center;
+      padding: 10px 4px 6px;
+    }
+    .success-icon {
+      font-size: 44px;
+      margin-bottom: 10px;
+    }
+    .order-copy-box {
+      background: #F9FAFB;
+      border: 1px dashed var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      text-align: left;
+      font-size: 12px;
+      line-height: 1.45;
+      margin: 14px 0;
+      max-height: 140px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      color: #333;
+    }
   </style>
 </head>
 <body>
@@ -340,6 +364,7 @@
     </button>
   </div>
 
+  <!-- Шторка адреса -->
   <div class="sheet" id="addressSheet">
     <div class="sheet-header">
       <h2>Данные для доставки</h2>
@@ -396,9 +421,29 @@
       </div>
     </div>
     <button class="btn-action" id="paySubmitBtn" onclick="confirmAndPay()">
-      <span>Отправить заказ в MAX</span>
-      <span>💬</span>
+      <span>Оформить заказ</span>
+      <span>✓</span>
     </button>
+  </div>
+
+  <!-- Окно подтверждения заказа для MAX -->
+  <div class="sheet" id="orderSuccessSheet">
+    <div class="sheet-header">
+      <span class="badge" style="background:#E8F5E9; color:var(--primary);">Заказ сформирован</span>
+      <button class="sheet-close" id="closeSuccessBtn">✕</button>
+    </div>
+    <div class="success-box">
+      <div class="success-icon">🎉</div>
+      <h2 style="font-size:17px; font-weight:700; margin-bottom:6px;" id="successOrderTitle">Заказ #123456</h2>
+      <p style="font-size:13px; color:var(--text-muted); line-height:1.45;">
+        Данные сохранены в базе! Текст заказа <b>скопирован в буфер обмена</b>. Нажмите кнопку ниже, чтобы перейти в диалог с менеджером и вставить заказ в чат.
+      </p>
+      <div class="order-copy-box" id="successOrderPreview"></div>
+      <button class="btn-action" id="openChatBtn" onclick="goToManagerDialog()">
+        <span>Открыть чат в MAX (Вставить заказ)</span>
+        <span>💬</span>
+      </button>
+    </div>
   </div>
 
   <script>
@@ -454,6 +499,7 @@
     var currentMainCat = 'all';
     var currentSubCat = 'all';
     var searchQuery = '';
+    var lastGeneratedMessage = '';
 
     try {
       var saved = localStorage.getItem('gw_order_history');
@@ -895,9 +941,36 @@
       document.getElementById('addressSheet').style.display = 'block';
     }
 
+    // Принудительное надёжное копирование в буфер обмена для любых WebView
+    function copyTextToClipboard(text) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(text).catch(function() {
+          fallbackCopyText(text);
+        });
+      } else {
+        fallbackCopyText(text);
+      }
+    }
+
+    function fallbackCopyText(text) {
+      var textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.top = "0";
+      textArea.style.left = "0";
+      textArea.style.opacity = "0";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+      } catch (err) {}
+      document.body.removeChild(textArea);
+    }
+
     function confirmAndPay() {
       var name = document.getElementById('orderName').value.trim();
-      var phone = document.getElementById('orderPhone').value.trim();
+      var rawPhone = document.getElementById('orderPhone').value.trim();
       var region = document.getElementById('orderRegion').value.trim();
       var zip = document.getElementById('orderZip').value.trim();
       var city = document.getElementById('orderCity').value.trim();
@@ -905,14 +978,14 @@
       var house = document.getElementById('orderHouse').value.trim();
       var comment = document.getElementById('orderComment').value.trim();
 
-      if (!name || !phone || !region || !zip || !city || !street) {
+      if (!name || !rawPhone || !region || !zip || !city || !street) {
         alert('Пожалуйста, заполните обязательные поля (ФИО, телефон, регион, индекс, город и улицу)');
         return;
       }
 
       var submitBtn = document.getElementById('paySubmitBtn');
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Отправка заказа...';
+      submitBtn.textContent = 'Сохранение заказа...';
 
       var subtotal = getCartSubtotal();
       var delivery = getDeliveryCost(subtotal);
@@ -933,11 +1006,11 @@
       });
       var itemsSummary = itemsList.join(';\n');
 
-      // 1. Формируем сообщение для менеджера в MAX
-      var orderMessage = 
+      // 1. Формируем подробный красивый текст заказа
+      lastGeneratedMessage = 
         '🌿 Заказ #' + orderNum + '\n\n' +
         '👤 Покупатель: ' + name + '\n' +
-        '📞 Телефон: ' + phone + '\n' +
+        '📞 Телефон: ' + rawPhone + '\n' +
         '📍 Доставка: ' + fullAddress + '\n' +
         (comment ? '💬 Комментарий: ' + comment + '\n' : '') +
         '\n📦 Товары:\n' + itemsTextLines.join('\n') + '\n\n' +
@@ -945,17 +1018,15 @@
         '💰 Итого к оплате: ' + grandTotal + ' ₽\n\n' +
         'Здравствуйте! Заказ сформирован через приложение, готов(а) оплатить.';
 
-      // Копируем в буфер обмена для удобства
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(orderMessage).catch(function(){});
-      }
+      // Копируем текст заказа в буфер обмена
+      copyTextToClipboard(lastGeneratedMessage);
 
-      // 2. Отправляем строку в Google Таблицу
+      // 2. Отправляем в Google Таблицу
       var payload = {
         date: nowStr,
-        order_id: orderNum,
+        order_id: String(orderNum),
         name: name,
-        phone: phone,
+        phone: String(rawPhone),
         address: fullAddress,
         comment: comment || '—',
         items: itemsSummary,
@@ -970,10 +1041,10 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       }).catch(function(e) {
-        console.error('Ошибка записи в таблицу:', e);
+        console.error('Ошибка записи:', e);
       });
 
-      // 3. Сохраняем в локальную историю заказов
+      // 3. Сохраняем в историю заказов
       orderHistory.push({
         id: orderNum,
         date: nowStr,
@@ -987,20 +1058,25 @@
       cart = {};
       updateCartBadge();
 
-      // 4. Переходим в диалог с менеджером в MAX
+      // 4. Открываем окно подтверждения с готовой кнопкой
       setTimeout(function() {
-        closeAllSheets();
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Отправить заказ в MAX';
+        submitBtn.textContent = 'Оформить заказ';
+        document.getElementById('addressSheet').style.display = 'none';
 
-        var maxChatLink = MANAGER_CONTACT_URL;
-        if (maxChatLink.indexOf('?') === -1) {
-          maxChatLink += '?text=' + encodeURIComponent(orderMessage);
-        } else {
-          maxChatLink += '&text=' + encodeURIComponent(orderMessage);
-        }
-        window.location.href = maxChatLink;
-      }, 350);
+        document.getElementById('successOrderTitle').textContent = 'Заказ #' + orderNum + ' сформирован!';
+        document.getElementById('successOrderPreview').textContent = lastGeneratedMessage;
+        document.getElementById('orderSuccessSheet').style.display = 'block';
+      }, 400);
+    }
+
+    function goToManagerDialog() {
+      // Повторно копируем перед переходом на случай очистки буфера
+      if (lastGeneratedMessage) {
+        copyTextToClipboard(lastGeneratedMessage);
+      }
+      closeAllSheets();
+      window.location.href = MANAGER_CONTACT_URL;
     }
 
     function closeAllSheets() {
@@ -1009,6 +1085,8 @@
       document.getElementById('addressSheet').style.display = 'none';
       document.getElementById('preorderModalSheet').style.display = 'none';
       document.getElementById('customOrderModalSheet').style.display = 'none';
+      var successSheet = document.getElementById('orderSuccessSheet');
+      if (successSheet) successSheet.style.display = 'none';
     }
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -1018,6 +1096,8 @@
       document.getElementById('closeAddressBtn').onclick = closeAllSheets;
       document.getElementById('closePreorderBtn').onclick = closeAllSheets;
       document.getElementById('closeCustomOrderBtn').onclick = closeAllSheets;
+      var closeSuccess = document.getElementById('closeSuccessBtn');
+      if (closeSuccess) closeSuccess.onclick = closeAllSheets;
 
       buildMainCategories();
       renderCatalog();
