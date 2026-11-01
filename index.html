@@ -32,13 +32,12 @@
       margin: 0;
     }
 
-    /* Обёртка контента со свободным скроллом и отступом под плашку корзины */
     .app-wrapper {
       width: 100%;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      padding-bottom: 140px;
+      padding-bottom: 90px; /* Отступ под нижний таббар */
     }
 
     header {
@@ -65,7 +64,7 @@
       color: var(--primary);
     }
 
-    /* Лента категорий с прокруткой и видимым бегунком */
+    /* Лента категорий с прокруткой и бегунком */
     .categories-bar {
       display: flex;
       gap: 8px;
@@ -182,7 +181,7 @@
       cursor: pointer;
     }
 
-    /* Нижний контейнер для двух баннеров */
+    /* Нижние пунктирные плашки */
     .bottom-banners-wrapper {
       padding: 8px 16px 20px;
       display: flex;
@@ -224,40 +223,62 @@
       cursor: pointer;
     }
 
-    /* Нижняя панель корзины */
-    .cart-bar {
+    /* Фиксированная нижняя навигация (Таббар с плитками) */
+    .bottom-nav {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
       background: #ffffff;
       border-top: 1px solid var(--border);
-      padding: 12px 16px;
       display: flex;
-      justify-content: space-between;
+      justify-content: space-around;
       align-items: center;
+      padding: 8px 10px;
       z-index: 30;
       box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
     }
 
-    .cart-info-total {
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--primary);
-    }
-
-    .btn-checkout {
-      padding: 10px 22px;
-      background: var(--primary);
-      color: #ffffff;
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      background: none;
       border: none;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 600;
       cursor: pointer;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 500;
+      position: relative;
+      flex: 1;
+      padding: 4px 0;
     }
 
-    /* Модальные окна */
+    .nav-item.active {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .nav-icon {
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .nav-badge {
+      position: absolute;
+      top: 0px;
+      right: calc(50% - 18px);
+      background: var(--accent-red);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 10px;
+      display: none;
+    }
+
+    /* Модалки */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -328,7 +349,6 @@
       font-weight: 600;
     }
 
-    /* Блок промокода */
     .promo-section {
       margin: 14px 0 10px;
     }
@@ -426,6 +446,17 @@
       font-size: 14px;
       background: #fff;
     }
+
+    .delivery-info-content {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text);
+    }
+    .delivery-info-content h4 {
+      margin: 12px 0 4px;
+      color: var(--primary);
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
@@ -443,16 +474,14 @@
     <!-- Основная сетка товаров -->
     <main class="grid-container" id="cardsContainer"></main>
 
-    <!-- Нижняя секция плиток (всегда внизу страницы) -->
+    <!-- Нижняя секция плиток (всегда внизу каталога) -->
     <section class="bottom-banners-wrapper">
-      <!-- 1. Плитка Духов Enjoy Care -->
       <div class="dashed-banner" id="perfumeBanner">
         <h3>Духи Enjoy Care (Номерная парфюмерия под заказ)</h3>
         <p>Эквиваленты культовых мировых ароматов из европейских масел (50 мл)</p>
         <button class="dashed-banner-btn" onclick="openPerfumeModal()">Выбрать аромат ✨</button>
       </div>
 
-      <!-- 2. Плитка Не нашли нужный товар -->
       <div class="dashed-banner" id="customBanner">
         <h3>Не нашли нужный товар?</h3>
         <p>Напишите нам в чат — добавим любую позицию из каталога Greenway индивидуально!</p>
@@ -461,16 +490,28 @@
     </section>
   </div>
 
-  <!-- Нижняя панель корзины -->
-  <div class="cart-bar" id="cartFooter" style="display: none;">
-    <div>
-      <div style="font-size: 11px; color: var(--text-muted);">Итого в заказе:</div>
-      <div class="cart-info-total" id="footerTotal">0 ₽</div>
-    </div>
-    <button class="btn-checkout" onclick="openCart()">Корзина 🛒</button>
-  </div>
+  <!-- Нижний таббар навигации -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="navToHome(this)">
+      <span class="nav-icon">🏠</span>
+      <span>Главная</span>
+    </button>
+    <button class="nav-item" onclick="navToCatalog(this)">
+      <span class="nav-icon">📦</span>
+      <span>Каталог</span>
+    </button>
+    <button class="nav-item" onclick="openDeliveryModal()">
+      <span class="nav-icon">🚚</span>
+      <span>Доставка</span>
+    </button>
+    <button class="nav-item" onclick="openCart()">
+      <span class="nav-icon">🛒</span>
+      <span>Корзина</span>
+      <span class="nav-badge" id="navCartBadge">0</span>
+    </button>
+  </nav>
 
-  <!-- Модальное окно выбора парфюма -->
+  <!-- Модальное окно духов -->
   <div class="modal-overlay" id="perfumeModal">
     <div class="modal-sheet">
       <div class="modal-head">
@@ -492,6 +533,29 @@
       </div>
 
       <button class="btn-final" style="margin-top: 10px;" onclick="confirmPerfumeSelection()">Добавить аромат в заказ</button>
+    </div>
+  </div>
+
+  <!-- Модальное окно доставки -->
+  <div class="modal-overlay" id="deliveryModal">
+    <div class="modal-sheet">
+      <div class="modal-head">
+        <h2>Условия доставки</h2>
+        <button class="modal-close" onclick="closeDeliveryModal()">✕</button>
+      </div>
+      <div class="delivery-info-content">
+        <h4>🌿 Способы получения:</h4>
+        <p>• Доставка курьером до двери или до ближайшего пункта выдачи заказов (СДЭК / Почта России).</p>
+        
+        <h4>💰 Стоимость:</h4>
+        <p>• При заказе от 3 000 ₽ — <b>Бесплатно</b>.</p>
+        <p>• При заказе до 3 000 ₽ — фиксировано <b>500 ₽</b>.</p>
+        <p>• По промокоду <b>ZLATA</b> — доставка <b>0 ₽</b> на любой заказ!</p>
+
+        <h4>⏱ Сроки:</h4>
+        <p>Отправка заказа осуществляется в течение 1–2 рабочих дней после согласования менеджером в чате.</p>
+      </div>
+      <button class="btn-final" style="margin-top: 16px;" onclick="closeDeliveryModal()">Понятно</button>
     </div>
   </div>
 
@@ -620,7 +684,7 @@
 
     function filterByCat(catKey, btn) {
       document.querySelectorAll('.cat-chip').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+      if (btn) btn.classList.add('active');
 
       if (catKey === 'all') {
         renderList(allProducts);
@@ -635,7 +699,6 @@
     function renderList(items) {
       const cont = document.getElementById('cardsContainer');
 
-      // Исключаем системные карточки без фото/цен, чтобы они не засоряли общую сетку
       const regular = items.filter(p => {
         const c = String(p.category || '').toLowerCase().trim();
         const t = getItemTitle(p).toLowerCase();
@@ -660,6 +723,29 @@
           </div>
         `;
       }).join('');
+    }
+
+    // Навигация
+    function navToHome(btn) {
+      document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      filterByCat('all', document.querySelector('.cat-chip'));
+    }
+
+    function navToCatalog(btn) {
+      document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const tabs = document.getElementById('categoryTabs');
+      if (tabs) tabs.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function openDeliveryModal() {
+      document.getElementById('deliveryModal').classList.add('active');
+    }
+
+    function closeDeliveryModal() {
+      document.getElementById('deliveryModal').classList.remove('active');
     }
 
     function openPerfumeModal() {
@@ -753,22 +839,23 @@
 
     function refreshTotals() {
       let subtotal = 0;
-      let hasItems = false;
+      let totalQty = 0;
 
       for (const k in cart) {
-        hasItems = true;
+        totalQty += cart[k].qty;
         subtotal += cart[k].price * cart[k].qty;
       }
 
-      let delivery = (!hasItems) ? 0 : ((isPromoFree || subtotal >= 3000) ? 0 : 500);
+      let delivery = (totalQty === 0) ? 0 : ((isPromoFree || subtotal >= 3000) ? 0 : 500);
       let total = subtotal + delivery;
 
-      const footer = document.getElementById('cartFooter');
-      if (hasItems) {
-        footer.style.display = 'flex';
-        document.getElementById('footerTotal').textContent = `${total} ₽`;
+      // Обновление бейджа на кнопке "Корзина" в нижней панели
+      const badge = document.getElementById('navCartBadge');
+      if (totalQty > 0) {
+        badge.style.display = 'block';
+        badge.textContent = totalQty;
       } else {
-        footer.style.display = 'none';
+        badge.style.display = 'none';
         closeCart();
       }
 
