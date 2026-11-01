@@ -25,20 +25,20 @@
     }
 
     html, body {
-      width: 100%;
-      height: 100%;
-      min-height: 100vh;
-      min-height: -webkit-fill-available;
       background-color: var(--bg);
       color: var(--text);
+      min-height: 100vh;
+      width: 100%;
+      margin: 0;
     }
 
-    body {
+    /* Обёртка контента со свободным скроллом и отступом под плашку корзины */
+    .app-wrapper {
+      width: 100%;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      overflow-x: hidden;
-      overflow-y: auto;
-      padding-bottom: 90px;
+      padding-bottom: 140px;
     }
 
     header {
@@ -51,7 +51,6 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      flex-shrink: 0;
     }
 
     .brand {
@@ -66,7 +65,7 @@
       color: var(--primary);
     }
 
-    /* Блок категорий с видимым бегунком */
+    /* Лента категорий с прокруткой и видимым бегунком */
     .categories-bar {
       display: flex;
       gap: 8px;
@@ -74,12 +73,13 @@
       padding: 12px 16px 10px;
       background: #ffffff;
       border-bottom: 1px solid var(--border);
-      flex-shrink: 0;
       scrollbar-width: thin;
-      scrollbar-color: #cbd5e1 #f1f5f9;
+      scrollbar-color: #94a3b8 #f1f5f9;
+      position: sticky;
+      top: 53px;
+      z-index: 19;
     }
 
-    /* Стилизация горизонтального скроллбара для Chromium (МАКС на ПК) */
     .categories-bar::-webkit-scrollbar {
       height: 6px;
     }
@@ -117,12 +117,12 @@
       border-color: var(--primary);
     }
 
+    /* Сетка товаров */
     .grid-container {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
       padding: 14px 16px 8px;
-      flex-grow: 1;
     }
 
     .card {
@@ -182,19 +182,24 @@
       cursor: pointer;
     }
 
-    /* Пунктирные блоки */
+    /* Нижний контейнер для двух баннеров */
+    .bottom-banners-wrapper {
+      padding: 8px 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
     .dashed-banner {
-      margin: 12px 16px;
-      padding: 18px 16px;
+      padding: 20px 16px;
       background: #ffffff;
       border: 1.5px dashed var(--primary);
       border-radius: 14px;
       text-align: center;
-      flex-shrink: 0;
     }
 
     .dashed-banner h3 {
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 700;
       color: var(--primary);
       margin-bottom: 6px;
@@ -203,13 +208,13 @@
     .dashed-banner p {
       font-size: 12px;
       color: var(--text-muted);
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       line-height: 1.4;
     }
 
     .dashed-banner-btn {
       display: inline-block;
-      padding: 9px 20px;
+      padding: 10px 22px;
       background: #e8f5e9;
       color: var(--primary);
       border: 1px solid var(--primary);
@@ -219,7 +224,7 @@
       cursor: pointer;
     }
 
-    /* Нижняя панель */
+    /* Нижняя панель корзины */
     .cart-bar {
       position: fixed;
       bottom: 0;
@@ -323,7 +328,7 @@
       font-weight: 600;
     }
 
-    /* Промокод */
+    /* Блок промокода */
     .promo-section {
       margin: 14px 0 10px;
     }
@@ -422,49 +427,38 @@
       background: #fff;
     }
   </style>
-  <script>
-    function expandView() {
-      try {
-        if (window.MAX && typeof window.MAX.expand === 'function') {
-          window.MAX.expand();
-        }
-        if (window.Telegram && window.Telegram.WebApp && typeof window.Telegram.WebApp.expand === 'function') {
-          window.Telegram.WebApp.expand();
-        }
-        window.parent.postMessage({ type: 'VKWebAppExpand' }, '*');
-        window.parent.postMessage({ type: 'max_app_expand' }, '*');
-      } catch (e) {}
-    }
-    window.addEventListener('DOMContentLoaded', expandView);
-    window.addEventListener('load', expandView);
-  </script>
 </head>
 <body>
 
-  <header>
-    <div class="brand">
-      <span style="font-size: 20px;">🌿</span>
-      <span class="brand-title">Greenway Экомаркет</span>
-    </div>
-  </header>
+  <div class="app-wrapper">
+    <header>
+      <div class="brand">
+        <span style="font-size: 20px;">🌿</span>
+        <span class="brand-title">Greenway Экомаркет</span>
+      </div>
+    </header>
 
-  <div class="categories-bar" id="categoryTabs"></div>
+    <div class="categories-bar" id="categoryTabs"></div>
 
-  <!-- Сетка товаров -->
-  <main class="grid-container" id="cardsContainer"></main>
+    <!-- Основная сетка товаров -->
+    <main class="grid-container" id="cardsContainer"></main>
 
-  <!-- Блок Духов Enjoy Care -->
-  <div class="dashed-banner" id="perfumeBanner">
-    <h3>Парфюмерия (Enjoy Care)</h3>
-    <p>Номерная коллекция премиальных духов по мотивам мировых бестселлеров (50 мл)</p>
-    <button class="dashed-banner-btn" onclick="openPerfumeModal()">Выбрать аромат ✨</button>
-  </div>
+    <!-- Нижняя секция плиток (всегда внизу страницы) -->
+    <section class="bottom-banners-wrapper">
+      <!-- 1. Плитка Духов Enjoy Care -->
+      <div class="dashed-banner" id="perfumeBanner">
+        <h3>Духи Enjoy Care (Номерная парфюмерия под заказ)</h3>
+        <p>Эквиваленты культовых мировых ароматов из европейских масел (50 мл)</p>
+        <button class="dashed-banner-btn" onclick="openPerfumeModal()">Выбрать аромат ✨</button>
+      </div>
 
-  <!-- Блок Не нашли нужный товар -->
-  <div class="dashed-banner">
-    <h3>Не нашли нужный товар?</h3>
-    <p>Напишите нам в чат — добавим любую позицию из каталога Greenway индивидуально!</p>
-    <button class="dashed-banner-btn" onclick="openCustomRequest()">Заказать через чат 💬</button>
+      <!-- 2. Плитка Не нашли нужный товар -->
+      <div class="dashed-banner" id="customBanner">
+        <h3>Не нашли нужный товар?</h3>
+        <p>Напишите нам в чат — добавим любую позицию из каталога Greenway индивидуально!</p>
+        <button class="dashed-banner-btn" onclick="openCustomRequest()">Заказать через чат 💬</button>
+      </div>
+    </section>
   </div>
 
   <!-- Нижняя панель корзины -->
@@ -641,6 +635,7 @@
     function renderList(items) {
       const cont = document.getElementById('cardsContainer');
 
+      // Исключаем системные карточки без фото/цен, чтобы они не засоряли общую сетку
       const regular = items.filter(p => {
         const c = String(p.category || '').toLowerCase().trim();
         const t = getItemTitle(p).toLowerCase();
