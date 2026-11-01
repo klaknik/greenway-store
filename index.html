@@ -94,10 +94,10 @@
     .product-img {
       width: 100%;
       aspect-ratio: 1;
-      object-fit: cover;
+      object-fit: contain;
       border-radius: 8px;
       margin-bottom: 8px;
-      background: #eee;
+      background: #fff;
     }
 
     .product-title {
@@ -105,14 +105,18 @@
       font-weight: 600;
       margin-bottom: 4px;
       line-height: 1.3;
-      height: 36px;
+      height: 38px;
       overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
     }
 
     .product-category {
       font-size: 11px;
       color: var(--text-muted);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
+      text-transform: capitalize;
     }
 
     .product-price {
@@ -134,7 +138,7 @@
       cursor: pointer;
     }
 
-    /* Нижняя панель корзины */
+    /* Панель корзины снизу */
     .cart-bottom-bar {
       position: fixed;
       bottom: 0;
@@ -176,7 +180,7 @@
       cursor: pointer;
     }
 
-    /* Модальное окно оформления */
+    /* Модальное окно */
     .modal {
       display: none;
       position: fixed;
@@ -250,7 +254,7 @@
       cursor: pointer;
     }
 
-    /* Промокод */
+    /* Блок промокода */
     .promo-wrapper {
       margin: 12px 0;
     }
@@ -350,13 +354,13 @@
   </header>
 
   <div class="category-filter" id="categoryFilter">
-    <button class="category-btn active" onclick="filterCategory('all')">Все</button>
-    <button class="category-btn" onclick="filterCategory('Green Fiber')">Green Fiber</button>
-    <button class="category-btn" onclick="filterCategory('BioTrim')">BioTrim</button>
-    <button class="category-btn" onclick="filterCategory('Welllab')">Welllab</button>
-    <button class="category-btn" onclick="filterCategory('Balancer')">Balancer</button>
-    <button class="category-btn" onclick="filterCategory('Sharme')">Sharme</button>
-    <button class="category-btn" onclick="filterCategory('Enjoy Care')">Enjoy Care</button>
+    <button class="category-btn active" onclick="filterCategory('all', this)">Все</button>
+    <button class="category-btn" onclick="filterCategory('fiber', this)">Green Fiber</button>
+    <button class="category-btn" onclick="filterCategory('biotrim', this)">BioTrim</button>
+    <button class="category-btn" onclick="filterCategory('welllab', this)">Welllab</button>
+    <button class="category-btn" onclick="filterCategory('balancer', this)">Balancer</button>
+    <button class="category-btn" onclick="filterCategory('sharme', this)">Sharme</button>
+    <button class="category-btn" onclick="filterCategory('enjoy', this)">Enjoy Care</button>
   </div>
 
   <main class="container" id="productsContainer"></main>
@@ -404,7 +408,7 @@
         </div>
       </div>
 
-      <!-- Контакты покупателя -->
+      <!-- Контакты -->
       <form id="orderForm" onsubmit="handleOrderSubmit(event)">
         <div class="form-group">
           <label>Имя и фамилия *</label>
@@ -425,15 +429,23 @@
   </div>
 
   <script>
-    // URL Google Apps Script для логирования заказов
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby5_pWJg1U_2uBv4056n6W-f9e4e_example/exec"; // Замените на ваш рабочий /exec URL
+    // URL Google Apps Script для записи в таблицу
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby5_pWJg1U_2uBv4056n6W-f9e4e_example/exec"; // Ваш рабочий URL
 
     let products = [];
-    let cart = {}; // id -> count
+    let cart = {}; 
     let isFreeDeliveryPromoApplied = false;
     let appliedPromoName = "";
 
-    // Загрузка каталога
+    // Вспомогательная функция для безопасного получения полей товара
+    function getItemName(p) {
+      return p.name || p.title || p.header || 'Товар Greenway';
+    }
+
+    function getItemImage(p) {
+      return p.image || p.img || p.imageUrl || p.photo || p.picture || '';
+    }
+
     async function initCatalog() {
       try {
         const res = await fetch('products.json');
@@ -446,26 +458,38 @@
 
     function renderProducts(items) {
       const cont = document.getElementById('productsContainer');
-      cont.innerHTML = items.map(p => `
-        <div class="product-card">
-          <img class="product-img" src="${p.image || 'https://via.placeholder.com/150'}" alt="${p.name}">
-          <div>
-            <div class="product-category">${p.category}</div>
-            <div class="product-title">${p.name}</div>
-            <div class="product-price">${p.price.toLocaleString('ru-RU')} ₽</div>
+      cont.innerHTML = items.map(p => {
+        const title = getItemName(p);
+        const imgSrc = getItemImage(p);
+        const category = p.category || '';
+        const price = p.price || 0;
+        const id = p.id;
+
+        return `
+          <div class="product-card">
+            <img class="product-img" src="${imgSrc}" alt="${title}" loading="lazy">
+            <div>
+              <div class="product-category">${category}</div>
+              <div class="product-title">${title}</div>
+              <div class="product-price">${price.toLocaleString('ru-RU')} ₽</div>
+            </div>
+            <button class="add-to-cart-btn" onclick="addToCart(${id})">В корзину</button>
           </div>
-          <button class="add-to-cart-btn" onclick="addToCart(${p.id})">В корзину</button>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
-    function filterCategory(cat) {
+    function filterCategory(cat, btn) {
       document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-      event.target.classList.add('active');
+      if (btn) btn.classList.add('active');
+
       if (cat === 'all') {
         renderProducts(products);
       } else {
-        renderProducts(products.filter(p => p.category === cat));
+        renderProducts(products.filter(p => {
+          const c = (p.category || '').toLowerCase();
+          return c.includes(cat.toLowerCase());
+        }));
       }
     }
 
@@ -482,7 +506,6 @@
       updateCartTotals();
     }
 
-    // Промокод
     function applyPromoCode() {
       const input = document.getElementById('promoInput');
       const msg = document.getElementById('promoMessage');
@@ -520,13 +543,12 @@
     function calculateSubtotal() {
       return Object.entries(cart).reduce((sum, [id, qty]) => {
         const prod = products.find(p => p.id === parseInt(id));
-        return sum + (prod ? prod.price * qty : 0);
+        return sum + (prod ? (prod.price || 0) * qty : 0);
       }, 0);
     }
 
     function calculateDelivery(subtotal) {
       if (subtotal === 0) return 0;
-      // Бесплатно при промокоде ZLATA или от 3 000 руб
       if (isFreeDeliveryPromoApplied || subtotal >= 3000) {
         return 0;
       }
@@ -581,11 +603,13 @@
       container.innerHTML = entries.map(([id, qty]) => {
         const p = products.find(item => item.id === parseInt(id));
         if (!p) return '';
+        const title = getItemName(p);
+        const price = p.price || 0;
         return `
           <div class="cart-row">
             <div>
-              <div style="font-weight: 600;">${p.name}</div>
-              <div style="color: var(--text-muted); font-size: 11px;">${p.price} ₽ × ${qty} шт.</div>
+              <div style="font-weight: 600;">${title}</div>
+              <div style="color: var(--text-muted); font-size: 11px;">${price} ₽ × ${qty} шт.</div>
             </div>
             <div class="qty-controls">
               <button class="qty-btn" type="button" onclick="changeQty(${p.id}, -1)">−</button>
@@ -597,7 +621,6 @@
       }).join('');
     }
 
-    // Отправка заказа
     async function handleOrderSubmit(e) {
       e.preventDefault();
 
@@ -610,12 +633,13 @@
 
       const itemsList = Object.entries(cart).map(([id, qty]) => {
         const p = products.find(item => item.id === parseInt(id));
-        return `${p.name} (x${qty}) — ${p.price * qty} ₽`;
+        const title = p ? getItemName(p) : 'Товар';
+        const price = p ? p.price : 0;
+        return `${title} (x${qty}) — ${price * qty} ₽`;
       }).join('\n');
 
       const promoInfo = appliedPromoName ? appliedPromoName : 'нет';
 
-      // Текст заказа для клиента и буфера обмена
       const orderMessage = 
 `📦 НОВЫЙ ЗАКАЗ GREENWAY
 👤 Клиент: ${name}
@@ -634,12 +658,10 @@ ${itemsList}
       submitBtn.disabled = true;
       submitBtn.textContent = 'Оформляем...';
 
-      // 1. Помечаем промокод ZLATA как использованный
       if (appliedPromoName === 'ZLATA') {
         localStorage.setItem('promo_zlata_used', 'true');
       }
 
-      // 2. Отправка в Google Таблицу через Apps Script
       try {
         await fetch(GOOGLE_SCRIPT_URL, {
           method: 'POST',
@@ -647,21 +669,20 @@ ${itemsList}
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             name: name,
-            phone: "'" + phone, // апостроф для защиты формата номера
+            phone: "'" + phone,
             address: address,
-            promo: promoInfo,
             items: itemsList.replace(/\n/g, '; '),
             subtotal: subtotal,
             delivery: delivery,
             total: total,
+            promo: promoInfo,
             date: new Date().toLocaleString('ru-RU')
           })
         });
       } catch (err) {
-        console.warn('Локальная ошибка сети при отправке таблицы:', err);
+        console.warn('Сетевая ошибка при отправке в Google Sheets:', err);
       }
 
-      // 3. Копируем в буфер обмена для подтверждения в чате МАКС
       if (navigator.clipboard && navigator.clipboard.writeText) {
         try {
           await navigator.clipboard.writeText(orderMessage);
@@ -670,7 +691,6 @@ ${itemsList}
 
       alert('✅ Заказ успешно оформлен!\nДанные скопированы в буфер обмена. Отправьте скопированный текст в чат боту для подтверждения менеджером.');
       
-      // Сброс корзины
       cart = {};
       closeCartModal();
       updateCartTotals();
