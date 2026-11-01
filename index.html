@@ -27,29 +27,28 @@
     html, body {
       background-color: var(--bg);
       color: var(--text);
-      min-height: 100vh;
       width: 100%;
+      height: 100%;
       margin: 0;
+      padding: 0;
     }
 
     .app-wrapper {
       width: 100%;
-      min-height: 100vh;
+      height: 100vh;
       display: flex;
       flex-direction: column;
-      padding-bottom: 90px; /* Отступ под нижний таббар */
+      overflow: hidden;
     }
 
     header {
       background: #ffffff;
-      padding: 14px 16px;
-      position: sticky;
-      top: 0;
-      z-index: 20;
+      padding: 12px 16px;
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-shrink: 0;
     }
 
     .brand {
@@ -64,19 +63,16 @@
       color: var(--primary);
     }
 
-    /* Лента категорий с прокруткой и бегунком */
     .categories-bar {
       display: flex;
       gap: 8px;
       overflow-x: auto;
-      padding: 12px 16px 10px;
+      padding: 10px 16px;
       background: #ffffff;
       border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
       scrollbar-width: thin;
       scrollbar-color: #94a3b8 #f1f5f9;
-      position: sticky;
-      top: 53px;
-      z-index: 19;
     }
 
     .categories-bar::-webkit-scrollbar {
@@ -94,12 +90,8 @@
       border-radius: 4px;
     }
 
-    .categories-bar::-webkit-scrollbar-thumb:hover {
-      background: var(--primary);
-    }
-
     .cat-chip {
-      padding: 8px 16px;
+      padding: 7px 14px;
       border-radius: 20px;
       border: 1px solid var(--border);
       background: #f3f4f6;
@@ -116,7 +108,15 @@
       border-color: var(--primary);
     }
 
-    /* Сетка товаров */
+    /* Основная зона прокрутки */
+    .content-scroll {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-bottom: 20px;
+      -webkit-overflow-scrolling: touch;
+    }
+
     .grid-container {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -181,7 +181,6 @@
       cursor: pointer;
     }
 
-    /* Нижние пунктирные плашки */
     .bottom-banners-wrapper {
       padding: 8px 16px 20px;
       display: flex;
@@ -190,7 +189,7 @@
     }
 
     .dashed-banner {
-      padding: 20px 16px;
+      padding: 18px 16px;
       background: #ffffff;
       border: 1.5px dashed var(--primary);
       border-radius: 14px;
@@ -198,7 +197,7 @@
     }
 
     .dashed-banner h3 {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       color: var(--primary);
       margin-bottom: 6px;
@@ -207,13 +206,13 @@
     .dashed-banner p {
       font-size: 12px;
       color: var(--text-muted);
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       line-height: 1.4;
     }
 
     .dashed-banner-btn {
       display: inline-block;
-      padding: 10px 22px;
+      padding: 9px 20px;
       background: #e8f5e9;
       color: var(--primary);
       border: 1px solid var(--primary);
@@ -223,20 +222,17 @@
       cursor: pointer;
     }
 
-    /* Фиксированная нижняя навигация (Таббар с плитками) */
+    /* Гарантированный видимый таббар */
     .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
       background: #ffffff;
       border-top: 1px solid var(--border);
       display: flex;
       justify-content: space-around;
       align-items: center;
       padding: 8px 10px;
-      z-index: 30;
+      flex-shrink: 0;
       box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+      z-index: 100;
     }
 
     .nav-item {
@@ -278,13 +274,12 @@
       display: none;
     }
 
-    /* Модалки */
     .modal-overlay {
       display: none;
       position: fixed;
       inset: 0;
       background: rgba(0,0,0,0.6);
-      z-index: 50;
+      z-index: 150;
       align-items: flex-end;
     }
 
@@ -471,47 +466,45 @@
 
     <div class="categories-bar" id="categoryTabs"></div>
 
-    <!-- Основная сетка товаров -->
-    <main class="grid-container" id="cardsContainer"></main>
+    <div class="content-scroll" id="contentScroll">
+      <main class="grid-container" id="cardsContainer"></main>
 
-    <!-- Нижняя секция плиток (всегда внизу каталога) -->
-    <section class="bottom-banners-wrapper">
-      <div class="dashed-banner" id="perfumeBanner">
-        <h3>Духи Enjoy Care (Номерная парфюмерия под заказ)</h3>
-        <p>Эквиваленты культовых мировых ароматов из европейских масел (50 мл)</p>
-        <button class="dashed-banner-btn" onclick="openPerfumeModal()">Выбрать аромат ✨</button>
-      </div>
+      <section class="bottom-banners-wrapper">
+        <div class="dashed-banner" id="perfumeBanner">
+          <h3>Духи Enjoy Care (Номерная парфюмерия под заказ)</h3>
+          <p>Эквиваленты культовых мировых ароматов из европейских масел (50 мл)</p>
+          <button class="dashed-banner-btn" onclick="openPerfumeModal()">Выбрать аромат ✨</button>
+        </div>
 
-      <div class="dashed-banner" id="customBanner">
-        <h3>Не нашли нужный товар?</h3>
-        <p>Напишите нам в чат — добавим любую позицию из каталога Greenway индивидуально!</p>
-        <button class="dashed-banner-btn" onclick="openCustomRequest()">Заказать через чат 💬</button>
-      </div>
-    </section>
+        <div class="dashed-banner" id="customBanner">
+          <h3>Не нашли нужный товар?</h3>
+          <p>Напишите нам в чат — добавим любую позицию из каталога Greenway индивидуально!</p>
+          <button class="dashed-banner-btn" onclick="openCustomRequest()">Заказать через чат 💬</button>
+        </div>
+      </section>
+    </div>
+
+    <nav class="bottom-nav">
+      <button class="nav-item active" onclick="navToHome(this)">
+        <span class="nav-icon">🏠</span>
+        <span>Главная</span>
+      </button>
+      <button class="nav-item" onclick="navToCatalog(this)">
+        <span class="nav-icon">📦</span>
+        <span>Каталог</span>
+      </button>
+      <button class="nav-item" onclick="openDeliveryModal()">
+        <span class="nav-icon">🚚</span>
+        <span>Доставка</span>
+      </button>
+      <button class="nav-item" onclick="openCart()">
+        <span class="nav-icon">🛒</span>
+        <span>Корзина</span>
+        <span class="nav-badge" id="navCartBadge">0</span>
+      </button>
+    </nav>
   </div>
 
-  <!-- Нижний таббар навигации -->
-  <nav class="bottom-nav">
-    <button class="nav-item active" onclick="navToHome(this)">
-      <span class="nav-icon">🏠</span>
-      <span>Главная</span>
-    </button>
-    <button class="nav-item" onclick="navToCatalog(this)">
-      <span class="nav-icon">📦</span>
-      <span>Каталог</span>
-    </button>
-    <button class="nav-item" onclick="openDeliveryModal()">
-      <span class="nav-icon">🚚</span>
-      <span>Доставка</span>
-    </button>
-    <button class="nav-item" onclick="openCart()">
-      <span class="nav-icon">🛒</span>
-      <span>Корзина</span>
-      <span class="nav-badge" id="navCartBadge">0</span>
-    </button>
-  </nav>
-
-  <!-- Модальное окно духов -->
   <div class="modal-overlay" id="perfumeModal">
     <div class="modal-sheet">
       <div class="modal-head">
@@ -536,7 +529,6 @@
     </div>
   </div>
 
-  <!-- Модальное окно доставки -->
   <div class="modal-overlay" id="deliveryModal">
     <div class="modal-sheet">
       <div class="modal-head">
@@ -559,7 +551,6 @@
     </div>
   </div>
 
-  <!-- Модальное окно корзины -->
   <div class="modal-overlay" id="cartModal">
     <div class="modal-sheet">
       <div class="modal-head">
@@ -569,7 +560,6 @@
 
       <div id="cartItemsList"></div>
 
-      <!-- Промокод -->
       <div class="promo-section">
         <div class="promo-input-row">
           <input type="text" id="promoInput" placeholder="Промокод (например: ZLATA)">
@@ -578,7 +568,6 @@
         <div class="promo-alert" id="promoAlert"></div>
       </div>
 
-      <!-- Сводка сумм -->
       <div class="order-summary">
         <div class="sum-row">
           <span>Сумма товаров:</span>
@@ -665,7 +654,6 @@
 
     function renderCategoriesBar() {
       const container = document.getElementById('categoryTabs');
-      
       const uniqueCats = [...new Set(
         allProducts
           .map(p => String(p.category || '').toLowerCase().trim())
@@ -673,7 +661,6 @@
       )];
 
       let html = `<button class="cat-chip active" onclick="filterByCat('all', this)">Все товары</button>`;
-      
       uniqueCats.forEach(catKey => {
         const title = CATEGORY_MAP[catKey] || catKey;
         html += `<button class="cat-chip" onclick="filterByCat('${catKey}', this)">${title}</button>`;
@@ -698,7 +685,6 @@
 
     function renderList(items) {
       const cont = document.getElementById('cardsContainer');
-
       const regular = items.filter(p => {
         const c = String(p.category || '').toLowerCase().trim();
         const t = getItemTitle(p).toLowerCase();
@@ -725,19 +711,17 @@
       }).join('');
     }
 
-    // Навигация
     function navToHome(btn) {
       document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      document.getElementById('contentScroll').scrollTo({ top: 0, behavior: 'smooth' });
       filterByCat('all', document.querySelector('.cat-chip'));
     }
 
     function navToCatalog(btn) {
       document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      const tabs = document.getElementById('categoryTabs');
-      if (tabs) tabs.scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('contentScroll').scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function openDeliveryModal() {
@@ -849,7 +833,6 @@
       let delivery = (totalQty === 0) ? 0 : ((isPromoFree || subtotal >= 3000) ? 0 : 500);
       let total = subtotal + delivery;
 
-      // Обновление бейджа на кнопке "Корзина" в нижней панели
       const badge = document.getElementById('navCartBadge');
       if (totalQty > 0) {
         badge.style.display = 'block';
