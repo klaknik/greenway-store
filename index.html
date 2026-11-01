@@ -108,7 +108,6 @@
       border-color: var(--primary);
     }
 
-    /* Основная зона прокрутки */
     .content-scroll {
       flex: 1;
       overflow-y: auto;
@@ -222,7 +221,7 @@
       cursor: pointer;
     }
 
-    /* Гарантированный видимый таббар */
+    /* Нижний таббар */
     .bottom-nav {
       background: #ffffff;
       border-top: 1px solid var(--border);
@@ -274,6 +273,7 @@
       display: none;
     }
 
+    /* Модальные окна */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -442,15 +442,34 @@
       background: #fff;
     }
 
-    .delivery-info-content {
+    .info-modal-body {
       font-size: 13px;
       line-height: 1.6;
       color: var(--text);
     }
-    .delivery-info-content h4 {
+    .info-modal-body h4 {
       margin: 12px 0 4px;
       color: var(--primary);
       font-size: 14px;
+    }
+
+    .faq-item {
+      margin-bottom: 14px;
+      background: #f9fafb;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    .faq-item h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+    .faq-item p {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
     }
   </style>
 </head>
@@ -484,14 +503,15 @@
       </section>
     </div>
 
+    <!-- Обновлённый таббар (Каталог убран, добавлен FAQ) -->
     <nav class="bottom-nav">
       <button class="nav-item active" onclick="navToHome(this)">
         <span class="nav-icon">🏠</span>
         <span>Главная</span>
       </button>
-      <button class="nav-item" onclick="navToCatalog(this)">
-        <span class="nav-icon">📦</span>
-        <span>Каталог</span>
+      <button class="nav-item" onclick="openFaqModal()">
+        <span class="nav-icon">❓</span>
+        <span>FAQ</span>
       </button>
       <button class="nav-item" onclick="openDeliveryModal()">
         <span class="nav-icon">🚚</span>
@@ -505,6 +525,36 @@
     </nav>
   </div>
 
+  <!-- Модальное окно FAQ -->
+  <div class="modal-overlay" id="faqModal">
+    <div class="modal-sheet">
+      <div class="modal-head">
+        <h2>Частые вопросы (FAQ)</h2>
+        <button class="modal-close" onclick="closeFaqModal()">✕</button>
+      </div>
+      <div class="info-modal-body">
+        <div class="faq-item">
+          <h4>Это оригинальная продукция Greenway?</h4>
+          <p>Да, абсолютно вся продукция заказывается напрямую со склада Greenway Global и имеет все необходимые сертификаты качества.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Как работают файберы без химии?</h4>
+          <p>В основе лежит японское микроволокно особой структуры: его нити тоньше человеческого волоса в 100 раз. При намокании возникает капиллярный эффект, благодаря чему салфетка втягивает жир и пыль без капли моющих средств.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Что такое номерной парфюм Enjoy Care?</h4>
+          <p>Это оригинальные стойкие духи (20% эфирных масел), созданные в Чехии на заводе EMPIREO. Они выпускаются под номерами во флаконах по мотивам популярных мировых брендов.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Как оплатить и подтвердить заказ?</h4>
+          <p>После отправки заказа через корзину, данные копируются в буфер обмена. Отправьте их в чат боту — наш менеджер проверит наличие и пришлёт реквизиты для оплаты.</p>
+        </div>
+      </div>
+      <button class="btn-final" style="margin-top: 12px;" onclick="closeFaqModal()">Закрыть</button>
+    </div>
+  </div>
+
+  <!-- Модальное окно духов -->
   <div class="modal-overlay" id="perfumeModal">
     <div class="modal-sheet">
       <div class="modal-head">
@@ -529,20 +579,20 @@
     </div>
   </div>
 
+  <!-- Модальное окно доставки (без спойлеров промокода) -->
   <div class="modal-overlay" id="deliveryModal">
     <div class="modal-sheet">
       <div class="modal-head">
         <h2>Условия доставки</h2>
         <button class="modal-close" onclick="closeDeliveryModal()">✕</button>
       </div>
-      <div class="delivery-info-content">
+      <div class="info-modal-body">
         <h4>🌿 Способы получения:</h4>
-        <p>• Доставка курьером до двери или до ближайшего пункта выдачи заказов (СДЭК / Почта России).</p>
+        <p>• Курьером до двери или до ближайшего пункта выдачи заказов (СДЭК / Почта России).</p>
         
         <h4>💰 Стоимость:</h4>
         <p>• При заказе от 3 000 ₽ — <b>Бесплатно</b>.</p>
         <p>• При заказе до 3 000 ₽ — фиксировано <b>500 ₽</b>.</p>
-        <p>• По промокоду <b>ZLATA</b> — доставка <b>0 ₽</b> на любой заказ!</p>
 
         <h4>⏱ Сроки:</h4>
         <p>Отправка заказа осуществляется в течение 1–2 рабочих дней после согласования менеджером в чате.</p>
@@ -551,6 +601,7 @@
     </div>
   </div>
 
+  <!-- Модальное окно корзины (скрытое поле промокода) -->
   <div class="modal-overlay" id="cartModal">
     <div class="modal-sheet">
       <div class="modal-head">
@@ -560,14 +611,16 @@
 
       <div id="cartItemsList"></div>
 
+      <!-- Промокод без подсказки -->
       <div class="promo-section">
         <div class="promo-input-row">
-          <input type="text" id="promoInput" placeholder="Промокод (например: ZLATA)">
+          <input type="text" id="promoInput" placeholder="Промокод">
           <button type="button" onclick="applyPromoCode()">Применить</button>
         </div>
         <div class="promo-alert" id="promoAlert"></div>
       </div>
 
+      <!-- Сводка сумм -->
       <div class="order-summary">
         <div class="sum-row">
           <span>Сумма товаров:</span>
@@ -718,10 +771,12 @@
       filterByCat('all', document.querySelector('.cat-chip'));
     }
 
-    function navToCatalog(btn) {
-      document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('contentScroll').scrollTo({ top: 0, behavior: 'smooth' });
+    function openFaqModal() {
+      document.getElementById('faqModal').classList.add('active');
+    }
+
+    function closeFaqModal() {
+      document.getElementById('faqModal').classList.remove('active');
     }
 
     function openDeliveryModal() {
@@ -801,14 +856,14 @@
 
       if (val === 'ZLATA') {
         if (used === 'true') {
-          alertBox.textContent = '❌ Промокод Zlata уже использован ранее.';
+          alertBox.textContent = '❌ Промокод уже использован ранее.';
           alertBox.style.color = 'var(--accent-red)';
           isPromoFree = false;
           activePromo = "";
         } else {
           isPromoFree = true;
           activePromo = "ZLATA";
-          alertBox.textContent = '✅ Промокод ZLATA применён: бесплатная доставка!';
+          alertBox.textContent = '✅ Промокод применён: бесплатная доставка!';
           alertBox.style.color = 'var(--primary)';
           inp.disabled = true;
         }
