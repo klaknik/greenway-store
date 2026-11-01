@@ -2,1122 +2,683 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Greenway Global — Экомаркет</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Greenway Экомаркет</title>
   <style>
     :root {
-      --primary: #00875A;
-      --primary-dark: #006644;
-      --accent: #E58E26;
-      --bg: #F4F6F8;
-      --card-bg: #FFFFFF;
-      --text: #1F2937;
-      --text-muted: #6B7280;
-      --border: #E5E7EB;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-    
-    html, body {
-      width: 100%;
-      min-height: 100vh;
-      background-color: var(--bg);
-      color: var(--text);
-      padding-bottom: 75px;
-      overflow-x: hidden;
+      --primary: #2e7d32;
+      --primary-dark: #1b5e20;
+      --bg-color: #f7f9f6;
+      --card-bg: #ffffff;
+      --text-main: #212121;
+      --text-muted: #757575;
+      --border-color: #e0e0e0;
+      --accent-red: #d32f2f;
     }
 
-    header { background: #fff; padding: 14px 16px; position: sticky; top: 0; z-index: 25; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-    header h1 { font-size: 18px; font-weight: 700; color: var(--primary); }
-    .badge { background: #E8F5E9; color: var(--primary); font-size: 11px; padding: 4px 8px; border-radius: 12px; font-weight: 600; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-    .tab-page { display: none; width: 100%; }
-    .tab-page.active { display: block; }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      padding-bottom: 90px;
+    }
 
-    .search-wrap { padding: 10px 16px 4px; background: #fff; }
-    .search-input { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 10px; font-size: 13px; outline: none; background: var(--bg); }
-    .search-input:focus { border-color: var(--primary); background: #fff; }
-
-    .nav-wrap { background: #fff; position: sticky; top: 53px; z-index: 20; border-bottom: 1px solid var(--border); }
-    .tabs-main { display: flex; gap: 8px; padding: 8px 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .tabs-main::-webkit-scrollbar { display: none; }
-    .tab-main { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; background: var(--bg); color: var(--text-muted); cursor: pointer; white-space: nowrap; border: 1px solid transparent; user-select: none; }
-    .tab-main.active { background: var(--primary); color: #fff; font-weight: 600; }
-    .tab-main.special { border: 1px dashed var(--accent); color: var(--accent); }
-    .tab-main.special.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-
-    .subtabs-wrap { background: #FAFAFA; border-bottom: 1px solid var(--border); display: none; }
-    .tabs-sub { display: flex; gap: 6px; padding: 8px 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .tabs-sub::-webkit-scrollbar { display: none; }
-    .tab-sub { padding: 4px 11px; border-radius: 14px; font-size: 12px; font-weight: 500; background: #fff; color: var(--text-muted); cursor: pointer; white-space: nowrap; border: 1px solid var(--border); user-select: none; }
-    .tab-sub.active { background: #E8F5E9; color: var(--primary-dark); border-color: var(--primary); font-weight: 600; }
-
-    .catalog { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 16px; }
-    .card { background: var(--card-bg); border-radius: 14px; padding: 10px; border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; position: relative; }
-    .card-img-wrap { position: relative; width: 100%; height: 125px; margin-bottom: 8px; }
-    .card img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; background: #eee; }
-    .card-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; line-height: 1.3; }
-    .card-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; flex-grow: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .card-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; }
-    .card-price { font-size: 14px; font-weight: 700; color: var(--primary-dark); }
-
-    .card-fullwidth {
-      grid-column: 1 / -1;
-      background: linear-gradient(135deg, #FFFFFF 0%, #F4FBF7 100%);
-      border: 1.5px dashed var(--primary);
-      border-radius: 14px;
-      padding: 14px 16px;
+    header {
+      background: var(--card-bg);
+      padding: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--border-color);
       display: flex;
-      flex-direction: row;
-      align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    .category-filter {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 12px 16px;
+      background: var(--card-bg);
+      white-space: nowrap;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .category-btn {
+      padding: 8px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      background: #fff;
+      font-size: 13px;
+      font-weight: 500;
       cursor: pointer;
-      margin-top: 4px;
     }
-    .card-fullwidth-perfume {
-      background: linear-gradient(135deg, #FFFFFF 0%, #FFF9F0 100%);
-      border-color: var(--accent);
+
+    .category-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
     }
-    .card-fullwidth:active { opacity: 0.85; }
-    .card-fullwidth-content { flex: 1; }
-    .card-fullwidth-title { font-size: 14px; font-weight: 700; color: var(--primary-dark); display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
-    .card-fullwidth-perfume .card-fullwidth-title { color: #B35C00; }
-    .card-fullwidth-desc { font-size: 11.5px; color: var(--text-muted); line-height: 1.35; }
-    .card-fullwidth-btn { background: var(--primary); color: #fff; border: none; border-radius: 10px; padding: 9px 16px; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
-    .card-fullwidth-btn-perfume { background: var(--accent); }
 
-    .btn-add { background: var(--primary); color: #fff; border: none; border-radius: 8px; padding: 6px 10px; font-size: 12px; font-weight: 600; cursor: pointer; }
-    .qty-controls { display: none; align-items: center; gap: 6px; }
-    .btn-qty { background: var(--bg); border: 1px solid var(--border); width: 26px; height: 26px; border-radius: 6px; font-weight: bold; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-    .qty-num { font-size: 13px; font-weight: 600; min-width: 14px; text-align: center; }
-
-    .page-container { padding: 16px; }
-    .info-card { background: #fff; border-radius: 14px; padding: 16px; border: 1px solid var(--border); margin-bottom: 12px; }
-    .info-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--primary-dark); display: flex; align-items: center; gap: 6px; }
-    .info-card p { font-size: 13px; line-height: 1.5; color: var(--text); margin-bottom: 6px; }
-
-    .faq-item { border-bottom: 1px solid var(--border); padding: 12px 0; }
-    .faq-item:first-of-type { padding-top: 4px; }
-    .faq-item:last-child { border-bottom: none; padding-bottom: 4px; }
-    .faq-question { font-size: 13.5px; font-weight: 600; color: var(--text); cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; gap: 8px; }
-    .faq-arrow { font-size: 10px; color: var(--text-muted); transition: transform 0.2s ease; flex-shrink: 0; }
-    .faq-answer { font-size: 13px; line-height: 1.5; color: var(--text-muted); margin-top: 8px; display: none; }
-    .faq-item.open .faq-answer { display: block; }
-    .faq-item.open .faq-arrow { transform: rotate(180deg); color: var(--primary); }
-
-    .delivery-progress-box { background: #F8FAF9; border: 1px solid #E1EFEA; border-radius: 12px; padding: 12px; margin-bottom: 14px; display: none; }
-    .delivery-progress-text { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between; }
-    .delivery-progress-bar-bg { width: 100%; height: 7px; background: #E5E7EB; border-radius: 6px; overflow: hidden; }
-    .delivery-progress-bar-fill { height: 100%; width: 0%; background: var(--primary); border-radius: 6px; transition: width 0.3s ease, background-color 0.3s ease; }
-
-    .cart-box { background: #fff; border-radius: 14px; padding: 16px; border: 1px solid var(--border); margin-bottom: 16px; }
-    .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
-    .empty-cart-msg { text-align: center; color: var(--text-muted); padding: 24px 0; font-size: 14px; }
-    .cart-summary-line { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
-    .cart-summary-total { display: flex; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border); font-weight: 700; font-size: 16px; color: var(--text); }
-
-    .order-history-item { background: #F9FAFB; border: 1px solid var(--border); border-radius: 10px; padding: 12px; margin-bottom: 10px; font-size: 12px; }
-    .order-history-header { display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 4px; color: var(--text); }
-    .order-history-status { color: var(--primary); font-weight: 600; }
-
-    .btn-action { width: 100%; background: var(--primary); color: #fff; border: none; border-radius: 14px; padding: 14px; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 14px; display: flex; justify-content: center; align-items: center; gap: 8px; text-decoration: none; }
-    .btn-action:active { background: var(--primary-dark); }
-    .btn-action-accent { background: var(--accent); }
-    .btn-action-accent:active { background: #cf7d1f; }
-
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 60px; background: #fff; border-top: 1px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 40; }
-    .nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--text-muted); cursor: pointer; font-size: 10px; font-weight: 500; position: relative; user-select: none; }
-    .nav-btn.active { color: var(--primary); font-weight: 700; }
-    .nav-btn-icon { font-size: 19px; margin-bottom: 2px; }
-    .nav-badge { position: absolute; top: 6px; right: 26%; background: #d63031; color: #fff; font-size: 9px; font-weight: 700; border-radius: 10px; padding: 1px 5px; min-width: 15px; text-align: center; display: none; }
-
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; display: none; }
-    .sheet { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-radius: 20px 20px 0 0; padding: 20px 16px; max-height: 90vh; overflow-y: auto; z-index: 101; display: none; }
-    .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-    .sheet-close { border: none; background: none; font-size: 22px; cursor: pointer; color: var(--text-muted); }
-
-    .detail-img { width: 100%; height: 220px; object-fit: cover; border-radius: 14px; margin-bottom: 14px; }
-    .detail-title { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
-    .detail-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; }
-    .detail-text { font-size: 14px; line-height: 1.5; color: var(--text); margin-bottom: 20px; white-space: pre-line; }
-    .detail-action { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 14px; }
-    .detail-price { font-size: 18px; font-weight: 700; color: var(--primary-dark); }
-
-    .form-group { margin-bottom: 11px; }
-    .form-row { display: flex; gap: 10px; }
-    .form-row .form-group { flex: 1; }
-    .form-label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: var(--text); }
-    .form-input { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; font-size: 13px; outline: none; background: var(--bg); }
-    .form-input:focus { border-color: var(--primary); background: #fff; }
-
-    /* Окно успешного оформления */
-    .success-box {
-      text-align: center;
-      padding: 10px 4px 6px;
+    .container {
+      padding: 16px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
     }
-    .success-icon {
-      font-size: 44px;
-      margin-bottom: 10px;
-    }
-    .order-copy-box {
-      background: #F9FAFB;
-      border: 1px dashed var(--border);
-      border-radius: 10px;
+
+    .product-card {
+      background: var(--card-bg);
+      border-radius: 12px;
       padding: 12px;
-      text-align: left;
-      font-size: 12px;
-      line-height: 1.45;
-      margin: 14px 0;
-      max-height: 140px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid var(--border-color);
+    }
+
+    .product-img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      background: #eee;
+    }
+
+    .product-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      line-height: 1.3;
+      height: 36px;
+      overflow: hidden;
+    }
+
+    .product-category {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .product-price {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 8px;
+    }
+
+    .add-to-cart-btn {
+      width: 100%;
+      padding: 8px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    /* Нижняя панель корзины */
+    .cart-bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--card-bg);
+      border-top: 1px solid var(--border-color);
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 20;
+    }
+
+    .cart-total-preview {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart-total-label {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .cart-total-amount {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    .open-cart-btn {
+      padding: 10px 20px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    /* Модальное окно оформления */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 50;
+      align-items: flex-end;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #fff;
+      width: 100%;
+      max-height: 90vh;
+      border-radius: 20px 20px 0 0;
+      padding: 20px 16px;
       overflow-y: auto;
-      white-space: pre-wrap;
-      color: #333;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .modal-header h2 {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .close-modal-btn {
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .cart-items-list {
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 16px;
+    }
+
+    .cart-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      font-size: 13px;
+    }
+
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .qty-btn {
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      border: 1px solid var(--border-color);
+      background: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    /* Промокод */
+    .promo-wrapper {
+      margin: 12px 0;
+    }
+
+    .promo-box {
+      display: flex;
+      gap: 8px;
+    }
+
+    .promo-box input {
+      flex: 1;
+      padding: 10px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+
+    .promo-box button {
+      padding: 10px 16px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .promo-status {
+      font-size: 12px;
+      margin-top: 6px;
+      min-height: 16px;
+    }
+
+    .totals-breakdown {
+      background: #f9fbf8;
+      border-radius: 8px;
+      padding: 12px;
+      margin: 14px 0;
+      font-size: 13px;
+    }
+
+    .totals-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .totals-row.final {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      border-top: 1px solid var(--border-color);
+      padding-top: 8px;
+      margin-top: 8px;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .submit-order-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 8px;
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>🌿 Greenway Global</h1>
-    <div class="badge">Экомаркет</div>
+    <h1>🌿 Greenway Экомаркет</h1>
+    <span style="font-size: 12px; color: var(--text-muted);">MAX Мини-приложение</span>
   </header>
 
-  <div id="pageCatalog" class="tab-page active">
-    <div class="search-wrap">
-      <input type="text" id="searchInput" class="search-input" placeholder="🔍 Поиск...">
-    </div>
-    <div class="nav-wrap">
-      <div class="tabs-main" id="mainCategoryTabs"></div>
-    </div>
-    <div class="subtabs-wrap" id="subCategoryWrap">
-      <div class="tabs-sub" id="subCategoryTabs"></div>
-    </div>
-    <div class="catalog" id="catalogList"></div>
+  <div class="category-filter" id="categoryFilter">
+    <button class="category-btn active" onclick="filterCategory('all')">Все</button>
+    <button class="category-btn" onclick="filterCategory('Green Fiber')">Green Fiber</button>
+    <button class="category-btn" onclick="filterCategory('BioTrim')">BioTrim</button>
+    <button class="category-btn" onclick="filterCategory('Welllab')">Welllab</button>
+    <button class="category-btn" onclick="filterCategory('Balancer')">Balancer</button>
+    <button class="category-btn" onclick="filterCategory('Sharme')">Sharme</button>
+    <button class="category-btn" onclick="filterCategory('Enjoy Care')">Enjoy Care</button>
   </div>
 
-  <div id="pageDelivery" class="tab-page">
-    <div class="page-container">
-      <div class="info-card">
-        <h3>🚚 Доставка по РФ</h3>
-        <p>• <b>Бесплатная курьерская доставка:</b> при заказе товаров от 3 000 ₽ доставим заказ курьером бесплатно.</p>
-        <p>• <b>При заказе до 3 000 ₽:</b> фиксированная стоимость доставки — 500 ₽.</p>
-        <p>• <b>Пункты выдачи и доставка:</b> СДЭК, пункты выдачи OZON, Wildberries (WB) или курьером прямо до двери.</p>
-        <p>• <b>Отправка:</b> в течение 1–2 рабочих дней после подтверждения заказа.</p>
-      </div>
-      <div class="info-card">
-        <h3>💳 Оплата заказов</h3>
-        <p>• Оплата через <b>СБП (Систему быстрых платежей)</b> или банковской картой.</p>
-        <p>• Реквизиты и ссылку на оплату отправляет менеджер после подтверждения наличия товаров.</p>
-      </div>
+  <main class="container" id="productsContainer"></main>
+
+  <div class="cart-bottom-bar" id="cartBar" style="display: none;">
+    <div class="cart-total-preview">
+      <span class="cart-total-label">В корзине:</span>
+      <span class="cart-total-amount" id="barTotalAmount">0 ₽</span>
     </div>
+    <button class="open-cart-btn" onclick="openCartModal()">Оформить заказ 🛒</button>
   </div>
 
-  <div id="pageOrders" class="tab-page">
-    <div class="page-container">
-      <div class="cart-box">
-        <h2 style="font-size:16px; font-weight:700; margin-bottom:12px;">Текущая корзина</h2>
-        <div class="delivery-progress-box" id="deliveryProgressBox">
-          <div class="delivery-progress-text" id="deliveryProgressText">
-            <span>До бесплатной курьерской доставки:</span>
-            <b id="deliveryNeedAmount">0 ₽</b>
-          </div>
-          <div class="delivery-progress-bar-bg">
-            <div class="delivery-progress-bar-fill" id="deliveryProgressBar"></div>
-          </div>
+  <!-- Модальное окно корзины -->
+  <div class="modal" id="cartModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Оформление заказа</h2>
+        <button class="close-modal-btn" onclick="closeCartModal()">✕</button>
+      </div>
+
+      <div class="cart-items-list" id="modalCartItems"></div>
+
+      <!-- Поле промокода -->
+      <div class="promo-wrapper">
+        <div class="promo-box">
+          <input type="text" id="promoInput" placeholder="Промокод (например: ZLATA)">
+          <button type="button" id="applyPromoBtn" onclick="applyPromoCode()">Применить</button>
         </div>
-        <div id="cartItemsContainer"></div>
-        <div id="cartSummaryBox" style="display:none; margin-top:14px;">
-          <div class="cart-summary-line">
-            <span>Товары:</span>
-            <span id="cartSubtotalSum">0 ₽</span>
-          </div>
-          <div class="cart-summary-line">
-            <span>Доставка по РФ:</span>
-            <span id="cartDeliveryCost" style="font-weight:600;">500 ₽</span>
-          </div>
-          <div class="cart-summary-total">
-            <span>Итого к оплате:</span>
-            <span id="cartTotalSum">0 ₽</span>
-          </div>
-          <button class="btn-action" id="checkoutBtn" onclick="openAddressSheet()">
-            <span>Продолжить оформление</span>
-            <span>›</span>
-          </button>
+        <div class="promo-status" id="promoMessage"></div>
+      </div>
+
+      <!-- Сводка сумм -->
+      <div class="totals-breakdown">
+        <div class="totals-row">
+          <span>Сумма товаров:</span>
+          <span id="subtotalSpan">0 ₽</span>
+        </div>
+        <div class="totals-row">
+          <span>Доставка (курьер):</span>
+          <span id="deliverySpan">500 ₽</span>
+        </div>
+        <div class="totals-row final">
+          <span>Итого к оплате:</span>
+          <span id="grandTotalSpan">0 ₽</span>
         </div>
       </div>
-      <div class="info-card">
-        <h3>📦 История заказов</h3>
-        <div id="orderHistoryContainer">
-          <p style="color:var(--text-muted); font-size:13px;">Ранее оформленных заказов пока нет.</p>
+
+      <!-- Контакты покупателя -->
+      <form id="orderForm" onsubmit="handleOrderSubmit(event)">
+        <div class="form-group">
+          <label>Имя и фамилия *</label>
+          <input type="text" id="custName" placeholder="Иван Иванов" required>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="pageFaq" class="tab-page">
-    <div class="page-container">
-      <div class="info-card">
-        <h3>❓ Часто задаваемые вопросы</h3>
-        <div class="faq-item" onclick="toggleFaq(this)">
-          <div class="faq-question">
-            <span>Какие категории товаров предлагает Greenway?</span>
-            <span class="faq-arrow">▼</span>
-          </div>
-          <div class="faq-answer">
-            В каталоге представлены: экологичная бытовая химия, биоразлагаемые чистящие средства, натуральная косметика и парфюмерия, биодобавки и витаминные комплексы, здоровое питание (коктейли, чаи, каши), а также аксессуары для дома и здоровья.
-          </div>
+        <div class="form-group">
+          <label>Номер телефона *</label>
+          <input type="tel" id="custPhone" placeholder="+7 999 000-00-00" required>
         </div>
-        <div class="faq-item" onclick="toggleFaq(this)">
-          <div class="faq-question">
-            <span>Почему продукты Greenway считаются экологичными?</span>
-            <span class="faq-arrow">▼</span>
-          </div>
-          <div class="faq-answer">
-            В производстве используются только натуральные и безопасные составы, упаковка пригодна для вторичной переработки, а продукция сертифицирована по международным стандартам качества.
-          </div>
+        <div class="form-group">
+          <label>Адрес доставки (город, улица, дом, кв.) *</label>
+          <input type="text" id="custAddress" placeholder="г. Москва, ул. Ленина, д. 1, кв. 10" required>
         </div>
-        <div class="faq-item" onclick="toggleFaq(this)">
-          <div class="faq-question">
-            <span>Как ухаживать за файберами Greenway?</span>
-            <span class="faq-arrow">▼</span>
-          </div>
-          <div class="faq-answer">
-            Стирайте мылом без отбеливателей (мыло BioTrim или детское). Не сушите на горячих батареях и не гладьте утюгом.
-          </div>
-        </div>
-      </div>
-      <div class="info-card" style="text-align: center;">
-        <h3>💬 Нужна консультация?</h3>
-        <p>Помогу сориентироваться в продукции GreenWay, подсказать по наличию и ответить на вопросы.</p>
-        <button class="btn-action" style="margin-top:12px;" onclick="openManagerChat()">
-          <span>💬 Написать менеджеру</span>
-        </button>
-      </div>
-    </div>
-  </div>
 
-  <div class="bottom-nav">
-    <div class="nav-btn active" id="navBtnCatalog" onclick="switchTab('catalog')">
-      <div class="nav-btn-icon">🛍</div>
-      <span>Каталог</span>
-    </div>
-    <div class="nav-btn" id="navBtnDelivery" onclick="switchTab('delivery')">
-      <div class="nav-btn-icon">🚚</div>
-      <span>Доставка</span>
-    </div>
-    <div class="nav-btn" id="navBtnOrders" onclick="switchTab('orders')">
-      <div class="nav-btn-icon">📦</div>
-      <span>Мои заказы</span>
-      <div class="nav-badge" id="navCartBadge">0</div>
-    </div>
-    <div class="nav-btn" id="navBtnFaq" onclick="switchTab('faq')">
-      <div class="nav-btn-icon">❓</div>
-      <span>Вопросы</span>
-    </div>
-  </div>
-
-  <div class="modal-overlay" id="overlay"></div>
-
-  <div class="sheet" id="detailSheet">
-    <div class="sheet-header">
-      <span class="badge" id="detailCategory">Категория</span>
-      <button class="sheet-close" id="closeDetailBtn">✕</button>
-    </div>
-    <img id="detailImg" class="detail-img" src="" alt="">
-    <h2 class="detail-title" id="detailTitle"></h2>
-    <div class="detail-meta" id="detailMeta"></div>
-    <div class="detail-text" id="detailDesc"></div>
-    <div class="detail-action">
-      <div class="detail-price" id="detailPrice">0 ₽</div>
-      <div id="detailBtnContainer"></div>
-    </div>
-  </div>
-
-  <div class="sheet" id="preorderModalSheet">
-    <div class="sheet-header">
-      <span class="badge" style="background:#FFF3E0; color:#E65100;">Enjoy Care (Под заказ)</span>
-      <button class="sheet-close" id="closePreorderBtn">✕</button>
-    </div>
-    <h2 class="detail-title">Заказ номерной парфюмерии</h2>
-    <p style="font-size: 14px; line-height: 1.5; color: var(--text); margin: 14px 0 16px;">
-      Ароматы Enjoy Care подбираются индивидуально по номерному каталогу. Напишите менеджеру для уточнения наличия и оформления заказа.
-    </p>
-    <button class="btn-action btn-action-accent" onclick="openManagerChat()">
-      <span>💬 Написать менеджеру</span>
-    </button>
-  </div>
-
-  <div class="sheet" id="customOrderModalSheet">
-    <div class="sheet-header">
-      <span class="badge" style="background:#E8F5E9; color:var(--primary-dark);">Greenway Global</span>
-      <button class="sheet-close" id="closeCustomOrderBtn">✕</button>
-    </div>
-    <h2 class="detail-title">Не нашли нужный товар?</h2>
-    <p style="font-size: 14px; line-height: 1.5; color: var(--text); margin: 12px 0 14px;">
-      Полный ассортимент продукции Greenway можно посмотреть на официальном сайте:
-    </p>
-    <a href="https://greenwayglobal.com/shop" target="_blank" style="display:inline-block; font-size: 14px; font-weight:700; color: var(--primary); text-decoration: underline; margin-bottom: 16px;">
-      https://greenwayglobal.com/shop ↗
-    </a>
-    <button class="btn-action" onclick="openManagerChat()">
-      <span>💬 Связаться с нами</span>
-    </button>
-  </div>
-
-  <!-- Шторка адреса -->
-  <div class="sheet" id="addressSheet">
-    <div class="sheet-header">
-      <h2>Данные для доставки</h2>
-      <button class="sheet-close" id="closeAddressBtn">✕</button>
-    </div>
-    <div class="form-group">
-      <label class="form-label">ФИО получателя *</label>
-      <input type="text" id="orderName" class="form-input" placeholder="Иванов Иван Иванович">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Телефон *</label>
-      <input type="tel" id="orderPhone" class="form-input" placeholder="+7 (999) 000-00-00">
-    </div>
-    <div class="form-row">
-      <div class="form-group" style="flex: 1.4;">
-        <label class="form-label">Регион / Область *</label>
-        <input type="text" id="orderRegion" class="form-input" placeholder="Московская обл.">
-      </div>
-      <div class="form-group" style="flex: 1;">
-        <label class="form-label">Индекс *</label>
-        <input type="text" id="orderZip" class="form-input" placeholder="101000">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Город *</label>
-        <input type="text" id="orderCity" class="form-input" placeholder="г. Москва">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Улица или адрес ПВЗ *</label>
-        <input type="text" id="orderStreet" class="form-input" placeholder="ул. Ленина">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Дом, квартира / офис</label>
-      <input type="text" id="orderHouse" class="form-input" placeholder="д. 12, кв. 45">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Комментарий к заказу</label>
-      <input type="text" id="orderComment" class="form-input" placeholder="Код домофона, удобный ПВЗ СДЭК/OZON/WB...">
-    </div>
-    <div style="background:#F9FAFB; border:1px solid #E5E7EB; border-radius:12px; padding:12px; margin:14px 0; font-size:13px;">
-      <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-        <span style="color:var(--text-muted);">Товары:</span>
-        <span id="summaryGoods">0 ₽</span>
-      </div>
-      <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-        <span style="color:var(--text-muted);">Доставка по РФ:</span>
-        <span id="summaryDelivery">500 ₽</span>
-      </div>
-      <div style="display:flex; justify-content:space-between; font-weight:700; font-size:15px; border-top:1px solid #E5E7EB; padding-top:6px;">
-        <span>Итого к оплате:</span>
-        <span id="summaryTotal" style="color:var(--primary-dark);">0 ₽</span>
-      </div>
-    </div>
-    <button class="btn-action" id="paySubmitBtn" onclick="confirmAndPay()">
-      <span>Оформить заказ</span>
-      <span>✓</span>
-    </button>
-  </div>
-
-  <!-- Окно подтверждения заказа для MAX -->
-  <div class="sheet" id="orderSuccessSheet">
-    <div class="sheet-header">
-      <span class="badge" style="background:#E8F5E9; color:var(--primary);">Заказ сформирован</span>
-      <button class="sheet-close" id="closeSuccessBtn">✕</button>
-    </div>
-    <div class="success-box">
-      <div class="success-icon">🎉</div>
-      <h2 style="font-size:17px; font-weight:700; margin-bottom:6px;" id="successOrderTitle">Заказ #123456</h2>
-      <p style="font-size:13px; color:var(--text-muted); line-height:1.45;">
-        Данные сохранены в базе! Текст заказа <b>скопирован в буфер обмена</b>. Нажмите кнопку ниже, чтобы перейти в диалог с менеджером и вставить заказ в чат.
-      </p>
-      <div class="order-copy-box" id="successOrderPreview"></div>
-      <button class="btn-action" id="openChatBtn" onclick="goToManagerDialog()">
-        <span>Открыть чат в MAX (Вставить заказ)</span>
-        <span>💬</span>
-      </button>
+        <button type="submit" class="submit-order-btn" id="submitBtn">Подтвердить и отправить заказ</button>
+      </form>
     </div>
   </div>
 
   <script>
-    var GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxawGbZ2HJSgf3mQixoLolJsnWi4LlR3Xl5IHVJGsImxYYBXzusNzfqRV_oTbY40hmO/exec";
-    var MANAGER_CONTACT_URL = "https://max.ru/u/f9LHodD0cOL85oIQ4kQZhAJ8Amc9j6FCMAK9NQW9KQ8pRjSeEOvzxHDvNtM";
+    // URL Google Apps Script для логирования заказов
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby5_pWJg1U_2uBv4056n6W-f9e4e_example/exec"; // Замените на ваш рабочий /exec URL
 
-    var FREE_DELIVERY_THRESHOLD = 3000;
-    var BASE_DELIVERY_COST = 500;
+    let products = [];
+    let cart = {}; // id -> count
+    let isFreeDeliveryPromoApplied = false;
+    let appliedPromoName = "";
 
-    var INITIAL_PRODUCTS = [
-      { id: 101, category: "fibers", category_name: "Эко-файберы", subcategory: "kitchen", subcategory_name: "Кухня и посуда", title: "Файбер для мытья посуды Green Fiber HOME S1", short_desc: "Моет жирную посуду без капли бытовой химии", full_desc: "Двусторонний файбер для мытья посуды легко справляется со следами жира, нагара и присохшей пищи даже в холодной воде. Мягкая сторона бережно моет посуду и полирует стекло, а жесткая счищает стойкие загрязнения, не повреждая покрытие сковород и кастрюль.", price: 440, volume: "1 шт", img: "images/fiber-dish-s1.jpg", gw_url: "https://greenwayglobal.com/shop/brands/fiber/06002" },
-      { id: 102, category: "fibers", category_name: "Эко-файберы", subcategory: "universal", subcategory_name: "Универсальные", title: "Универсальный файбер Green Fiber HOME A1", short_desc: "Притягивает пыль как магнит, собирает грязь", full_desc: "Универсальный файбер из рассеченного микроволокна отлично подходит для любых видов уборки. В сухом виде за счет электростатического эффекта притягивает частички пыли и мелкий сор, не поднимая их в воздух. Во влажном виде удаляет грязь и жировой налет с мебели и техники.", price: 870, volume: "1 шт", img: "images/fiber-universal-a1.jpg", gw_url: "https://greenwayglobal.com/shop/brands/fiber/06013" },
-      { id: 103, category: "fibers", category_name: "Эко-файберы", subcategory: "glass", subcategory_name: "Стекла и зеркала", title: "Файбер для мытья стекол и зеркал HOME P1", short_desc: "Идеальный блеск без разводов и ворсинок", full_desc: "Файбер для стекол очищает зеркальные и глянцевые поверхности простой водой без разводов, ворсинок и необходимости вытирать насухо. Защищает поверхности от повторного оседания пыли.", price: 720, volume: "1 шт", img: "images/fiber-glass-p1.jpg", gw_url: "https://greenwayglobal.com/shop/brands/fiber/06008" },
-      { id: 104, category: "fibers", category_name: "Эко-файберы", subcategory: "involver", subcategory_name: "Линейка Инволвер", title: "Диск «Инволвер» Green Fiber HOME S2", short_desc: "Удаление стойкого нагара, жира и налета", full_desc: "Диск Инволвер удаляет стойкие и въевшиеся загрязнения: нагар, мыльный и известковый налет, въевшийся жир. Гибкая форма позволяет тщательно очистить труднодоступные места сантехники, смесителей, решеток плит и духовых шкафов.", price: 870, volume: "1 шт", img: "images/fiber-involver-s2.jpg", gw_url: "https://greenwayglobal.com/shop/brands/fiber/06019" },
-      { id: 105, category: "fibers", category_name: "Эко-файберы", subcategory: "involver", subcategory_name: "Линейка Инволвер", title: "Губка «Инволвер» Green Fiber HOME S3", short_desc: "Чистка мягкой мебели, обуви, замши и ковров", full_desc: "Комбинированная губка из сверхпрочной нити Инволвер вытягивает застарелые загрязнения из обивки мебели, ковровых покрытий, обуви и замши. Удобный формат надежно лежит в руке.", price: 1220, volume: "1 шт", img: "images/fiber-sponge-s3.jpg", gw_url: "https://greenwayglobal.com/shop/brands/fiber/06046" },
-      { id: 107, category: "fibers", category_name: "Эко-файберы", subcategory: "delicate", subcategory_name: "Деликатный уход", title: "Файбер для экранов и мониторов HOME P2", short_desc: "Бережная чистка смартфонов, планшетов и ТВ", full_desc: "Специальное гладкое микроволокно бережно очищает дисплеи смартфонов, мониторы компьютеров, планшеты и оптику. Не царапает антибликовые покрытия, удаляет следы пальцев и кожный себум без спиртовых спреев.", price: 500, volume: "1 шт", img: "images/fiber-screens-p2.jpg", gw_url: "https://greenwayglobal.com/shop/brands/fiber/06054" },
-      { id: 108, category: "fibers", category_name: "Эко-файберы", subcategory: "care", subcategory_name: "Красота и уход", title: "Косметическая салфетка Green Fiber CARE", short_desc: "Снятие стойкого макияжа и бережное очищение кожи", full_desc: "Нежное микроволокно деликатно очищает поры и удаляет даже стойкую декоративную косметику только с помощью теплой воды, без использования мицеллярной воды и гидрофильных масел. Подходит для чувствительной кожи.", price: 410, volume: "1 шт", img: "images/fiber-care-napkin.jpg", gw_url: "https://greenwayglobal.com/shop/brands/fiber/06138" },
-      { id: 111, category: "fibers", category_name: "Эко-файберы", subcategory: "sets", subcategory_name: "Готовые наборы", title: "Набор для общей уборки Green Fiber General Cleaning Set", short_desc: "Комплексное решение для экологичной чистоты дома", full_desc: "Готовый универсальный набор для комплексного наведения чистоты во всем доме: включает файбер для стекол, универсальный файбер и салфетки для мебели и техники в фирменной упаковке.", price: 2620, volume: "комплект", img: "images/fiber-expert-set.jpg", gw_url: "https://greenwayglobal.com/shop/brands/fiber/06063" },
-      { id: 201, category: "biotrim", category_name: "Чистка и стирка BioTrim", subcategory: "cleaners", subcategory_name: "Очищение", title: "Очищающая паста BioTrim Mystik", short_desc: "Справляется со ржавчиной, нагаром и накипью", full_desc: "Экологичная чистящая паста широкого спектра действия на основе мелкодисперсного диоксида кремния и мыла. Удаляет пригоревший жир, стойкий нагар, известковый налет и ржавчину с посуды, сантехники и кафеля.", price: 510, volume: "200 г", img: "images/biotrim-mystik-paste.jpg", gw_url: "https://greenwayglobal.com/shop/brands/biotrim/03301" },
-      { id: 202, category: "biotrim", category_name: "Чистка и стирка BioTrim", subcategory: "cleaners", subcategory_name: "Очищение", title: "Очищающий порошок BioTrim Mystik", short_desc: "Кислородное экспресс-удаление налета и дезинфекция", full_desc: "Кислородный порошок растворяется в горячей воде, вступая в активную реакцию. Эффективно устраняет темный налет от чая и кофе на посуде и термосах, отбеливает текстиль и дезинфицирует кухонные приборы.", price: 510, volume: "160 г", img: "images/biotrim-mystik-powder.jpg", gw_url: "https://greenwayglobal.com/shop/brands/biotrim/03302" },
-      { id: 203, category: "biotrim", category_name: "Чистка и стирка BioTrim", subcategory: "laundry", subcategory_name: "Эко-стирка", title: "Пластины для стирки белья BioTrim", short_desc: "Растительная замена фосфатным порошкам", full_desc: "Биоразлагаемые пластины для бережной ручной и машинной стирки на основе кокосового спирта и растительных масел. Полностью выполаскиваются из волокон ткани, подходят для детского белья и людей с чувствительной кожей.", price: 930, volume: "38 шт", img: "images/biotrim-plates.jpg", gw_url: "https://greenwayglobal.com/shop/brands/biotrim/03705" },
-      { id: 204, category: "biotrim", category_name: "Чистка и стирка BioTrim", subcategory: "stains", subcategory_name: "Пятновыводители", title: "Природный пятновыводитель-спрей BioTrim ECO", short_desc: "Быстро расщепляет пятна вина, кофе, ягод и соусов", full_desc: "Экспресс-спрей расщепляет свежие органические пятна от соусов, шоколада, чая, косметики и травы на тканях без изменения структуры нити и обесцвечивания красок.", price: 490, volume: "50 мл", img: "images/biotrim-spray.jpg", gw_url: "https://greenwayglobal.com/shop/brands/biotrim/03229" },
-      { id: 205, category: "biotrim", category_name: "Чистка и стирка BioTrim", subcategory: "stains", subcategory_name: "Пятновыводители", title: "Натуральное твердое мыло ручной работы с ароматом ягодного йогурта SHARME SOAP", short_desc: "Бережное очищение кожи и натуральный ягодный аромат", full_desc: "Натуральное мыло ручной работы сварено на основе растительных масел и обогащено питательными компонентами. Деликатно очищает, сохраняя естественный гидролипидный баланс кожи, и дарит приятный ягодный аромат.", price: 380, volume: "1 шт", img: "images/biotrim-soap-stain.jpg", gw_url: "https://greenwayglobal.com/shop/brands/sharme-soap/02771" },
-      { id: 301, category: "mops", category_name: "Уборочные системы", subcategory: "systems", subcategory_name: "Швабры", title: "Универсальная швабра Green Fiber MOP", short_desc: "Шарнирная платформа и 2 двухсторонние сменные насадки", full_desc: "Универсальная швабра Aquamatic MOP оснащена подвижным шарнирным механизмом с поворотом на 360 градусов и телескопической ручкой (до 150 см). В комплекте 2 двухсторонние насадки из микроволокна: для сухой полировки и бережной влажной уборки любых полов, стен и потолков.", price: 5700, volume: "1 комплект", img: "images/mop-universal.jpg", gw_url: "https://greenwayglobal.com/shop/brands/aquamatic/06115" },
-      { id: 302, category: "mops", category_name: "Уборочные системы", subcategory: "systems", subcategory_name: "Швабры", title: "Швабра с отжимом Green Fiber Twist Mop", short_desc: "Чистые руки: встроенный механизм скручивания", full_desc: "Швабра Twist Mop оборудована встроенной системой механического отжима: поворот рукоятки скручивает насадку и удаляет излишки воды, оставляя руки сухими и чистыми. Густые петли микроволокна впитывают большой объем влаги и грязи.", price: 4960, volume: "1 комплект", img: "images/mop-twist.jpg", gw_url: "https://greenwayglobal.com/shop/brands/aquamatic/06122" },
-      { id: 303, category: "mops", category_name: "Уборочные системы", subcategory: "systems", subcategory_name: "Швабры", title: "Аэро-швабра с распылителем Green Fiber AERO", short_desc: "Встроенный резервуар: уборка без ведер и тазов", full_desc: "Швабра со встроенным резервуаром для воды и курковым распылителем на рукоятке. Мелкодисперсное облако влаги увлажняет пол перед насадкой, защищая чувствительные ламинат и паркет от разбухания.", price: 4790, volume: "1 комплект", img: "images/mop-aero.jpg", gw_url: "https://greenwayglobal.com/shop/brands/aquamatic/06105" },
-      { id: 402, category: "health", category_name: "Здоровье и БАДы", subcategory: "vitamins", subcategory_name: "Витамины", title: "Welllab Omega-3 Plus", short_desc: "Концентрат ПНЖК высокой очистки (EPA и DHA)", full_desc: "Концентрированный источник полиненасыщенных жирных кислот омега-3 высокой степени очистки. Поддерживает эластичность кровеносных сосудов, здоровье сердечно-сосудистой системы, работу головного мозга и тонус кожи.", price: 2710, volume: "90 капсул", img: "images/welllab-omega.jpg", gw_url: "https://greenwayglobal.com/shop/brands/welllab/070707" },
-      { id: 403, category: "health", category_name: "Здоровье и БАДы", subcategory: "vitamins", subcategory_name: "Витамины", title: "Welllab С-Complex", short_desc: "Биодоступная некислая форма витамина C", full_desc: "Витамин C в некислой форме (аскорбат кальция) с биофлавоноидами цитрусовых и рутином. Стимулирует естественную выработку коллагена, укрепляет стенки капилляров и повышает защитные силы организма.", price: 1350, volume: "60 капсул", img: "images/welllab-c-complex.jpg", gw_url: "https://greenwayglobal.com/shop/brands/welllab/070701" },
-      { id: 404, category: "health", category_name: "Здоровье и БАДы", subcategory: "vitamins", subcategory_name: "Витамины", title: "Welllab Железа Хелат (Iron Chelate)", short_desc: "Биодоступная форма железа для кроветворения и энергии", full_desc: "Хелатная форма бисглицината железа обладает высокой биодоступностью, легко усваивается без дискомфорта в ЖКТ. Способствует поддержанию нормального уровня гемоглобина и снижению утомляемости.", price: 590, volume: "30 таблеток", img: "images/welllab-5-htp.jpg", gw_url: "https://greenwayglobal.com/shop/brands/welllab/070748" },
-      { id: 405, category: "health", category_name: "Здоровье и БАДы", subcategory: "targeted", subcategory_name: "Целевые комплексы", title: "Welllab Urolux", short_desc: "Растительный комплекс для здоровья почек", full_desc: "Фитокомплекс на основе экстрактов брусники, толокнянки и можжевельника. Оказывает мягкое антисептическое и дренажное действие, препятствуя застойным процессам в мочевыводящих путях.", price: 1500, volume: "60 капсул", img: "images/welllab-urolux.jpg", gw_url: "https://greenwayglobal.com/shop/brands/welllab/070706" },
-      { id: 406, category: "health", category_name: "Здоровье и БАДы", subcategory: "targeted", subcategory_name: "Целевые комплексы", title: "Welllab Cardio", short_desc: "Поддержка сердечной мышцы и тонуса сосудов", full_desc: "Натуральный кардиопротекторный комплекс с коэнзимом Q10, экстрактом боярышника, таурином и рутином. Питает сердечную мышцу и стабилизирует сосудистый тонус.", price: 1850, volume: "60 капсул", img: "images/welllab-cardio.jpg", gw_url: "https://greenwayglobal.com/shop/brands/welllab/070703" },
-      { id: 407, category: "health", category_name: "Здоровье и БАДы", subcategory: "antistress", subcategory_name: "Антистресс и сон", title: "Welllab Слип Тайм", short_desc: "Легкое засыпание и глубокий ночной отдых", full_desc: "Комплекс с мелатонином и седативными экстрактами трав способствует быстрому засыпанию, восстанавливает циркадные ритмы при переутомлении и обеспечивает глубокий непрерывный сон.", price: 560, volume: "30 капсул", img: "images/welllab-sleep-time.jpg", gw_url: "https://greenwayglobal.com/shop/brands/welllab/070756" },
-      { id: 501, category: "nutrition", category_name: "Питание и напитки", subcategory: "cocktails", subcategory_name: "Коктейли Balancer", title: "Коктейль BALANCER SLIM со вкусом «Ваниль»", short_desc: "Контроль аппетита и коррекция веса с конжаковым глюкоманнаном", full_desc: "Функциональный белковый коктейль для контроля массы тела. Содержит изолят соевого белка высокой степени очистки, конжаковый глюкоманнан и пищевые волокна, продлевающие чувство сытости.", price: 1050, volume: "5 саше", img: "images/balancer-vanilla.jpg", gw_url: "https://greenwayglobal.com/shop/brands/balancer/012644" },
-      { id: 503, category: "nutrition", category_name: "Питание и напитки", subcategory: "collagen", subcategory_name: "Коллаген", title: "Напиток Balancer Collagen «Персик - лимон»", short_desc: "5 000 мг натурального гидролизованного коллагена в порции", full_desc: "Пептиды гидролизованного говяжьего коллагена I и III типов в сочетании с витамином C. Укрепляет структуру связок, суставов, повышает упругость кожи и плотность волосяного стержня.", price: 1310, volume: "10 стиков", img: "images/balancer-collagen.jpg", gw_url: "https://greenwayglobal.com/shop/brands/balancer/012622" },
-      { id: 504, category: "nutrition", category_name: "Питание и напитки", subcategory: "drain", subcategory_name: "Дренаж", title: "Дренирующий напиток BALANCER DRAIN MAXI «Грейпфрут»", short_desc: "Очищение организма, вывод лишней жидкости и снятие отеков", full_desc: "Натуральный растворимый напиток на основе сока красной свёклы, сельдерея и ревеня стимулирует циркуляцию лимфы, способствует мягкому выведению застойной жидкости и уменьшению отечности.", price: 840, volume: "10 стиков", img: "images/balancer-drain.jpg", gw_url: "https://greenwayglobal.com/shop/brands/balancer/012636" },
-      { id: 507, category: "nutrition", category_name: "Питание и напитки", subcategory: "tea", subcategory_name: "Чаи TeaVitall", title: "Функциональный чай TeaVitall Express Premier", short_desc: "Энергетический купаж с кипреем, имбирем и перцем", full_desc: "Тонизирующий чайный купаж для мужского здоровья, бодрости и выносливости. В составе ферментированный кипрей, корень имбиря, сабельник и красный перец.", price: 490, volume: "30 пакетов", img: "images/tea-premier.jpg", gw_url: "https://greenwayglobal.com/shop/brands/teavitall/01592" },
-      { id: 508, category: "nutrition", category_name: "Питание и напитки", subcategory: "tea", subcategory_name: "Чаи TeaVitall", title: "Очищающий чай TeaVitall Express Fresh 1", short_desc: "Детокс ЖКТ на травах Горного Алтая", full_desc: "Очищающий травяной сбор на основе алтайских трав (сенна, володушка, крушина, репешок). Мягко нормализует пищеварение и способствует естественному очищению кишечника.", price: 490, volume: "30 пакетов", img: "images/tea-fresh.jpg", gw_url: "https://greenwayglobal.com/shop/brands/teavitall/01590" },
-      { id: 509, category: "nutrition", category_name: "Питание и напитки", subcategory: "tea", subcategory_name: "Чаи TeaVitall", title: "Чай TeaVitall Anyday Zanzibar", short_desc: "Пряный каркаде с цедрой апельсина и гвоздикой", full_desc: "Яркий фруктово-пряный чай на основе суданской розы (каркаде) с добавлением корицы, гвоздики, цедры апельсина и мускатного ореха. Освежает в холодном виде и согревает в горячем.", price: 450, volume: "38 пакетов", img: "images/tea-zanzibar.jpg", gw_url: "https://greenwayglobal.com/shop/brands/teavitall/01581" },
-      { id: 601, category: "beauty", category_name: "Косметика и уход", subcategory: "hair", subcategory_name: "Волосы", title: "Натуральный твердый шампунь Sharme Hair Mumie для активизации роста волос", short_desc: "Укрепление корней и стимуляция роста с алтайским мумие", full_desc: "Концентрированный твердый шампунь ручной работы с алтайским мумие и экстрактом хвоща. Пробуждает спящие волосяные фолликулы, укрепляет корни и уплотняет структуру волос без пересушивания кожи головы.", price: 590, volume: "50 г", img: "images/sharme-citrus.jpg", gw_url: "https://greenwayglobal.com/shop/brands/sharme-hair/02791" },
-      { id: 602, category: "beauty", category_name: "Косметика и уход", subcategory: "hair", subcategory_name: "Волосы", title: "Твердый кондиционер для волос Sharme Hair", short_desc: "Гладкость, шелковистость и легкое расчесывание", full_desc: "Натуральный твердый кондиционер на основе масел кокоса и манго. Разглаживает кутикулу волоса по всей длине, облегчает расчесывание и снимает статическое электричество.", price: 640, volume: "45 г", img: "images/sharme-conditioner.jpg", gw_url: "https://greenwayglobal.com/shop/brands/sharme-hair/02785" },
-      { id: 605, category: "beauty", category_name: "Косметика и уход", subcategory: "face", subcategory_name: "Лицо", title: "Тканевая маска для лица успокаивающая с Д-пантенолом NICE CODE", short_desc: "Быстрое снятие раздражений и глубокое увлажнение", full_desc: "Успокаивающая тканевая маска мгновенно увлажняет кожу, снимает покраснения и шелушения. Д-пантенол и растительные экстракты восстанавливают защитный барьер эпидермиса.", price: 290, volume: "1 шт", img: "images/nice-code-mask.jpg", gw_url: "https://greenwayglobal.com/shop/brands/nicecode/02973" },
-      { id: 606, category: "beauty", category_name: "Косметика и уход", subcategory: "face", subcategory_name: "Лицо", title: "Увлажняющий крем для лица Happy Dew Basic Care", short_desc: "Базовое увлажнение на основе цветочных экстрактов", full_desc: "Легкий дневной увлажняющий крем с гидролатом цветов и гиалуроновой кислотой. Быстро впитывается, не оставляя липкости, и поддерживает увлажненность кожи в течение всего дня.", price: 1050, volume: "50 мл", img: "images/happy-dew-cream.jpg", gw_url: "https://greenwayglobal.com/shop/brands/happy-dew/03306" },
-      { id: 607, category: "beauty", category_name: "Косметика и уход", subcategory: "makeup", subcategory_name: "Макияж Foet", title: "BB-крем Foet «Идеальная кожа»", short_desc: "Естественный тон и сияние без эффекта маски (Италия)", full_desc: "Тональный BB-крем итальянского производства выравнивает тон лица, маскирует микрорельеф и обеспечивает ровное покрытие с эффектом естественного сияния кожи без ощущения утяжеления.", price: 1770, volume: "25 мл", img: "images/foet-bb-cream.jpg", gw_url: "https://greenwayglobal.com/shop/brands/foet/02758" },
-      { id: 608, category: "beauty", category_name: "Косметика и уход", subcategory: "makeup", subcategory_name: "Макияж Foet", title: "Оттеночный бальзам для губ Foet", short_desc: "Питание с маслом ши и деликатный оттенок", full_desc: "Питательный бальзам смягчает кожу губ благодаря комплексу растительных восков и маслу ши, защищая от сухости и обветривания, и придает легкий естественный оттенок.", price: 490, volume: "1 шт", img: "images/foet-lip-balm.jpg", gw_url: "https://greenwayglobal.com/shop/brands/foet/03113" },
-      { id: 610, category: "beauty", category_name: "Косметика и уход", subcategory: "aroma", subcategory_name: "Эфирные масла", title: "Эфирное масло Sharme Essential Лаванда", short_desc: "100% чистое эфирное масло французской лаванды", full_desc: "Натуральное 100% эфирное масло узколистной лаванды. Обладает мягким успокаивающим ароматом, снимает внутреннее напряжение, гармонизирует сон и подходит для аромаванн и диффузоров.", price: 520, volume: "5 мл", img: "images/sharme-lavender.jpg", gw_url: "https://greenwayglobal.com/shop/brands/sharme-essential/02992" },
-      { id: 701, category: "perfume_preorder", category_name: "Парфюмерия", subcategory: "enjoy_care", subcategory_name: "Номерная парфюмерия", title: "Духи Enjoy Care (Номерная парфюмерия под заказ)", short_desc: "Эквиваленты мировых ароматов (Чехия, 20% эссенций). Подбор аромата в личных сообщениях", full_desc: "Стойкие духи чешского производства. Более 40 женских, мужских и унисекс ароматов. Напишите менеджеру для подбора аромата и уточнения наличия.", price: 0, volume: "50 мл", img: "https://dummyimage.com/400x300/e8f5e9/00875a.png&text=✨+Enjoy+Care", is_perfume_banner: true },
-      { id: 801, category: "custom_request", category_name: "Другие товары", subcategory: "custom", subcategory_name: "Под заказ", title: "Не нашли нужный товар?", short_desc: "Привезем любую позицию из полного каталога Greenway под заказ", full_desc: "Полный ассортимент продукции можно посмотреть на официальном сайте greenwayglobal.com/shop. Если нужного товара нет на витрине — свяжитесь с нами, поможем оформить под заказ!", price: 0, volume: "индивидуально", img: "https://dummyimage.com/400x300/e8f5e9/00875a.png&text=📦+Любой+товар", is_custom_request: true }
-    ];
-
-    var allProducts = INITIAL_PRODUCTS;
-    var cart = {};
-    var orderHistory = [];
-    var currentMainCat = 'all';
-    var currentSubCat = 'all';
-    var searchQuery = '';
-    var lastGeneratedMessage = '';
-
-    try {
-      var saved = localStorage.getItem('gw_order_history');
-      if (saved) orderHistory = JSON.parse(saved);
-    } catch (e) {}
-
-    function switchTab(tabName) {
-      document.querySelectorAll('.tab-page').forEach(function(p) { p.classList.remove('active'); });
-      document.querySelectorAll('.nav-btn').forEach(function(b) { b.classList.remove('active'); });
-
-      if (tabName === 'catalog') {
-        document.getElementById('pageCatalog').classList.add('active');
-        document.getElementById('navBtnCatalog').classList.add('active');
-      } else if (tabName === 'delivery') {
-        document.getElementById('pageDelivery').classList.add('active');
-        document.getElementById('navBtnDelivery').classList.add('active');
-      } else if (tabName === 'orders') {
-        document.getElementById('pageOrders').classList.add('active');
-        document.getElementById('navBtnOrders').classList.add('active');
-        renderCartSheet();
-        renderOrderHistory();
-      } else if (tabName === 'faq') {
-        document.getElementById('pageFaq').classList.add('active');
-        document.getElementById('navBtnFaq').classList.add('active');
+    // Загрузка каталога
+    async function initCatalog() {
+      try {
+        const res = await fetch('products.json');
+        products = await res.json();
+        renderProducts(products);
+      } catch (e) {
+        console.error('Ошибка загрузки products.json:', e);
       }
     }
 
-    function toggleFaq(el) {
-      el.classList.toggle('open');
+    function renderProducts(items) {
+      const cont = document.getElementById('productsContainer');
+      cont.innerHTML = items.map(p => `
+        <div class="product-card">
+          <img class="product-img" src="${p.image || 'https://via.placeholder.com/150'}" alt="${p.name}">
+          <div>
+            <div class="product-category">${p.category}</div>
+            <div class="product-title">${p.name}</div>
+            <div class="product-price">${p.price.toLocaleString('ru-RU')} ₽</div>
+          </div>
+          <button class="add-to-cart-btn" onclick="addToCart(${p.id})">В корзину</button>
+        </div>
+      `).join('');
     }
 
-    function openManagerChat() {
-      if (MANAGER_CONTACT_URL) window.open(MANAGER_CONTACT_URL, '_blank');
-    }
-
-    function buildMainCategories() {
-      var box = document.getElementById('mainCategoryTabs');
-      if (!box) return;
-
-      var cats = {};
-      allProducts.forEach(function(p) {
-        if (p.category && !cats[p.category]) {
-          cats[p.category] = {
-            name: p.category_name || p.category,
-            isSpecial: (p.category === 'perfume_preorder' || p.category === 'custom_request')
-          };
-        }
-      });
-
-      box.innerHTML = '';
-      var allBtn = document.createElement('div');
-      allBtn.className = 'tab-main' + (currentMainCat === 'all' ? ' active' : '');
-      allBtn.textContent = 'Все товары';
-      allBtn.onclick = function() { selectMainCategory('all'); };
-      box.appendChild(allBtn);
-
-      Object.keys(cats).forEach(function(key) {
-        var item = cats[key];
-        var btn = document.createElement('div');
-        btn.className = 'tab-main' + (item.isSpecial ? ' special' : '') + (currentMainCat === key ? ' active' : '');
-        btn.textContent = (item.isSpecial ? '✨ ' : '') + item.name;
-        btn.onclick = function() { selectMainCategory(key); };
-        box.appendChild(btn);
-      });
-    }
-
-    function selectMainCategory(catKey) {
-      currentMainCat = catKey;
-      currentSubCat = 'all';
-      buildMainCategories();
-      buildSubCategories(catKey);
-      renderCatalog();
-    }
-
-    function buildSubCategories(mainCat) {
-      var wrap = document.getElementById('subCategoryWrap');
-      var box = document.getElementById('subCategoryTabs');
-      if (!wrap || !box) return;
-
-      if (mainCat === 'all') {
-        wrap.style.display = 'none';
-        return;
+    function filterCategory(cat) {
+      document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      if (cat === 'all') {
+        renderProducts(products);
+      } else {
+        renderProducts(products.filter(p => p.category === cat));
       }
-
-      var subcats = {};
-      allProducts.forEach(function(p) {
-        if (p.category === mainCat && p.subcategory && !subcats[p.subcategory]) {
-          subcats[p.subcategory] = p.subcategory_name || p.subcategory;
-        }
-      });
-
-      var subKeys = Object.keys(subcats);
-      if (subKeys.length <= 1) {
-        wrap.style.display = 'none';
-        return;
-      }
-
-      box.innerHTML = '';
-      var allSubBtn = document.createElement('div');
-      allSubBtn.className = 'tab-sub' + (currentSubCat === 'all' ? ' active' : '');
-      allSubBtn.textContent = 'Все в разделе';
-      allSubBtn.onclick = function() { selectSubCategory('all'); };
-      box.appendChild(allSubBtn);
-
-      subKeys.forEach(function(key) {
-        var btn = document.createElement('div');
-        btn.className = 'tab-sub' + (currentSubCat === key ? ' active' : '');
-        btn.textContent = subcats[key];
-        btn.onclick = function() { selectSubCategory(key); };
-        box.appendChild(btn);
-      });
-
-      wrap.style.display = 'block';
     }
 
-    function selectSubCategory(subKey) {
-      currentSubCat = subKey;
-      buildSubCategories(currentMainCat);
-      renderCatalog();
-    }
-
-    function handleSearch() {
-      var input = document.getElementById('searchInput');
-      searchQuery = input ? input.value.trim().toLowerCase() : '';
-      renderCatalog();
-    }
-
-    function renderCatalog() {
-      var container = document.getElementById('catalogList');
-      if (!container) return;
-
-      var filtered = allProducts.filter(function(p) {
-        var matchMain = (currentMainCat === 'all' || p.category === currentMainCat);
-        var matchSub = (currentSubCat === 'all' || p.subcategory === currentSubCat);
-        var matchSearch = (!searchQuery || 
-          p.title.toLowerCase().indexOf(searchQuery) !== -1 || 
-          (p.short_desc && p.short_desc.toLowerCase().indexOf(searchQuery) !== -1)
-        );
-        return matchMain && matchSub && matchSearch;
-      });
-
-      if (filtered.length === 0) {
-        container.innerHTML = '<div style="grid-column: span 2; text-align: center; color: #6b7280; padding: 40px 10px;">Товаров не найдено.</div>';
-        return;
-      }
-
-      container.innerHTML = '';
-
-      filtered.forEach(function(item) {
-        if (item.is_perfume_banner) {
-          var pBanner = document.createElement('div');
-          pBanner.className = 'card-fullwidth card-fullwidth-perfume';
-          pBanner.onclick = function() { openPreorderModal(); };
-          pBanner.innerHTML = `
-            <div class="card-fullwidth-content">
-              <div class="card-fullwidth-title"><span>✨</span> <span>Духи Enjoy Care (Чехия)</span></div>
-              <div class="card-fullwidth-desc">Эквиваленты мировых ароматов (20% эссенций). Индивидуальный подбор номеров под заказ</div>
-            </div>
-            <button class="card-fullwidth-btn card-fullwidth-btn-perfume">Предзаказ ›</button>
-          `;
-          container.appendChild(pBanner);
-          return;
-        }
-
-        if (item.is_custom_request) {
-          var banner = document.createElement('div');
-          banner.className = 'card-fullwidth';
-          banner.onclick = function() { openCustomOrderModal(); };
-          banner.innerHTML = `
-            <div class="card-fullwidth-content">
-              <div class="card-fullwidth-title"><span>🔎</span> <span>Не нашли нужный товар?</span></div>
-              <div class="card-fullwidth-desc">Привезём любую позицию из полного каталога Greenway под заказ</div>
-            </div>
-            <button class="card-fullwidth-btn">Узнать ›</button>
-          `;
-          container.appendChild(banner);
-          return;
-        }
-
-        var count = cart[item.id] || 0;
-        var card = document.createElement('div');
-        card.className = 'card';
-        card.onclick = function() { openDetail(item.id); };
-
-        var imgWrap = document.createElement('div');
-        imgWrap.className = 'card-img-wrap';
-        var img = document.createElement('img');
-        img.src = item.img || 'https://dummyimage.com/300x200/e8f5e9/00875a.png&text=🌿+Greenway';
-        img.alt = item.title;
-        img.loading = 'lazy';
-        img.onerror = function() { this.src = 'https://dummyimage.com/300x200/e8f5e9/00875a.png&text=🌿+Greenway'; };
-        imgWrap.appendChild(img);
-
-        var titleEl = document.createElement('div');
-        titleEl.className = 'card-title';
-        titleEl.textContent = item.title;
-
-        var descEl = document.createElement('div');
-        descEl.className = 'card-desc';
-        descEl.textContent = item.short_desc || '';
-
-        var bottom = document.createElement('div');
-        bottom.className = 'card-bottom';
-        bottom.onclick = function(e) { e.stopPropagation(); };
-
-        var price = document.createElement('div');
-        price.className = 'card-price';
-        price.textContent = item.price + ' ₽';
-
-        var actionBox = document.createElement('div');
-        var addBtn = document.createElement('button');
-        addBtn.className = 'btn-add';
-        addBtn.id = 'addBtn-' + item.id;
-        addBtn.style.display = count > 0 ? 'none' : 'block';
-        addBtn.textContent = '+ В корзину';
-        addBtn.onclick = function() { changeQty(item.id, 1); };
-
-        var qtyBox = document.createElement('div');
-        qtyBox.className = 'qty-controls';
-        qtyBox.id = 'qtyBox-' + item.id;
-        qtyBox.style.display = count > 0 ? 'flex' : 'none';
-
-        var minusBtn = document.createElement('button');
-        minusBtn.className = 'btn-qty';
-        minusBtn.textContent = '−';
-        minusBtn.onclick = function() { changeQty(item.id, -1); };
-
-        var qtyNum = document.createElement('span');
-        qtyNum.className = 'qty-num';
-        qtyNum.id = 'qtyNum-' + item.id;
-        qtyNum.textContent = count;
-
-        var plusBtn = document.createElement('button');
-        plusBtn.className = 'btn-qty';
-        plusBtn.textContent = '+';
-        plusBtn.onclick = function() { changeQty(item.id, 1); };
-
-        qtyBox.appendChild(minusBtn);
-        qtyBox.appendChild(qtyNum);
-        qtyBox.appendChild(plusBtn);
-
-        actionBox.appendChild(addBtn);
-        actionBox.appendChild(qtyBox);
-        bottom.appendChild(price);
-        bottom.appendChild(actionBox);
-
-        card.appendChild(imgWrap);
-        card.appendChild(titleEl);
-        card.appendChild(descEl);
-        card.appendChild(bottom);
-        container.appendChild(card);
-      });
-    }
-
-    function openPreorderModal() {
-      closeAllSheets();
-      document.getElementById('overlay').style.display = 'block';
-      document.getElementById('preorderModalSheet').style.display = 'block';
-    }
-
-    function openCustomOrderModal() {
-      closeAllSheets();
-      document.getElementById('overlay').style.display = 'block';
-      document.getElementById('customOrderModalSheet').style.display = 'block';
+    function addToCart(id) {
+      cart[id] = (cart[id] || 0) + 1;
+      updateCartTotals();
     }
 
     function changeQty(id, delta) {
-      cart[id] = (cart[id] || 0) + delta;
+      if (!cart[id]) return;
+      cart[id] += delta;
       if (cart[id] <= 0) delete cart[id];
-      updateProductCardUI(id);
-      updateCartBadge();
-      renderCartSheet();
-
-      var detailSheet = document.getElementById('detailSheet');
-      if (detailSheet && detailSheet.style.display === 'block') {
-        updateDetailButton(id);
-      }
+      renderCartModalItems();
+      updateCartTotals();
     }
 
-    function updateProductCardUI(id) {
-      var count = cart[id] || 0;
-      var addBtn = document.getElementById('addBtn-' + id);
-      var qtyBox = document.getElementById('qtyBox-' + id);
-      var qtyNum = document.getElementById('qtyNum-' + id);
+    // Промокод
+    function applyPromoCode() {
+      const input = document.getElementById('promoInput');
+      const msg = document.getElementById('promoMessage');
+      const code = input.value.trim().toUpperCase();
 
-      if (addBtn && qtyBox) {
-        addBtn.style.display = count > 0 ? 'none' : 'block';
-        qtyBox.style.display = count > 0 ? 'flex' : 'none';
-        if (qtyNum) qtyNum.textContent = count;
-      }
-    }
+      const alreadyUsed = localStorage.getItem('promo_zlata_used');
 
-    function getCartSubtotal() {
-      var sum = 0;
-      Object.keys(cart).forEach(function(id) {
-        var p = allProducts.find(function(x) { return x.id == id; });
-        if (p) sum += cart[id] * p.price;
-      });
-      return sum;
-    }
-
-    function getDeliveryCost(subtotal) {
-      if (subtotal <= 0) return 0;
-      return subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : BASE_DELIVERY_COST;
-    }
-
-    function updateCartBadge() {
-      var totalCount = 0;
-      Object.keys(cart).forEach(function(id) { totalCount += cart[id]; });
-      var badge = document.getElementById('navCartBadge');
-      if (badge) {
-        badge.textContent = totalCount;
-        badge.style.display = totalCount > 0 ? 'block' : 'none';
-      }
-    }
-
-    function openDetail(id) {
-      var p = allProducts.find(function(x) { return x.id == id; });
-      if (!p) return;
-
-      var dImg = document.getElementById('detailImg');
-      if (dImg) dImg.src = p.img || 'https://dummyimage.com/600x400/e8f5e9/00875a.png&text=🌿+Greenway';
-
-      document.getElementById('detailTitle').textContent = p.title;
-      document.getElementById('detailCategory').textContent = p.subcategory_name || p.category_name || 'Товар';
-      document.getElementById('detailMeta').textContent = p.volume ? 'Фасовка / объем: ' + p.volume : '';
-      document.getElementById('detailDesc').textContent = p.full_desc || p.short_desc || '';
-      document.getElementById('detailPrice').textContent = p.price + ' ₽';
-
-      updateDetailButton(id);
-      document.getElementById('overlay').style.display = 'block';
-      document.getElementById('detailSheet').style.display = 'block';
-    }
-
-    function updateDetailButton(id) {
-      var p = allProducts.find(function(x) { return x.id == id; });
-      var box = document.getElementById('detailBtnContainer');
-      if (!box || !p) return;
-      box.innerHTML = '';
-
-      var count = cart[id] || 0;
-      if (count > 0) {
-        var wrap = document.createElement('div');
-        wrap.style.cssText = 'display:flex; align-items:center; gap:8px;';
-        wrap.innerHTML = `
-          <button class="btn-qty" onclick="changeQty(${id}, -1)">−</button>
-          <span style="font-weight:700; min-width:16px; text-align:center;">${count}</span>
-          <button class="btn-qty" onclick="changeQty(${id}, 1)">+</button>
-        `;
-        box.appendChild(wrap);
-      } else {
-        var btn = document.createElement('button');
-        btn.className = 'btn-add';
-        btn.style.cssText = 'padding:10px 18px; font-size:14px;';
-        btn.textContent = '+ В корзину';
-        btn.onclick = function() { changeQty(id, 1); };
-        box.appendChild(btn);
-      }
-    }
-
-    function renderCartSheet() {
-      var container = document.getElementById('cartItemsContainer');
-      var summaryBox = document.getElementById('cartSummaryBox');
-      if (!container) return;
-
-      var subtotal = getCartSubtotal();
-      var delivery = getDeliveryCost(subtotal);
-      var grandTotal = subtotal + delivery;
-
-      var keys = Object.keys(cart);
-      if (keys.length === 0) {
-        container.innerHTML = '<div class="empty-cart-msg">Ваша корзина пуста</div>';
-        if (summaryBox) summaryBox.style.display = 'none';
-        return;
-      }
-
-      if (summaryBox) summaryBox.style.display = 'block';
-      container.innerHTML = '';
-
-      keys.forEach(function(id) {
-        var p = allProducts.find(function(x) { return x.id == id; });
-        if (!p) return;
-        var count = cart[id];
-        var item = document.createElement('div');
-        item.className = 'cart-item';
-        item.innerHTML = `
-          <div style="max-width:60%;">
-            <b>${p.title}</b>
-            <div style="color:var(--text-muted); font-size:11px;">${p.price} ₽ / шт.</div>
-          </div>
-          <div style="display:flex; align-items:center; gap:10px;">
-            <div style="display:flex; align-items:center; gap:5px;">
-              <button class="btn-qty" onclick="changeQty(${p.id}, -1)">−</button>
-              <span class="qty-num">${count}</span>
-              <button class="btn-qty" onclick="changeQty(${p.id}, 1)">+</button>
-            </div>
-            <div style="font-weight:700; min-width:55px; text-align:right;">${count * p.price} ₽</div>
-          </div>
-        `;
-        container.appendChild(item);
-      });
-
-      document.getElementById('cartSubtotalSum').textContent = subtotal + ' ₽';
-      var deliveryLabel = document.getElementById('cartDeliveryCost');
-      deliveryLabel.textContent = delivery === 0 ? 'Бесплатно (Курьер) 🎉' : '500 ₽';
-      deliveryLabel.style.color = delivery === 0 ? 'var(--primary)' : 'var(--text)';
-      document.getElementById('cartTotalSum').textContent = grandTotal + ' ₽';
-    }
-
-    function renderOrderHistory() {
-      var box = document.getElementById('orderHistoryContainer');
-      if (!box) return;
-      if (!orderHistory.length) {
-        box.innerHTML = '<p style="color:var(--text-muted); font-size:13px;">Ранее оформленных заказов пока нет.</p>';
-        return;
-      }
-      box.innerHTML = '';
-      orderHistory.slice().reverse().forEach(function(o) {
-        var el = document.createElement('div');
-        el.className = 'order-history-item';
-        el.innerHTML = `
-          <div class="order-history-header"><span>Заказ #${o.id}</span><span>${o.total_price} ₽</span></div>
-          <div style="color:var(--text-muted); margin-bottom:4px;">${o.date}</div>
-          <div class="order-history-status">Статус: ${o.status}</div>
-          <div style="margin-top:4px; font-size:11px; color:#555;">${o.items_preview}</div>
-        `;
-        box.appendChild(el);
-      });
-    }
-
-    function openAddressSheet() {
-      var subtotal = getCartSubtotal();
-      if (subtotal <= 0) return;
-      var delivery = getDeliveryCost(subtotal);
-      document.getElementById('summaryGoods').textContent = subtotal + ' ₽';
-      document.getElementById('summaryDelivery').textContent = delivery === 0 ? 'Бесплатно (Курьер)' : '500 ₽';
-      document.getElementById('summaryTotal').textContent = (subtotal + delivery) + ' ₽';
-      document.getElementById('overlay').style.display = 'block';
-      document.getElementById('addressSheet').style.display = 'block';
-    }
-
-    // Принудительное надёжное копирование в буфер обмена для любых WebView
-    function copyTextToClipboard(text) {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        return navigator.clipboard.writeText(text).catch(function() {
-          fallbackCopyText(text);
-        });
-      } else {
-        fallbackCopyText(text);
-      }
-    }
-
-    function fallbackCopyText(text) {
-      var textArea = document.createElement("textarea");
-      textArea.value = text;
-      textArea.style.position = "fixed";
-      textArea.style.top = "0";
-      textArea.style.left = "0";
-      textArea.style.opacity = "0";
-      document.body.appendChild(textArea);
-      textArea.focus();
-      textArea.select();
-      try {
-        document.execCommand('copy');
-      } catch (err) {}
-      document.body.removeChild(textArea);
-    }
-
-    function confirmAndPay() {
-      var name = document.getElementById('orderName').value.trim();
-      var rawPhone = document.getElementById('orderPhone').value.trim();
-      var region = document.getElementById('orderRegion').value.trim();
-      var zip = document.getElementById('orderZip').value.trim();
-      var city = document.getElementById('orderCity').value.trim();
-      var street = document.getElementById('orderStreet').value.trim();
-      var house = document.getElementById('orderHouse').value.trim();
-      var comment = document.getElementById('orderComment').value.trim();
-
-      if (!name || !rawPhone || !region || !zip || !city || !street) {
-        alert('Пожалуйста, заполните обязательные поля (ФИО, телефон, регион, индекс, город и улицу)');
-        return;
-      }
-
-      var submitBtn = document.getElementById('paySubmitBtn');
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Сохранение заказа...';
-
-      var subtotal = getCartSubtotal();
-      var delivery = getDeliveryCost(subtotal);
-      var grandTotal = subtotal + delivery;
-      var orderNum = Math.floor(100000 + Math.random() * 900000);
-      var fullAddress = region + ', г. ' + city + ', ' + street + (house ? ', ' + house : '') + ' (Индекс: ' + zip + ')';
-      var nowStr = new Date().toLocaleDateString('ru-RU') + ' ' + new Date().toLocaleTimeString('ru-RU', {hour:'2-digit', minute:'2-digit'});
-
-      var itemsList = [];
-      var itemsTextLines = [];
-      Object.keys(cart).forEach(function(id) {
-        var p = allProducts.find(function(x) { return x.id == id; });
-        if (p) {
-          var count = cart[id];
-          itemsList.push(p.title + ' — ' + count + ' шт. (' + (count * p.price) + ' ₽)');
-          itemsTextLines.push('• ' + p.title + ' — ' + count + ' шт.');
+      if (code === 'ZLATA') {
+        if (alreadyUsed === 'true') {
+          msg.textContent = '❌ Промокод Zlata уже использован на этом устройстве.';
+          msg.style.color = 'var(--accent-red)';
+          isFreeDeliveryPromoApplied = false;
+          appliedPromoName = "";
+        } else {
+          isFreeDeliveryPromoApplied = true;
+          appliedPromoName = "ZLATA";
+          msg.textContent = '✅ Промокод ZLATA применён: бесплатная доставка!';
+          msg.style.color = 'var(--primary)';
+          input.disabled = true;
+          document.getElementById('applyPromoBtn').disabled = true;
+          document.getElementById('applyPromoBtn').style.opacity = '0.5';
         }
-      });
-      var itemsSummary = itemsList.join(';\n');
-
-      // 1. Формируем подробный красивый текст заказа
-      lastGeneratedMessage = 
-        '🌿 Заказ #' + orderNum + '\n\n' +
-        '👤 Покупатель: ' + name + '\n' +
-        '📞 Телефон: ' + rawPhone + '\n' +
-        '📍 Доставка: ' + fullAddress + '\n' +
-        (comment ? '💬 Комментарий: ' + comment + '\n' : '') +
-        '\n📦 Товары:\n' + itemsTextLines.join('\n') + '\n\n' +
-        '🚚 Доставка: ' + (delivery === 0 ? 'Бесплатно' : delivery + ' ₽') + '\n' +
-        '💰 Итого к оплате: ' + grandTotal + ' ₽\n\n' +
-        'Здравствуйте! Заказ сформирован через приложение, готов(а) оплатить.';
-
-      // Копируем текст заказа в буфер обмена
-      copyTextToClipboard(lastGeneratedMessage);
-
-      // 2. Отправляем в Google Таблицу
-      var payload = {
-        date: nowStr,
-        order_id: String(orderNum),
-        name: name,
-        phone: String(rawPhone),
-        address: fullAddress,
-        comment: comment || '—',
-        items: itemsSummary,
-        subtotal: subtotal,
-        delivery: delivery,
-        total: grandTotal
-      };
-
-      fetch(GOOGLE_SHEET_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      }).catch(function(e) {
-        console.error('Ошибка записи:', e);
-      });
-
-      // 3. Сохраняем в историю заказов
-      orderHistory.push({
-        id: orderNum,
-        date: nowStr,
-        status: "Ожидает подтверждения в чате",
-        items_preview: itemsList.join(', '),
-        total_price: grandTotal
-      });
-      try { localStorage.setItem('gw_order_history', JSON.stringify(orderHistory)); } catch(e){}
-
-      // Очищаем корзину
-      cart = {};
-      updateCartBadge();
-
-      // 4. Открываем окно подтверждения с готовой кнопкой
-      setTimeout(function() {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Оформить заказ';
-        document.getElementById('addressSheet').style.display = 'none';
-
-        document.getElementById('successOrderTitle').textContent = 'Заказ #' + orderNum + ' сформирован!';
-        document.getElementById('successOrderPreview').textContent = lastGeneratedMessage;
-        document.getElementById('orderSuccessSheet').style.display = 'block';
-      }, 400);
-    }
-
-    function goToManagerDialog() {
-      // Повторно копируем перед переходом на случай очистки буфера
-      if (lastGeneratedMessage) {
-        copyTextToClipboard(lastGeneratedMessage);
+      } else if (code === '') {
+        msg.textContent = 'Введите промокод.';
+        msg.style.color = '#757575';
+      } else {
+        msg.textContent = '❌ Неверный промокод.';
+        msg.style.color = 'var(--accent-red)';
+        isFreeDeliveryPromoApplied = false;
+        appliedPromoName = "";
       }
-      closeAllSheets();
-      window.location.href = MANAGER_CONTACT_URL;
+      updateCartTotals();
     }
 
-    function closeAllSheets() {
-      document.getElementById('overlay').style.display = 'none';
-      document.getElementById('detailSheet').style.display = 'none';
-      document.getElementById('addressSheet').style.display = 'none';
-      document.getElementById('preorderModalSheet').style.display = 'none';
-      document.getElementById('customOrderModalSheet').style.display = 'none';
-      var successSheet = document.getElementById('orderSuccessSheet');
-      if (successSheet) successSheet.style.display = 'none';
+    function calculateSubtotal() {
+      return Object.entries(cart).reduce((sum, [id, qty]) => {
+        const prod = products.find(p => p.id === parseInt(id));
+        return sum + (prod ? prod.price * qty : 0);
+      }, 0);
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-      document.getElementById('searchInput').oninput = handleSearch;
-      document.getElementById('overlay').onclick = closeAllSheets;
-      document.getElementById('closeDetailBtn').onclick = closeAllSheets;
-      document.getElementById('closeAddressBtn').onclick = closeAllSheets;
-      document.getElementById('closePreorderBtn').onclick = closeAllSheets;
-      document.getElementById('closeCustomOrderBtn').onclick = closeAllSheets;
-      var closeSuccess = document.getElementById('closeSuccessBtn');
-      if (closeSuccess) closeSuccess.onclick = closeAllSheets;
+    function calculateDelivery(subtotal) {
+      if (subtotal === 0) return 0;
+      // Бесплатно при промокоде ZLATA или от 3 000 руб
+      if (isFreeDeliveryPromoApplied || subtotal >= 3000) {
+        return 0;
+      }
+      return 500;
+    }
 
-      buildMainCategories();
-      renderCatalog();
-      updateCartBadge();
+    function updateCartTotals() {
+      const subtotal = calculateSubtotal();
+      const delivery = calculateDelivery(subtotal);
+      const grandTotal = subtotal + delivery;
 
-      fetch('products.json?v=' + Date.now())
-        .then(function(res) {
-          if (!res.ok) return null;
-          return res.json();
-        })
-        .then(function(data) {
-          if (data && Array.isArray(data) && data.length > 0) {
-            allProducts = data;
-            buildMainCategories();
-            renderCatalog();
-            updateCartBadge();
-          }
-        })
-        .catch(function() {});
-    });
+      const cartBar = document.getElementById('cartBar');
+      if (subtotal > 0) {
+        cartBar.style.display = 'flex';
+        document.getElementById('barTotalAmount').textContent = `${grandTotal.toLocaleString('ru-RU')} ₽`;
+      } else {
+        cartBar.style.display = 'none';
+        closeCartModal();
+      }
+
+      document.getElementById('subtotalSpan').textContent = `${subtotal.toLocaleString('ru-RU')} ₽`;
+      
+      const delivSpan = document.getElementById('deliverySpan');
+      if (delivery === 0 && subtotal > 0) {
+        delivSpan.textContent = '0 ₽ (Бесплатно)';
+        delivSpan.style.color = 'var(--primary)';
+      } else {
+        delivSpan.textContent = `${delivery} ₽`;
+        delivSpan.style.color = 'var(--text-main)';
+      }
+
+      document.getElementById('grandTotalSpan').textContent = `${grandTotal.toLocaleString('ru-RU')} ₽`;
+    }
+
+    function openCartModal() {
+      renderCartModalItems();
+      document.getElementById('cartModal').classList.add('active');
+    }
+
+    function closeCartModal() {
+      document.getElementById('cartModal').classList.remove('active');
+    }
+
+    function renderCartModalItems() {
+      const container = document.getElementById('modalCartItems');
+      const entries = Object.entries(cart);
+      if (entries.length === 0) {
+        container.innerHTML = '<div style="padding: 16px; text-align: center; color: #757575;">Корзина пуста</div>';
+        return;
+      }
+
+      container.innerHTML = entries.map(([id, qty]) => {
+        const p = products.find(item => item.id === parseInt(id));
+        if (!p) return '';
+        return `
+          <div class="cart-row">
+            <div>
+              <div style="font-weight: 600;">${p.name}</div>
+              <div style="color: var(--text-muted); font-size: 11px;">${p.price} ₽ × ${qty} шт.</div>
+            </div>
+            <div class="qty-controls">
+              <button class="qty-btn" type="button" onclick="changeQty(${p.id}, -1)">−</button>
+              <span>${qty}</span>
+              <button class="qty-btn" type="button" onclick="changeQty(${p.id}, 1)">+</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Отправка заказа
+    async function handleOrderSubmit(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('custName').value.trim();
+      const phone = document.getElementById('custPhone').value.trim();
+      const address = document.getElementById('custAddress').value.trim();
+      const subtotal = calculateSubtotal();
+      const delivery = calculateDelivery(subtotal);
+      const total = subtotal + delivery;
+
+      const itemsList = Object.entries(cart).map(([id, qty]) => {
+        const p = products.find(item => item.id === parseInt(id));
+        return `${p.name} (x${qty}) — ${p.price * qty} ₽`;
+      }).join('\n');
+
+      const promoInfo = appliedPromoName ? appliedPromoName : 'нет';
+
+      // Текст заказа для клиента и буфера обмена
+      const orderMessage = 
+`📦 НОВЫЙ ЗАКАЗ GREENWAY
+👤 Клиент: ${name}
+📞 Телефон: ${phone}
+📍 Адрес: ${address}
+🎟 Промокод: ${promoInfo}
+
+Состав заказа:
+${itemsList}
+
+Сумма товаров: ${subtotal} ₽
+Доставка: ${delivery === 0 ? '0 ₽ (Бесплатно)' : delivery + ' ₽'}
+💰 ИТОГО К ОПЛАТЕ: ${total} ₽`;
+
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Оформляем...';
+
+      // 1. Помечаем промокод ZLATA как использованный
+      if (appliedPromoName === 'ZLATA') {
+        localStorage.setItem('promo_zlata_used', 'true');
+      }
+
+      // 2. Отправка в Google Таблицу через Apps Script
+      try {
+        await fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: name,
+            phone: "'" + phone, // апостроф для защиты формата номера
+            address: address,
+            promo: promoInfo,
+            items: itemsList.replace(/\n/g, '; '),
+            subtotal: subtotal,
+            delivery: delivery,
+            total: total,
+            date: new Date().toLocaleString('ru-RU')
+          })
+        });
+      } catch (err) {
+        console.warn('Локальная ошибка сети при отправке таблицы:', err);
+      }
+
+      // 3. Копируем в буфер обмена для подтверждения в чате МАКС
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        try {
+          await navigator.clipboard.writeText(orderMessage);
+        } catch (_) {}
+      }
+
+      alert('✅ Заказ успешно оформлен!\nДанные скопированы в буфер обмена. Отправьте скопированный текст в чат боту для подтверждения менеджером.');
+      
+      // Сброс корзины
+      cart = {};
+      closeCartModal();
+      updateCartTotals();
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Подтвердить и отправить заказ';
+    }
+
+    initCatalog();
   </script>
 </body>
 </html>
