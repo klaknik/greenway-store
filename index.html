@@ -105,6 +105,7 @@
       object-fit: contain;
       border-radius: 8px;
       margin-bottom: 8px;
+      background: #fff;
     }
 
     .card-cat {
@@ -145,31 +146,39 @@
       cursor: pointer;
     }
 
-    /* Блок "Не нашли нужный товар" */
-    .not-found-box {
-      margin: 20px 16px;
-      padding: 16px;
+    /* Карточка духов без цены */
+    .perfume-card {
       background: #ffffff;
-      border: 1px dashed var(--primary);
-      border-radius: 12px;
-      text-align: center;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
-    .not-found-box h3 {
-      font-size: 15px;
-      margin-bottom: 6px;
+    .perfume-card .card-cat {
+      font-size: 11px;
       color: var(--primary);
+      font-weight: 600;
     }
 
-    .not-found-box p {
-      font-size: 12px;
+    .perfume-card .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .perfume-card .card-subtitle {
+      font-size: 11px;
       color: var(--text-muted);
       margin-bottom: 12px;
+      line-height: 1.3;
     }
 
-    .not-found-btn {
-      display: inline-block;
-      padding: 9px 18px;
+    .btn-perfume-select {
+      width: 100%;
+      padding: 9px;
       background: #e8f5e9;
       color: var(--primary);
       border: 1px solid var(--primary);
@@ -177,10 +186,45 @@
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
-      text-decoration: none;
     }
 
-    /* Нижняя плашка */
+    /* Блок "Не нашли нужный товар" на всю ширину без 0 ₽ */
+    .not-found-banner {
+      margin: 10px 16px 20px;
+      padding: 16px;
+      background: #ffffff;
+      border: 1px dashed var(--primary);
+      border-radius: 14px;
+      text-align: center;
+    }
+
+    .not-found-banner h3 {
+      font-size: 15px;
+      margin-bottom: 6px;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .not-found-banner p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .not-found-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Нижняя панель */
     .cart-bar {
       position: fixed;
       bottom: 0;
@@ -213,7 +257,7 @@
       cursor: pointer;
     }
 
-    /* Модалки */
+    /* Модальные окна */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -284,7 +328,7 @@
       font-weight: 600;
     }
 
-    /* Блок промокода */
+    /* Промокод */
     .promo-section {
       margin: 14px 0 10px;
     }
@@ -363,9 +407,8 @@
       cursor: pointer;
     }
 
-    /* Окно выбора духов */
     .perfume-select-group {
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .perfume-select-group label {
@@ -377,10 +420,11 @@
 
     .perfume-select-group select {
       width: 100%;
-      padding: 10px;
+      padding: 11px;
       border: 1px solid var(--border);
       border-radius: 8px;
       font-size: 14px;
+      background: #fff;
     }
   </style>
 </head>
@@ -395,13 +439,14 @@
 
   <div class="categories-bar" id="categoryTabs"></div>
 
+  <!-- Сетка товаров -->
   <main class="grid-container" id="cardsContainer"></main>
 
   <!-- Блок "Не нашли нужный товар" -->
-  <div class="not-found-box">
+  <div class="not-found-banner">
     <h3>Не нашли нужный товар?</h3>
     <p>Напишите нам в чат — добавим любую позицию из каталога Greenway индивидуально!</p>
-    <button class="not-found-btn" onclick="openCustomRequest()">Заказать через чат 💬</button>
+    <button class="not-found-btn" onclick="openCustomRequest()">Заказать через менеджера</button>
   </div>
 
   <!-- Нижняя панель корзины -->
@@ -413,28 +458,28 @@
     <button class="btn-checkout" onclick="openCart()">Корзина 🛒</button>
   </div>
 
-  <!-- Модальное окно духов Enjoy Care -->
+  <!-- Модальное окно выбора парфюма Enjoy Care (без цены) -->
   <div class="modal-overlay" id="perfumeModal">
     <div class="modal-sheet">
       <div class="modal-head">
-        <h2 id="perfumeModalTitle">Выбор аромата Enjoy Care</h2>
+        <h2>Выбор аромата Enjoy Care</h2>
         <button class="modal-close" onclick="closePerfumeModal()">✕</button>
       </div>
 
       <div class="perfume-select-group">
-        <label>Линейка ароматов:</label>
+        <label>Категория аромата:</label>
         <select id="perfumeGender" onchange="onGenderChange()">
-          <option value="women">Женские ароматы</option>
-          <option value="men">Мужские ароматы</option>
+          <option value="women">Женские ароматы (50 мл)</option>
+          <option value="men">Мужские ароматы (50 мл)</option>
         </select>
       </div>
 
       <div class="perfume-select-group">
-        <label>Номер парфюма:</label>
+        <label>Выберите номер аромата:</label>
         <select id="perfumeNumber"></select>
       </div>
 
-      <button class="btn-final" style="margin-top: 10px;" onclick="confirmPerfumeSelection()">Добавить аромат в корзину</button>
+      <button class="btn-final" style="margin-top: 10px;" onclick="confirmPerfumeSelection()">Добавить аромат в заказ</button>
     </div>
   </div>
 
@@ -483,7 +528,6 @@
   </div>
 
   <script>
-    // База ароматов Enjoy Care
     const PERFUME_OPTIONS = {
       women: [
         "№ 102 (в стиле Amor Amor)",
@@ -503,8 +547,7 @@
     };
 
     let allProducts = [];
-    let cart = {}; // key -> { item, qty, variant }
-    let selectedPerfumeProduct = null;
+    let cart = {}; 
     let isPromoFree = false;
     let activePromo = "";
 
@@ -515,13 +558,18 @@
         buildCategories();
         renderList(allProducts);
       } catch (err) {
-        console.error("Ошибка загрузки каталога:", err);
+        console.error("Ошибка загрузки:", err);
       }
     }
 
     function buildCategories() {
       const container = document.getElementById('categoryTabs');
-      const cats = ['Все', ...new Set(allProducts.map(p => p.category).filter(Boolean))];
+      const cats = ['Все', ...new Set(
+        allProducts
+          .map(p => p.category)
+          .filter(c => c && !['custom_request', 'perfume_preorder'].includes(c.toLowerCase()))
+      )];
+      
       container.innerHTML = cats.map((cat, i) => `
         <button class="cat-chip ${i === 0 ? 'active' : ''}" onclick="filterCat('${cat}', this)">${cat}</button>
       `).join('');
@@ -539,12 +587,35 @@
 
     function renderList(items) {
       const cont = document.getElementById('cardsContainer');
-      cont.innerHTML = items.map(p => {
+      
+      // Исключаем системную карточку Custom_request из обычной сетки,
+      // чтобы она не выводилась как товар с 0 ₽
+      const regularItems = items.filter(p => {
+        const cat = (p.category || '').toLowerCase();
+        return cat !== 'custom_request';
+      });
+
+      cont.innerHTML = regularItems.map(p => {
+        const cat = (p.category || '').toLowerCase();
         const title = p.title || p.name || 'Товар Greenway';
         const img = p.img || p.image || p.imageUrl || '';
         const price = p.price || 0;
-        const isPerfume = (p.category && p.category.toLowerCase().includes('enjoy')) || title.toLowerCase().includes('enjoy care');
 
+        // Если это духи Enjoy Care — убираем цену полностью
+        if (cat === 'perfume_preorder' || title.toLowerCase().includes('enjoy care') || title.toLowerCase().includes('духи')) {
+          return `
+            <div class="perfume-card">
+              <div>
+                <div class="card-cat">Парфюм</div>
+                <div class="card-title">Духи Enjoy Care (50 мл)</div>
+                <div class="card-subtitle">Номерная коллекция премиум-ароматов</div>
+              </div>
+              <button class="btn-perfume-select" onclick="openPerfumeModal()">Выбрать аромат</button>
+            </div>
+          `;
+        }
+
+        // Стандартный товар
         return `
           <div class="card">
             <img class="card-img" src="${img}" alt="${title}">
@@ -553,19 +624,14 @@
               <div class="card-title">${title}</div>
               <div class="card-price">${price} ₽</div>
             </div>
-            <button class="btn-buy" onclick="${isPerfume ? `startPerfumeSelect(${p.id})` : `addItem(${p.id})`}">
-              ${isPerfume ? 'Выбрать аромат' : 'В корзину'}
-            </button>
+            <button class="btn-buy" onclick="addItem(${p.id})">В корзину</button>
           </div>
         `;
       }).join('');
     }
 
-    // Логика выбора духов
-    function startPerfumeSelect(productId) {
-      selectedPerfumeProduct = allProducts.find(p => p.id === productId);
-      if (!selectedPerfumeProduct) return;
-
+    // Выбор духов
+    function openPerfumeModal() {
       document.getElementById('perfumeGender').value = 'women';
       onGenderChange();
       document.getElementById('perfumeModal').classList.add('active');
@@ -579,37 +645,41 @@
 
     function closePerfumeModal() {
       document.getElementById('perfumeModal').classList.remove('active');
-      selectedPerfumeProduct = null;
     }
 
     function confirmPerfumeSelection() {
-      if (!selectedPerfumeProduct) return;
       const fragrance = document.getElementById('perfumeNumber').value;
-      const key = `${selectedPerfumeProduct.id}_${fragrance}`;
+      const key = `perfume_${fragrance}`;
 
       if (cart[key]) {
         cart[key].qty += 1;
       } else {
         cart[key] = {
-          item: selectedPerfumeProduct,
-          qty: 1,
-          variant: fragrance
+          title: `Духи Enjoy Care (${fragrance})`,
+          price: 0,
+          isPerfume: true,
+          qty: 1
         };
       }
       closePerfumeModal();
       refreshTotals();
     }
 
-    // Добавление стандартного товара
+    // Стандартные позиции
     function addItem(id) {
       const p = allProducts.find(x => x.id === id);
       if (!p) return;
-      const key = `${id}_std`;
+      const key = `p_${id}`;
 
       if (cart[key]) {
         cart[key].qty += 1;
       } else {
-        cart[key] = { item: p, qty: 1, variant: '' };
+        cart[key] = {
+          title: p.title || p.name,
+          price: p.price || 0,
+          isPerfume: false,
+          qty: 1
+        };
       }
       refreshTotals();
     }
@@ -632,7 +702,7 @@
 
       if (val === 'ZLATA') {
         if (used === 'true') {
-          alertBox.textContent = '❌ Промокод Zlata уже использован на этом устройстве.';
+          alertBox.textContent = '❌ Промокод Zlata уже использован ранее.';
           alertBox.style.color = 'var(--accent-red)';
           isPromoFree = false;
           activePromo = "";
@@ -654,15 +724,18 @@
 
     function refreshTotals() {
       let subtotal = 0;
+      let hasItems = false;
+
       for (const k in cart) {
-        subtotal += cart[k].item.price * cart[k].qty;
+        hasItems = true;
+        subtotal += cart[k].price * cart[k].qty;
       }
 
-      let delivery = (subtotal === 0) ? 0 : ((isPromoFree || subtotal >= 3000) ? 0 : 500);
+      let delivery = (!hasItems) ? 0 : ((isPromoFree || subtotal >= 3000) ? 0 : 500);
       let total = subtotal + delivery;
 
       const footer = document.getElementById('cartFooter');
-      if (subtotal > 0) {
+      if (hasItems) {
         footer.style.display = 'flex';
         document.getElementById('footerTotal').textContent = `${total} ₽`;
       } else {
@@ -694,15 +767,13 @@
 
       cont.innerHTML = keys.map(k => {
         const row = cart[k];
-        const title = row.item.title || row.item.name;
-        const variantText = row.variant ? `<br><small style="color:var(--primary); font-size:11px;">Аромат: ${row.variant}</small>` : '';
+        const priceLabel = row.isPerfume ? 'стоимость уточнит менеджер' : `${row.price} ₽ × ${row.qty} шт.`;
 
         return `
           <div class="cart-row">
             <div>
-              <div style="font-weight:600;">${title}</div>
-              ${variantText}
-              <div style="color:var(--text-muted); font-size:11px;">${row.item.price} ₽ × ${row.qty} шт.</div>
+              <div style="font-weight:600;">${row.title}</div>
+              <div style="color:var(--text-muted); font-size:11px;">${priceLabel}</div>
             </div>
             <div class="qty-wrap">
               <button class="btn-circle" onclick="changeQty('${k}', -1)">−</button>
@@ -715,7 +786,7 @@
     }
 
     function openCustomRequest() {
-      alert("Напишите нам прямо в этот диалог с ботом МАКС наименование любого товара Greenway — менеджер рассчитает и добавит его в заказ!");
+      alert("Напишите боту в диалог название любого товара, который хотите заказать — менеджер свяжется с вами и добавит его в заказ!");
     }
 
     async function sendOrder(e) {
@@ -730,10 +801,13 @@
 
       for (const k in cart) {
         const row = cart[k];
-        const title = (row.item.title || row.item.name) + (row.variant ? ` (${row.variant})` : '');
-        const sum = row.item.price * row.qty;
+        const sum = row.price * row.qty;
         subtotal += sum;
-        itemsLines.push(`${title} — ${row.qty} шт. (${sum} ₽)`);
+        if (row.isPerfume) {
+          itemsLines.push(`${row.title} — ${row.qty} шт. (цена по запросу)`);
+        } else {
+          itemsLines.push(`${row.title} — ${row.qty} шт. (${sum} ₽)`);
+        }
       }
 
       let delivery = (isPromoFree || subtotal >= 3000) ? 0 : 500;
@@ -758,7 +832,6 @@ ${itemsLines.join('\n')}
         localStorage.setItem('promo_zlata_used', 'true');
       }
 
-      // Отправка в Google Таблицу
       try {
         await fetch("https://script.google.com/macros/s/AKfycby5_pWJg1U_2uBv4056n6W-f9e4e_example/exec", {
           method: 'POST',
@@ -778,12 +851,11 @@ ${itemsLines.join('\n')}
         });
       } catch (err) {}
 
-      // Копирование в буфер
       if (navigator.clipboard) {
         try { await navigator.clipboard.writeText(orderMsg); } catch (_) {}
       }
 
-      alert("✅ Заказ оформлен!\nТекст скопирован. Отправьте его в чат боту для подтверждения менеджером.");
+      alert("✅ Заказ оформлен!\nДанные скопированы в буфер обмена. Отправьте скопированный текст в чат боту для подтверждения менеджером.");
       cart = {};
       closeCart();
       refreshTotals();
