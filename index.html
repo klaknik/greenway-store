@@ -79,7 +79,7 @@
     .categories-bar::-webkit-scrollbar { display: none; }
 
     .cat-chip {
-      padding: 7px 14px;
+      padding: 8px 16px;
       border-radius: 20px;
       border: 1px solid var(--border);
       background: #f3f4f6;
@@ -125,8 +125,8 @@
     .card-cat {
       font-size: 11px;
       color: var(--text-muted);
-      text-transform: uppercase;
       margin-bottom: 4px;
+      font-weight: 500;
     }
 
     .card-title {
@@ -301,7 +301,7 @@
       font-weight: 600;
     }
 
-    /* Блок промокода */
+    /* Промокод */
     .promo-section {
       margin: 14px 0 10px;
     }
@@ -401,7 +401,6 @@
     }
   </style>
   <script>
-    // Запрос на автоматическое раскрытие окна на всю высоту в мессенджере
     function expandView() {
       try {
         if (window.MAX && typeof window.MAX.expand === 'function') {
@@ -429,17 +428,17 @@
 
   <div class="categories-bar" id="categoryTabs"></div>
 
-  <!-- Основная сетка товаров -->
+  <!-- Сетка товаров -->
   <main class="grid-container" id="cardsContainer"></main>
 
-  <!-- Пунктирный блок Духов Enjoy Care -->
+  <!-- Блок Духов Enjoy Care -->
   <div class="dashed-banner" id="perfumeBanner">
-    <h3>Духи Enjoy Care (Номерная парфюмерия под заказ)</h3>
-    <p>Эквиваленты культовых мировых ароматов из европейских масел (50 мл)</p>
+    <h3>Парфюмерия (Enjoy Care)</h3>
+    <p>Номерная коллекция премиальных духов по мотивам мировых бестселлеров (50 мл)</p>
     <button class="dashed-banner-btn" onclick="openPerfumeModal()">Выбрать аромат ✨</button>
   </div>
 
-  <!-- Пунктирный блок Не нашли нужный товар -->
+  <!-- Блок Не нашли товар -->
   <div class="dashed-banner">
     <h3>Не нашли нужный товар?</h3>
     <p>Напишите нам в чат — добавим любую позицию из каталога Greenway индивидуально!</p>
@@ -525,6 +524,24 @@
   </div>
 
   <script>
+    // Названия разделов строго по официальному магазину Greenway Global
+    const CATEGORY_NAMES = {
+      'fibers': 'Дом (Green Fiber)',
+      'biotrim': 'Экочистка (BioTrim)',
+      'mops': 'Швабры и системы уборки',
+      'health': 'Здоровье (Welllab)',
+      'nutrition': 'Питание (Balancer)',
+      'beauty': 'Красота и уход',
+      'enjoy': 'Парфюмерия (Enjoy Care)',
+      'sharme': 'Красота (Sharme)'
+    };
+
+    function getCategoryTitle(rawCat) {
+      if (!rawCat) return 'Каталог';
+      const key = String(rawCat).toLowerCase().trim();
+      return CATEGORY_NAMES[key] || rawCat;
+    }
+
     const PERFUME_OPTIONS = {
       women: [
         "№ 102 (в стиле Amor Amor)",
@@ -562,24 +579,28 @@
     function buildCategories() {
       const container = document.getElementById('categoryTabs');
       const specialCats = ['custom_request', 'perfume_preorder'];
-      const cats = ['Все', ...new Set(
+      
+      const rawCategories = [...new Set(
         allProducts
           .map(p => p.category)
           .filter(c => c && !specialCats.includes(String(c).toLowerCase()))
       )];
 
-      container.innerHTML = cats.map((cat, i) => `
-        <button class="cat-chip ${i === 0 ? 'active' : ''}" onclick="filterCat('${cat}', this)">${cat}</button>
+      let html = `<button class="cat-chip active" onclick="filterCat('all', this)">Все товары</button>`;
+      html += rawCategories.map(raw => `
+        <button class="cat-chip" onclick="filterCat('${raw}', this)">${getCategoryTitle(raw)}</button>
       `).join('');
+
+      container.innerHTML = html;
     }
 
-    function filterCat(cat, btn) {
+    function filterCat(rawCat, btn) {
       document.querySelectorAll('.cat-chip').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      if (cat === 'Все') {
+      if (rawCat === 'all') {
         renderList(allProducts);
       } else {
-        renderList(allProducts.filter(p => p.category === cat));
+        renderList(allProducts.filter(p => String(p.category).toLowerCase() === String(rawCat).toLowerCase()));
       }
     }
 
@@ -596,13 +617,13 @@
         const title = p.title || p.name || 'Товар Greenway';
         const img = p.img || p.image || p.imageUrl || '';
         const price = p.price || 0;
-        const cat = p.category || '';
+        const catName = getCategoryTitle(p.category);
 
         return `
           <div class="card">
             <img class="card-img" src="${img}" alt="${title}">
             <div>
-              <div class="card-cat">${cat}</div>
+              <div class="card-cat">${catName}</div>
               <div class="card-title">${title}</div>
               <div class="card-price">${price} ₽</div>
             </div>
