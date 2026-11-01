@@ -27,7 +27,7 @@
     body {
       background-color: var(--bg);
       color: var(--text);
-      padding-bottom: 100px;
+      padding-bottom: 90px;
     }
 
     header {
@@ -146,7 +146,7 @@
       cursor: pointer;
     }
 
-    /* Стиль фирменных пунктирных баннеров */
+    /* Пунктирные блоки */
     .dashed-banner {
       margin: 12px 16px;
       padding: 18px 16px;
@@ -215,7 +215,7 @@
       cursor: pointer;
     }
 
-    /* Модальные окна */
+    /* Модалки */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -286,7 +286,7 @@
       font-weight: 600;
     }
 
-    /* Промокод */
+    /* Блок промокода */
     .promo-section {
       margin: 14px 0 10px;
     }
@@ -397,17 +397,17 @@
 
   <div class="categories-bar" id="categoryTabs"></div>
 
-  <!-- Обычные товары в сетке -->
+  <!-- Основная сетка товаров -->
   <main class="grid-container" id="cardsContainer"></main>
 
-  <!-- 1. Пунктирный баннер Духов Enjoy Care (без цены) -->
+  <!-- Пунктирный блок Духов Enjoy Care -->
   <div class="dashed-banner" id="perfumeBanner">
     <h3>Духи Enjoy Care (Номерная парфюмерия под заказ)</h3>
     <p>Эквиваленты культовых мировых ароматов из европейских масел (50 мл)</p>
     <button class="dashed-banner-btn" onclick="openPerfumeModal()">Выбрать аромат ✨</button>
   </div>
 
-  <!-- 2. Пунктирный баннер "Не нашли нужный товар?" -->
+  <!-- Пунктирный блок Не нашли нужный товар -->
   <div class="dashed-banner">
     <h3>Не нашли нужный товар?</h3>
     <p>Напишите нам в чат — добавим любую позицию из каталога Greenway индивидуально!</p>
@@ -529,14 +529,14 @@
 
     function buildCategories() {
       const container = document.getElementById('categoryTabs');
-      // Исключаем системные категории из плашек наверху
-      const excluded = ['custom_request', 'perfume_preorder'];
+      // Берём только реальные категории товаров (исключаем спец-метки)
+      const specialCats = ['custom_request', 'perfume_preorder'];
       const cats = ['Все', ...new Set(
         allProducts
           .map(p => p.category)
-          .filter(c => c && !excluded.includes(c.toLowerCase()))
+          .filter(c => c && !specialCats.includes(String(c).toLowerCase()))
       )];
-      
+
       container.innerHTML = cats.map((cat, i) => `
         <button class="cat-chip ${i === 0 ? 'active' : ''}" onclick="filterCat('${cat}', this)">${cat}</button>
       `).join('');
@@ -554,27 +554,25 @@
 
     function renderList(items) {
       const cont = document.getElementById('cardsContainer');
-      
-      // Исключаем из сетки карточек духи и custom_request
-      const regularItems = items.filter(p => {
-        const cat = (p.category || '').toLowerCase();
-        const title = (p.title || p.name || '').toLowerCase();
-        return cat !== 'custom_request' && 
-               cat !== 'perfume_preorder' && 
-               !title.includes('духи enjoy care') && 
-               !title.includes('не нашли нужный товар');
+
+      // Отрисовываем ВСЕ нормальные товары из базы (пропуская только служебные записи без цен/картинок)
+      const regular = items.filter(p => {
+        const c = String(p.category || '').toLowerCase();
+        const t = String(p.title || p.name || '').toLowerCase();
+        return c !== 'custom_request' && c !== 'perfume_preorder' && !t.includes('не нашли нужный товар') && !t.includes('духи enjoy care (номерная');
       });
 
-      cont.innerHTML = regularItems.map(p => {
+      cont.innerHTML = regular.map(p => {
         const title = p.title || p.name || 'Товар Greenway';
         const img = p.img || p.image || p.imageUrl || '';
         const price = p.price || 0;
+        const cat = p.category || '';
 
         return `
           <div class="card">
             <img class="card-img" src="${img}" alt="${title}">
             <div>
-              <div class="card-cat">${p.category || ''}</div>
+              <div class="card-cat">${cat}</div>
               <div class="card-title">${title}</div>
               <div class="card-price">${price} ₽</div>
             </div>
@@ -619,7 +617,7 @@
       refreshTotals();
     }
 
-    // Стандартные товары
+    // Товары
     function addItem(id) {
       const p = allProducts.find(x => x.id === id);
       if (!p) return;
@@ -663,4 +661,159 @@
         } else {
           isPromoFree = true;
           activePromo = "ZLATA";
-          alertBox.textContent = '✅ Промокод ZLATA применён
+          alertBox.textContent = '✅ Промокод ZLATA применён: бесплатная доставка!';
+          alertBox.style.color = 'var(--primary)';
+          inp.disabled = true;
+        }
+      } else {
+        alertBox.textContent = '❌ Промокод не найден.';
+        alertBox.style.color = 'var(--accent-red)';
+        isPromoFree = false;
+        activePromo = "";
+      }
+      refreshTotals();
+    }
+
+    function refreshTotals() {
+      let subtotal = 0;
+      let hasItems = false;
+
+      for (const k in cart) {
+        hasItems = true;
+        subtotal += cart[k].price * cart[k].qty;
+      }
+
+      let delivery = (!hasItems) ? 0 : ((isPromoFree || subtotal >= 3000) ? 0 : 500);
+      let total = subtotal + delivery;
+
+      const footer = document.getElementById('cartFooter');
+      if (hasItems) {
+        footer.style.display = 'flex';
+        document.getElementById('footerTotal').textContent = `${total} ₽`;
+      } else {
+        footer.style.display = 'none';
+        closeCart();
+      }
+
+      document.getElementById('sumSubtotal').textContent = `${subtotal} ₽`;
+      document.getElementById('sumDelivery').textContent = delivery === 0 ? '0 ₽ (Бесплатно)' : `${delivery} ₽`;
+      document.getElementById('sumTotal').textContent = `${total} ₽`;
+    }
+
+    function openCart() {
+      renderCartRows();
+      document.getElementById('cartModal').classList.add('active');
+    }
+
+    function closeCart() {
+      document.getElementById('cartModal').classList.remove('active');
+    }
+
+    function renderCartRows() {
+      const cont = document.getElementById('cartItemsList');
+      const keys = Object.keys(cart);
+      if (keys.length === 0) {
+        cont.innerHTML = '<div style="padding:15px; text-align:center; color:#6b7280;">Корзина пуста</div>';
+        return;
+      }
+
+      cont.innerHTML = keys.map(k => {
+        const row = cart[k];
+        const priceLabel = row.isPerfume ? 'стоимость уточнит менеджер' : `${row.price} ₽ × ${row.qty} шт.`;
+
+        return `
+          <div class="cart-row">
+            <div>
+              <div style="font-weight:600;">${row.title}</div>
+              <div style="color:var(--text-muted); font-size:11px;">${priceLabel}</div>
+            </div>
+            <div class="qty-wrap">
+              <button class="btn-circle" onclick="changeQty('${k}', -1)">−</button>
+              <span>${row.qty}</span>
+              <button class="btn-circle" onclick="changeQty('${k}', 1)">+</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openCustomRequest() {
+      alert("Напишите в диалог боту наименование товара, который вы хотите заказать — менеджер свяжется с вами и добавит его!");
+    }
+
+    async function sendOrder(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('uName').value.trim();
+      const phone = document.getElementById('uPhone').value.trim();
+      const addr = document.getElementById('uAddress').value.trim();
+
+      let subtotal = 0;
+      let itemsLines = [];
+
+      for (const k in cart) {
+        const row = cart[k];
+        const sum = row.price * row.qty;
+        subtotal += sum;
+        if (row.isPerfume) {
+          itemsLines.push(`${row.title} — ${row.qty} шт. (цена по запросу)`);
+        } else {
+          itemsLines.push(`${row.title} — ${row.qty} шт. (${sum} ₽)`);
+        }
+      }
+
+      let delivery = (isPromoFree || subtotal >= 3000) ? 0 : 500;
+      let total = subtotal + delivery;
+      let promoLabel = activePromo || "нет";
+
+      const orderMsg = 
+`📦 НОВЫЙ ЗАКАЗ GREENWAY
+👤 Клиент: ${name}
+📞 Телефон: ${phone}
+📍 Адрес: ${addr}
+🎟 Промокод: ${promoLabel}
+
+Состав заказа:
+${itemsLines.join('\n')}
+
+Сумма товаров: ${subtotal} ₽
+Доставка: ${delivery === 0 ? '0 ₽ (Бесплатно)' : delivery + ' ₽'}
+💰 ИТОГО: ${total} ₽`;
+
+      if (activePromo === 'ZLATA') {
+        localStorage.setItem('promo_zlata_used', 'true');
+      }
+
+      try {
+        await fetch("https://script.google.com/macros/s/AKfycby5_pWJg1U_2uBv4056n6W-f9e4e_example/exec", {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            date: new Date().toLocaleString("ru-RU"),
+            name: name,
+            phone: "'" + phone,
+            address: addr,
+            items: itemsLines.join('; '),
+            subtotal: subtotal,
+            delivery: delivery,
+            total: total,
+            promo: promoLabel
+          })
+        });
+      } catch (err) {}
+
+      if (navigator.clipboard) {
+        try { await navigator.clipboard.writeText(orderMsg); } catch (_) {}
+      }
+
+      alert("✅ Заказ оформлен!\nДанные скопированы в буфер обмена. Отправьте скопированный текст в чат боту для подтверждения менеджером.");
+      cart = {};
+      closeCart();
+      refreshTotals();
+    }
+
+    loadCatalog();
+  </script>
+</body>
+</html>
